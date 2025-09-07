@@ -1,0 +1,63 @@
+# Логи
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Директории зависимостей
+node_modules/
+*/node_modules/
+*/*/node_modules/
+
+# Кэш менеджеров пакетов
+.npm
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+# Файлы окружения
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Сборки
+/dist
+/build
+/.next
+/out
+
+# Кэш
+.cache/
+.parcel-cache/
+
+# Coverage
+coverage/
+.nyc_output/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Локальные конфигурации
+.eslintcache
+.stylelintcache
+
+# Временные файлы
+.tmp/
+temp/
