@@ -77,8 +77,31 @@ function initializePage() {
   if (contactForm) {
     contactForm.addEventListener("submit", function (e) {
       e.preventDefault();
-      alert(getTranslation("form.success", langSelect.value));
-      contactForm.reset();
+
+      // Here will be the code for sending form data
+      const formData = {
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        message: document.getElementById("message").value,
+      };
+
+      // Example using Fetch API to send data
+      fetch("https://formspree.io/f/your-form-id", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          alert(getTranslation("form.success", langSelect.value));
+          contactForm.reset();
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          alert("Es gab ein Problem beim Senden Ihrer Nachricht.");
+        });
     });
   }
 
@@ -130,6 +153,9 @@ function changeLanguage(lang) {
 
   // Reload projects to update their language
   loadProjects(lang);
+
+  // Update project filters language
+  updateFiltersLanguage(lang);
 }
 
 function getTranslation(key, lang) {
@@ -154,78 +180,183 @@ function loadProjects(lang = null) {
   const projectsGrid = document.querySelector(".projects-grid");
   if (!projectsGrid) return;
 
-  // Clear existing projects
-  projectsGrid.innerHTML = "";
+  // Пытаемся загрузить из внешнего JSON
+  fetch("js/projects.json")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Projects file not found");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      displayProjects(data.projects, lang, projectsGrid);
+    })
+    .catch((error) => {
+      console.error("Error loading projects:", error);
+      // Показываем сообщение об ошибке
+      projectsGrid.innerHTML = `
+        <div class="no-projects">
+          <p>${
+            getTranslation("projects.unavailable", lang) ||
+            "Projects are temporarily unavailable."
+          }</p>
+          <p><small>Error: ${error.message}</small></p>
+        </div>
+      `;
+    });
+}
 
-  // Sample projects data - in a real scenario, this would come from an API or JSON file
-  const projects = [
-    {
-      image:
-        "https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1064&q=80",
-      title:
-        getTranslation("projects.project1.title", lang) || "E-Commerce-Shop",
-      description:
-        getTranslation("projects.project1.description", lang) ||
-        "Vollständiger Online-Shop mit Warenkorb, Filtern und Suchfunktion",
-      technologies: ["HTML", "CSS", "JavaScript"],
-      demoLink: "#",
-      codeLink: "#",
-    },
-    {
-      image:
-        "https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80",
-      title:
-        getTranslation("projects.project2.title", lang) ||
-        "Analytics-Dashboard",
-      description:
-        getTranslation("projects.project2.description", lang) ||
-        "Management-Panel mit Diagrammen, Tabellen und Statistiken",
-      technologies: ["React", "Chart.js", "CSS"],
-      demoLink: "#",
-      codeLink: "#",
-    },
-    {
-      image:
-        "https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1139&q=80",
-      title:
-        getTranslation("projects.project3.title", lang) || "Portfolio-Website",
-      description:
-        getTranslation("projects.project3.description", lang) ||
-        "Moderne Portfolio-Website mit Animationen und responsive Design",
-      technologies: ["HTML", "CSS", "JavaScript"],
-      demoLink: "#",
-      codeLink: "#",
-    },
-  ];
+function displayProjects(projects, lang, container) {
+  container.innerHTML = "";
 
-  // Create project cards
-  projects.forEach((project) => {
+  const projectsToShow = projects.filter(
+    (project) => project.featured !== false
+  );
+
+  // Если проектов нет, показываем сообщение и не создаем фильтры
+  if (projectsToShow.length === 0) {
+    container.innerHTML = `
+      <div class="no-projects">
+        <p>${
+          getTranslation("projects.none", lang) || "No projects available yet."
+        }</p>
+      </div>
+    `;
+    return;
+  }
+
+  // Создаем карточки проектов
+  projectsToShow.forEach((project) => {
     const projectCard = document.createElement("div");
     projectCard.className = "project-card";
+    projectCard.setAttribute("data-category", project.category);
+
+    // Получаем локализованные данные
+    const title = project.title[lang] || project.title.en || project.title.de;
+    const description =
+      project.description[lang] ||
+      project.description.en ||
+      project.description.de;
 
     projectCard.innerHTML = `
-            <div class="project-image">
-                <img src="${project.image}" alt="${project.title}">
-            </div>
-            <div class="project-content">
-                <h3 class="project-title">${project.title}</h3>
-                <p class="project-description">${project.description}</p>
-                <div class="project-tech">
-                    ${project.technologies
-                      .map((tech) => `<span class="tech-tag">${tech}</span>`)
-                      .join("")}
-                </div>
-                <div class="project-links">
-                    <a href="${project.demoLink}" class="btn">${
-      getTranslation("projects.demo", lang) || "Demo"
-    }</a>
-                    <a href="${project.codeLink}" class="btn btn-outline">${
-      getTranslation("projects.code", lang) || "Code"
-    }</a>
-                </div>
-            </div>
-        `;
+      <div class="project-image">
+        <img src="${project.image}" alt="${title}" loading="lazy">
+      </div>
+      <div class="project-content">
+        <h3 class="project-title">${title}</h3>
+        <p class="project-description">${description}</p>
+        <div class="project-tech">
+          ${project.technologies
+            .map((tech) => `<span class="tech-tag">${tech}</span>`)
+            .join("")}
+        </div>
+        <div class="project-links">
+          ${
+            project.demoLink !== "#"
+              ? `<a href="${project.demoLink}" class="btn" target="_blank">${
+                  getTranslation("projects.demo", lang) || "Demo"
+                }</a>`
+              : ""
+          }
+          <a href="${project.codeLink}" class="btn ${
+      project.demoLink === "#" ? "" : "btn-outline"
+    }" target="_blank">${getTranslation("projects.code", lang) || "Code"}</a>
+        </div>
+      </div>
+    `;
 
-    projectsGrid.appendChild(projectCard);
+    container.appendChild(projectCard);
+  });
+
+  // Настраиваем фильтры проектов
+  setupProjectFilters(lang);
+}
+
+function setupProjectFilters(lang = null) {
+  if (!lang) {
+    lang = localStorage.getItem("language") || "de";
+  }
+
+  // Проверяем, не добавлены ли уже фильтры
+  if (document.querySelector(".projects-filters")) {
+    updateFiltersLanguage(lang);
+    return;
+  }
+
+  const filters = getTranslation("filters", lang) || {
+    all: "All",
+    frontend: "Frontend",
+    backend: "Backend",
+    fullstack: "Full Stack",
+  };
+
+  const filtersContainer = document.createElement("div");
+  filtersContainer.className = "projects-filters";
+
+  filtersContainer.innerHTML = `
+    <button class="filter-btn active" data-filter="all">${filters.all}</button>
+    <button class="filter-btn" data-filter="frontend">${filters.frontend}</button>
+    <button class="filter-btn" data-filter="backend">${filters.backend}</button>
+    <button class="filter-btn" data-filter="fullstack">${filters.fullstack}</button>
+  `;
+
+  // Находим правильный контейнер для вставки фильтров
+  const projectsContainer = document.querySelector(".projects .container");
+  const sectionTitle = document.querySelector(".projects .section-title");
+
+  if (projectsContainer && sectionTitle) {
+    // Вставляем фильтры после заголовка, но перед сеткой проектов
+    sectionTitle.insertAdjacentElement("afterend", filtersContainer);
+  } else {
+    console.error("Could not find projects container or section title");
+    return;
+  }
+
+  // Обработка кликов по фильтрам
+  const filterButtons = document.querySelectorAll(".filter-btn");
+  filterButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      // Убираем активный класс у всех кнопок
+      filterButtons.forEach((btn) => btn.classList.remove("active"));
+      // Добавляем активный класс текущей кнопке
+      button.classList.add("active");
+
+      // Фильтруем проекты
+      const filter = button.getAttribute("data-filter");
+      filterProjects(filter);
+    });
+  });
+}
+
+function filterProjects(filter) {
+  const projectsGrid = document.querySelector(".projects-grid");
+  const projectCards = projectsGrid.querySelectorAll(".project-card");
+
+  projectCards.forEach((card) => {
+    const category = card.getAttribute("data-category");
+
+    if (filter === "all" || category === filter) {
+      card.style.display = "block";
+    } else {
+      card.style.display = "none";
+    }
+  });
+}
+
+function updateFiltersLanguage(lang) {
+  const filtersContainer = document.querySelector(".projects-filters");
+  if (!filtersContainer) return;
+
+  const filters = getTranslation("filters", lang) || {
+    all: "All",
+    frontend: "Frontend",
+    backend: "Backend",
+    fullstack: "Full Stack",
+  };
+
+  const filterButtons = filtersContainer.querySelectorAll(".filter-btn");
+  filterButtons.forEach((button) => {
+    const filter = button.getAttribute("data-filter");
+    button.textContent = filters[filter] || filter;
   });
 }
