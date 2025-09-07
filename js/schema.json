@@ -1,0 +1,22 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Alexander Hermann",
+  "jobTitle": "Full-Stack Developer and QA Engineer",
+  "url": "https://alexh73.github.io",
+  "sameAs": [
+    "https://www.linkedin.com/in/alexander-hermann-655b76353/",
+    "https://github.com/alexh73"
+  ],
+  "knowsAbout": [
+    "HTML",
+    "CSS",
+    "JavaScript",
+    "React",
+    "Node.js",
+    "QA Engineering",
+    "Web Development",
+    "Testing"
+  ],
+  "description": "Full-Stack Developer and QA Engineer specializing in modern web development"
+}

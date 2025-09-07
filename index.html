@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alexander Hermann - Full-Stack Developer</title>
+    
+    <!-- Microdata -->
+    <meta name="description" content="Full-Stack Developer and QA Engineer specializing in modern web development">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Alexander Hermann - Full-Stack Developer">
+    <meta property="og:description" content="Full-Stack Developer and QA Engineer specializing in modern web development">
+    <meta property="og:image" content="https://alexh73.github.io/frontend_cohort57/homeworks/hw_02/images/avatar.jpg">
+    <meta property="og:url" content="https://alexh73.github.io">
+    <meta property="og:type" content="website">
+    
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Alexander Hermann - Full-Stack Developer">
+    <meta name="twitter:description" content="Full-Stack Developer and QA Engineer specializing in modern web development">
+    <meta name="twitter:image" content="https://alexh73.github.io/frontend_cohort57/homeworks/hw_02/images/avatar.jpg">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2280%22 fill=%22%236366f1%22>AH</text></svg>">
+    <link rel="icon" type="image/png" sizes="32x32" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><rect width=%2232%22 height=%2232%22 rx=%226%22 fill=%22%236366f1%22/><text x=%2216%22 y=%2222%22 font-family=%22Arial%22 font-size=%2214%22 font-weight=%22bold%22 text-anchor=%22middle%22 fill=%22white%22>AH</text></svg>">
+    <link rel="icon" type="image/png" sizes="16x16" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22><rect width=%2216%22 height=%2216%22 rx=%223%22 fill=%22%236366f1%22/><text x=%228%22 y=%2212%22 font-family=%22Arial%22 font-size=%228%22 font-weight=%22bold%22 text-anchor=%22middle%22 fill=%22white%22>AH</text></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 180 180%22><rect width=%22180%22 height=%22180%22 rx=%2230%22 fill=%22%236366f1%22/><text x=%2290%22 y=%22120%22 font-family=%22Arial%22 font-size=%2270%22 font-weight=%22bold%22 text-anchor=%22middle%22 fill=%22white%22>AH</text></svg>">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <a href="#" class="logo">
+                <svg width="150" height="40" viewBox="0 0 150 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="5" y="5" width="35" height="35" rx="8" class="logo-bg"></rect>
+                    <text x="8" y="29" font-family="Inter, sans-serif" font-weight="700" font-size="18" class="logo-initials">AH</text>
+                    <text x="45" y="20" font-family="Inter, sans-serif" font-weight="700" font-size="16" class="logo-name">Alexander</text>
+                    <text x="45" y="38" font-family="Inter, sans-serif" font-weight="300" font-size="14" class="logo-title">Full-Stack Dev</text>
+                </svg>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="#about" data-i18n="nav.about">Обо мне</a></li>
+                    <li><a href="#skills" data-i18n="nav.skills">Навыки</a></li>
+                    <li><a href="#projects" data-i18n="nav.projects">Проекты</a></li>
+                    <li><a href="#qa" data-i18n="nav.qa">QA</a></li>
+                    <li><a href="#contact" data-i18n="nav.contact">Контакты</a></li>
+                </ul>
+            </nav>
+            <div class="controls">
+                <button class="theme-toggle" aria-label="Toggle theme">🌙</button>
+                <select class="lang-select">
+                    <option value="ru">RU</option>
+                    <option value="en">EN</option>
+                    <option value="de">DE</option>
+                </select>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container hero-content">
+            <img src="https://alexh73.github.io/frontend_cohort57/homeworks/hw_02/images/avatar.jpg" alt="Alexander Hermann" class="avatar">
+            <h1>Alexander Hermann</h1>
+            <p class="hero-description" data-i18n="hero.description">Full-Stack разработчик и QA инженер, специализирующийся на создании современных веб-приложений</p>
+            <div class="hero-buttons">
+                <a href="#projects" class="btn" data-i18n="hero.projects">Мои проекты</a>
+                <a href="#contact" class="btn btn-outline" data-i18n="hero.contact">Связаться со мной</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title" data-i18n="about.title">Обо мне</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3 data-i18n="about.greeting">Привет! Я Александр</h3>
+                    <p data-i18n="about.text1">Я Full-Stack разработчик и QA инженер с passion для создания интуитивно понятных и надежных веб-приложений. Мой путь в IT начался с интереса к тому, как работают технологии.</p>
+                    <p data-i18n="about.text2">Имею опыт работы с современными технологиями, включая HTML5, CSS3, JavaScript, React, Node.js и различные инструменты тестирования. Постоянно учусь и совершенствую свои навыки, слежу за последними тенденциями в веб-разработке и обеспечении качества.</p>
+                    <a href="#" class="btn" data-i18n="about.resume">Скачать резюме</a>
+                </div>
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Coding workspace">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="skills">
+        <div class="container">
+            <h2 class="section-title" data-i18n="skills.title">Навыки</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <div class="skill-icon">💻</div>
+                    <h3 class="skill-title" data-i18n="skills.frontend">Фронтенд-разработка</h3>
+                    <p class="skill-description" data-i18n="skills.frontendDesc">HTML, CSS, JavaScript, React, responsive design</p>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">⚙️</div>
+                    <h3 class="skill-title" data-i18n="skills.backend">Бэкенд-разработка</h3>
+                    <p class="skill-description" data-i18n="skills.backendDesc">Node.js, Express, REST APIs, databases</p>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">🛠️</div>
+                    <h3 class="skill-title" data-i18n="skills.tools">Инструменты</h3>
+                    <p class="skill-description" data-i18n="skills.toolsDesc">Git, Webpack, npm, VS Code, Figma</p>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">📱</div>
+                    <h3 class="skill-title" data-i18n="skills.responsive">Адаптивный дизайн</h3>
+                    <p class="skill-description" data-i18n="skills.responsiveDesc">Создание сайтов, которые отлично выглядят на всех устройствах</p>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">🔍</div>
+                    <h3 class="skill-title" data-i18n="skills.qa">Тестирование</h3>
+                    <p class="skill-description" data-i18n="skills.qaDesc">Unit testing, E2E testing, Jest, Cypress</p>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">🚀</div>
+                    <h3 class="skill-title" data-i18n="skills.optimization">Оптимизация</h3>
+                    <p class="skill-description" data-i18n="skills.optimizationDesc">Повышение производительности и SEO-оптимизация</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="projects">
+        <div class="container">
+            <h2 class="section-title" data-i18n="projects.title">Проекты</h2>
+            <div class="projects-grid">
+                <!-- Projects will be loaded dynamically from JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <section id="qa" class="qa">
+        <div class="container">
+            <h2 class="section-title" data-i18n="qa.title">QA Инжиниринг</h2>
+            <div class="qa-content">
+                <div class="qa-text">
+                    <h3 data-i18n="qa.subtitle">Обеспечение качества</h3>
+                    <p data-i18n="qa.text1">Как QA инженер, я специализируюсь на обеспечении высокого качества веб-приложений через всестороннее тестирование.</p>
+                    <p data-i18n="qa.text2">Мой подход включает в себя создание тестовых планов, написание автоматизированных тестов, тестирование пользовательского интерфейса и опыт взаимодействия.</p>
+                    
+                    <div class="qa-skills">
+                        <div class="qa-skill">
+                            <h4 data-i18n="qa.skills.manual">Ручное тестирование</h4>
+                            <p data-i18n="qa.skills.manualDesc">Тщательное тестирование функциональности, юзабилити и совместимости</p>
+                        </div>
+                        <div class="qa-skill">
+                            <h4 data-i18n="qa.skills.auto">Автоматизированное тестирование</h4>
+                            <p data-i18n="qa.skills.autoDesc">Создание и поддержка автоматизированных тестовых сценариев</p>
+                        </div>
+                        <div class="qa-skill">
+                            <h4 data-i18n="qa.skills.performance">Тестирование производительности</h4>
+                            <p data-i18n="qa.skills.performanceDesc">Анализ и оптимизация производительности приложений</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="qa-image">
+                    <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="QA Engineering">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title" data-i18n="contact.title">Контакты</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">📧</div>
+                        <div>
+                            <h3 data-i18n="contact.email">Email</h3>
+                            <p>alex.hermann@example.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">💼</div>
+                        <div>
+                            <h3>LinkedIn</h3>
+                            <p>linkedin.com/in/alexander-hermann</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">💬</div>
+                        <div>
+                            <h3>Slack</h3>
+                            <p>@alexhermann</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📱</div>
+                        <div>
+                            <h3>Telegram</h3>
+                            <p>@alexhermann</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name" class="form-label" data-i18n="contact.form.name">Имя</label>
+                            <input type="text" id="name" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email" class="form-label" data-i18n="contact.form.email">Email</label>
+                            <input type="email" id="email" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message" class="form-label" data-i18n="contact.form.message">Сообщение</label>
+                            <textarea id="message" class="form-textarea" required></textarea>
+                        </div>
+                        <button type="submit" class="btn" data-i18n="contact.form.send">Отправить сообщение</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="social-links">
+                <a href="#" class="social-link">📱</a>
+                <a href="#" class="social-link">💼</a>
+                <a href="#" class="social-link">👨‍💻</a>
+                <a href="#" class="social-link">💬</a>
+            </div>
+            <p class="copyright">&copy; 2023 Alexander Hermann. <span data-i18n="footer.rights">Все права защищены</span></p>
+        </div>
+    </footer>
+
+    <!-- JSON-LD structured data -->
+    <script type="application/ld+json" id="structured-data"></script>
+
+    <!-- JavaScript -->
+    <script src="js/scripts.js"></script>
+</body>
+</html>
