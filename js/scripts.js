@@ -59,7 +59,7 @@ function initializePage() {
   const langSelect = document.querySelector(".lang-select");
 
   // Check for saved language preference
-  const savedLang = localStorage.getItem("language") || "ru";
+  const savedLang = localStorage.getItem("language") || "de";
   langSelect.value = savedLang;
   changeLanguage(savedLang);
 
@@ -148,7 +148,7 @@ function getTranslation(key, lang) {
 
 function loadProjects(lang = null) {
   if (!lang) {
-    lang = localStorage.getItem("language") || "ru";
+    lang = localStorage.getItem("language") || "de";
   }
 
   const projectsGrid = document.querySelector(".projects-grid");
@@ -163,10 +163,10 @@ function loadProjects(lang = null) {
       image:
         "https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1064&q=80",
       title:
-        getTranslation("projects.project1.title", lang) || "Интернет-магазин",
+        getTranslation("projects.project1.title", lang) || "E-Commerce-Shop",
       description:
         getTranslation("projects.project1.description", lang) ||
-        "Полнофункциональный интернет-магазин с корзиной, фильтрами и поиском",
+        "Vollständiger Online-Shop mit Warenkorb, Filtern und Suchfunktion",
       technologies: ["HTML", "CSS", "JavaScript"],
       demoLink: "#",
       codeLink: "#",
@@ -176,10 +176,10 @@ function loadProjects(lang = null) {
         "https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80",
       title:
         getTranslation("projects.project2.title", lang) ||
-        "Аналитическая панель",
+        "Analytics-Dashboard",
       description:
         getTranslation("projects.project2.description", lang) ||
-        "Панель управления с графиками, таблицами и статистикой",
+        "Management-Panel mit Diagrammen, Tabellen und Statistiken",
       technologies: ["React", "Chart.js", "CSS"],
       demoLink: "#",
       codeLink: "#",
@@ -187,10 +187,11 @@ function loadProjects(lang = null) {
     {
       image:
         "https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1139&q=80",
-      title: getTranslation("projects.project3.title", lang) || "Портфолио",
+      title:
+        getTranslation("projects.project3.title", lang) || "Portfolio-Website",
       description:
         getTranslation("projects.project3.description", lang) ||
-        "Современное портфолио с анимациями и адаптивным дизайном",
+        "Moderne Portfolio-Website mit Animationen und responsive Design",
       technologies: ["HTML", "CSS", "JavaScript"],
       demoLink: "#",
       codeLink: "#",
@@ -216,10 +217,10 @@ function loadProjects(lang = null) {
                 </div>
                 <div class="project-links">
                     <a href="${project.demoLink}" class="btn">${
-      getTranslation("projects.demo", lang) || "Демо"
+      getTranslation("projects.demo", lang) || "Demo"
     }</a>
                     <a href="${project.codeLink}" class="btn btn-outline">${
-      getTranslation("projects.code", lang) || "Код"
+      getTranslation("projects.code", lang) || "Code"
     }</a>
                 </div>
             </div>
