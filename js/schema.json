@@ -2,21 +2,27 @@
   "@context": "https://schema.org",
   "@type": "Person",
   "name": "Alexander Hermann",
-  "jobTitle": "Full-Stack Developer and QA Engineer",
+  "jobTitle": "Full-Stack Java Developer",
   "url": "https://alexh73.github.io",
   "sameAs": [
     "https://www.linkedin.com/in/alexander-hermann-655b76353/",
     "https://github.com/alexh73"
   ],
   "knowsAbout": [
+    "Java",
+    "Spring Boot",
+    "Spring MVC",
+    "Spring Data JPA",
     "HTML",
     "CSS",
     "JavaScript",
+    "TypeScript",
     "React",
-    "Node.js",
-    "QA Engineering",
-    "Web Development",
-    "Testing"
+    "MySQL",
+    "MongoDB",
+    "Git",
+    "Linux",
+    "Web Development"
   ],
-  "description": "Full-Stack Developer and QA Engineer specializing in modern web development"
+  "description": "Full-Stack Java Developer mit Expertise in modernen Webtechnologien und Frameworks"
 }
