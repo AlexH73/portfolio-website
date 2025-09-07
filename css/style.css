@@ -61,60 +61,12 @@ header {
     padding: 1rem 0;
 }
 
-/* Стили для логотипа */
-.logo svg {
-  transition: var(--transition);
-  height: 40px;
-}
-
-.logo:hover svg {
-  transform: scale(1.05);
-}
-
-.logo-bg {
-  fill: var(--primary-color);
-}
-
-.logo-initials {
-  fill: white;
-  font-family: 'Inter', sans-serif;
-  font-weight: 700;
-}
-
-.logo-name {
-  fill: var(--primary-color);
-  font-family: 'Inter', sans-serif;
-  font-weight: 700;
-}
-
-.logo-title {
-  fill: var(--text-secondary);
-  font-family: 'Inter', sans-serif;
-  font-weight: 300;
-}
-
-/* Упрощенная версия логотипа для мобильных устройств */
-@media (max-width: 768px) {
-  .logo svg {
-    /* width: 40px; */
-    overflow: hidden;
-  }
-  
-  .logo-name, .logo-title {
-    display: none;
-  }
-  
-  .logo svg {
-    viewBox: 0 0 40 40;
-  }
-}
-
-/* .logo {
+.logo {
     font-weight: 700;
     font-size: 1.5rem;
     color: var(--primary-color);
     text-decoration: none;
-} */
+}
 
 nav ul {
     display: flex;
@@ -158,6 +110,38 @@ nav a:hover {
     border: 1px solid var(--border-color);
     border-radius: 4px;
     padding: 0.25rem;
+}
+
+/* Стили для логотипа */
+.logo svg {
+  transition: var(--transition);
+  height: 40px;
+}
+
+.logo:hover svg {
+  transform: scale(1.05);
+}
+
+.logo-bg {
+  fill: var(--primary-color);
+}
+
+.logo-initials {
+  fill: white;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+}
+
+.logo-name {
+  fill: var(--primary-color);
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+}
+
+.logo-title {
+  fill: var(--text-secondary);
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
 }
 
 /* Hero Section */
@@ -319,6 +303,66 @@ section {
 
 .skill-description {
     color: var(--text-secondary);
+}
+
+/* Education Section */
+.education {
+    background-color: var(--bg-secondary);
+}
+
+.education-item {
+    background-color: var(--bg-primary);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.education-item h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+}
+
+.education-period {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    font-style: italic;
+}
+
+.education-description p {
+    margin-bottom: 1rem;
+    color: var(--text-secondary);
+}
+
+.curriculum {
+    margin-top: 1.5rem;
+}
+
+.curriculum h4 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+}
+
+.curriculum ul {
+    list-style-type: none;
+}
+
+.curriculum li {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-secondary);
+}
+
+.curriculum li:before {
+    content: "•";
+    color: var(--primary-color);
+    font-weight: bold;
+    position: absolute;
+    left: 0;
 }
 
 /* Projects */
@@ -568,6 +612,20 @@ footer {
     
     .section-title {
         font-size: 2rem;
+    }
+
+    /* Упрощенная версия логотипа для мобильных устройств */
+    .logo svg {
+        /* width: 40px; */
+        overflow: hidden;
+    }
+    
+    .logo-name, .logo-title {
+        display: none;
+    }
+    
+    .logo svg {
+        viewBox: 0 0 40 40;
     }
 }
 
