@@ -122,7 +122,7 @@ function initializePage() {
       };
 
       // Пример использования Fetch API для отправки
-      fetch("https://formspree.io/f/your-form-id", {
+      fetch("https://formspree.io/f/xyzdlrvd", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -554,6 +554,15 @@ function setupMobileMenu() {
         !nav.contains(e.target) &&
         !menuToggle.contains(e.target)
       ) {
+        nav.classList.remove("active");
+        menuToggle.classList.remove("active");
+        document.body.style.overflow = "";
+      }
+    });
+
+    // Закрытие меню при нажатии ESC
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && nav.classList.contains("active")) {
         nav.classList.remove("active");
         menuToggle.classList.remove("active");
         document.body.style.overflow = "";
