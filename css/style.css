@@ -685,6 +685,19 @@ section.visible .project-card:nth-child(3) {
   box-shadow: var(--shadow);
 }
 
+/* Стили для валидации формы */
+.form-input.error,
+.form-textarea.error {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+}
+
+.error-message {
+  color: #ef4444;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
 .form-group {
   margin-bottom: 1.5rem;
 }
