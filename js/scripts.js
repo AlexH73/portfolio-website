@@ -61,6 +61,7 @@ function initializePage() {
   // Check for saved language preference
   const savedLang = localStorage.getItem("language") || "de";
   langSelect.value = savedLang;
+  updateMetaTags(savedLang);
   changeLanguage(savedLang);
 
   langSelect.addEventListener("change", function () {
@@ -251,13 +252,16 @@ function changeLanguage(lang) {
     }
   });
 
-  // Update HTML lang attribute
+  // Обновляем метатеги
+  updateMetaTags(lang);
+
+  // Обновляем HTML lang attribute
   document.documentElement.lang = lang;
 
-  // Reload projects to update their language
+  // Обновляем проекты
   loadProjects(lang);
 
-  // Update project filters language
+  // Обновляем фильтры проектов
   updateFiltersLanguage(lang);
 }
 
@@ -569,4 +573,76 @@ function setupMobileMenu() {
       }
     });
   }
+}
+
+function updateMetaTags(lang) {
+  if (!window.translations || !window.translations[lang]) return;
+
+  const meta = window.translations[lang].meta;
+  if (!meta) return;
+
+  // Обновляем description
+  let metaDescription = document.querySelector('meta[name="description"]');
+  if (!metaDescription) {
+    metaDescription = document.createElement("meta");
+    metaDescription.name = "description";
+    document.head.appendChild(metaDescription);
+  }
+  metaDescription.content = meta.description;
+
+  // Обновляем keywords
+  let metaKeywords = document.querySelector('meta[name="keywords"]');
+  if (!metaKeywords) {
+    metaKeywords = document.createElement("meta");
+    metaKeywords.name = "keywords";
+    document.head.appendChild(metaKeywords);
+  }
+  metaKeywords.content = meta.keywords;
+
+  // Обновляем title
+  if (meta.title) {
+    document.title = meta.title;
+  }
+
+  // Обновляем Open Graph метатеги
+  updateSocialMeta(
+    "og:title",
+    meta.title || "Alexander Hermann - Full-Stack Developer"
+  );
+  updateSocialMeta("og:description", meta.description);
+  updateSocialMeta("og:locale", getOgLocale(lang));
+
+  // Обновляем Twitter метатеги
+  updateSocialMeta(
+    "twitter:title",
+    meta.title || "Alexander Hermann - Full-Stack Developer"
+  );
+  updateSocialMeta("twitter:description", meta.description);
+}
+
+function updateSocialMeta(property, content) {
+  let metaElement =
+    document.querySelector(`meta[property="${property}"]`) ||
+    document.querySelector(`meta[name="${property}"]`);
+
+  if (!metaElement) {
+    metaElement = document.createElement("meta");
+    if (property.startsWith("og:")) {
+      metaElement.setAttribute("property", property);
+    } else {
+      metaElement.setAttribute("name", property);
+    }
+    document.head.appendChild(metaElement);
+  }
+
+  metaElement.content = content;
+}
+
+function getOgLocale(lang) {
+  const locales = {
+    de: "de_DE",
+    en: "en_US",
+    ru: "ru_RU",
+  };
+  return locales[lang] || "en_US";
 }

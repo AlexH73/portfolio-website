@@ -1,5 +1,12 @@
 {
   "de": {
+    "meta": {
+      "description": "Full-Stack Java-Entwickler mit Fokus auf moderne Webanwendungen und Qualitätssicherung",
+      "keywords": "Java Entwickler, Full-Stack, Spring Boot, Webentwicklung, Portfolio, JavaScript, HTML, CSS, Qualitätssicherung",
+      "title": "Alexander Hermann - Full-Stack Java Entwickler",
+      "ogTitle": "Alexander Hermann - Full-Stack Java Entwickler",
+      "ogDescription": "Portfolio von Alexander Hermann - Full-Stack Java Entwickler mit Fokus auf moderne Webanwendungen"
+    },
     "nav": {
       "about": "Über mich",
       "skills": "Fähigkeiten",
@@ -121,6 +128,13 @@
     }
   },
   "en": {
+    "meta": {
+      "description": "Full-Stack Java Developer focused on modern web applications and quality assurance",
+      "keywords": "Java Developer, Full-Stack, Spring Boot, Web Development, Portfolio, JavaScript, HTML, CSS, Quality Assurance",
+      "title": "Alexander Hermann - Full-Stack Java Developer",
+      "ogTitle": "Alexander Hermann - Full-Stack Java Developer",
+      "ogDescription": "Portfolio of Alexander Hermann - Full-Stack Java Developer specializing in modern web applications"
+    },
     "nav": {
       "about": "About",
       "skills": "Skills",
@@ -242,6 +256,13 @@
     }
   },
   "ru": {
+    "meta": {
+      "description": "Full-Stack Java-разработчик, специализирующийся на современных веб-приложениях и обеспечении качества",
+      "keywords": "Java разработчик, Full-Stack, Spring Boot, Веб-разработка, Портфолио, JavaScript, HTML, CSS, QA",
+      "title": "Alexander Hermann - Full-Stack Java разработчик",
+      "ogTitle": "Alexander Hermann - Full-Stack Java разработчик",
+      "ogDescription": "Портфолио Александра Германа - Full-Stack Java разработчика, специализирующегося на современных веб-приложениях"
+    },
     "nav": {
       "about": "Обо мне",
       "skills": "Навыки",
