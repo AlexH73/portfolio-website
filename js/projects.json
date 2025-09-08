@@ -19,7 +19,7 @@
         "Weather API",
         "Responsive Design"
       ],
-      "image": "../images/weather.png",
+      "image": "./images/weather.png",
       "demoLink": "https://alexh73.github.io/frontend_cohort57/homeworks/hw_19/weather-app/index.html",
       "codeLink": "https://github.com/AlexH73/frontend_cohort57/tree/main/homeworks/hw_19/weather-app",
       "category": "frontend",
