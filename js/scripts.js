@@ -74,18 +74,54 @@ function initializePage() {
 
   // Form submission handling
   const contactForm = document.getElementById("contactForm");
+  // Обновим обработчик формы
   if (contactForm) {
+    // Добавим валидацию в реальном времени
+    const inputs = contactForm.querySelectorAll("input, textarea");
+    inputs.forEach((input) => {
+      input.addEventListener("blur", (e) => {
+        validateField(e.target);
+      });
+
+      input.addEventListener("input", (e) => {
+        clearFieldError(e.target);
+      });
+    });
+
     contactForm.addEventListener("submit", function (e) {
       e.preventDefault();
 
-      // Here will be the code for sending form data
+      // Валидация всех полей перед отправкой
+      let isValid = true;
+      inputs.forEach((input) => {
+        if (!validateField(input)) {
+          isValid = false;
+        }
+      });
+
+      if (!isValid) {
+        alert(
+          getTranslation("form.validationError", langSelect.value) ||
+            "Please fill all fields correctly."
+        );
+        return;
+      }
+
+      // Показываем индикатор загрузки
+      const submitBtn = contactForm.querySelector('button[type="submit"]');
+      const originalText = submitBtn.textContent;
+      submitBtn.textContent =
+        getTranslation("form.sending", langSelect.value) || "Sending...";
+      submitBtn.disabled = true;
+
+      // Здесь будет код для отправки данных формы
       const formData = {
         name: document.getElementById("name").value,
         email: document.getElementById("email").value,
         message: document.getElementById("message").value,
       };
 
-      // Example using Fetch API to send data
+      // Пример использования Fetch API для отправки
       fetch("https://formspree.io/f/your-form-id", {
         method: "POST",
         headers: {
@@ -100,9 +136,68 @@ function initializePage() {
         })
         .catch((error) => {
           console.error("Error:", error);
-          alert("Es gab ein Problem beim Senden Ihrer Nachricht.");
+          alert(
+            getTranslation("form.error", langSelect.value) ||
+              "There was a problem sending your message."
+          );
+        })
+        .finally(() => {
+          submitBtn.textContent = originalText;
+          submitBtn.disabled = false;
         });
     });
+  }
+
+  function validateField(field) {
+    clearFieldError(field);
+
+    let isValid = true;
+    let errorMessage = "";
+
+    if (field.value.trim() === "") {
+      isValid = false;
+      errorMessage =
+        getTranslation("form.required", langSelect.value) ||
+        "This field is required";
+    } else if (field.type === "email" && !isValidEmail(field.value)) {
+      isValid = false;
+      errorMessage =
+        getTranslation("form.invalidEmail", langSelect.value) ||
+        "Please enter a valid email address";
+    }
+
+    if (!isValid) {
+      showFieldError(field, errorMessage);
+    }
+
+    return isValid;
+  }
+
+  function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+
+  function showFieldError(field, message) {
+    field.classList.add("error");
+
+    let errorElement = field.parentNode.querySelector(".error-message");
+    if (!errorElement) {
+      errorElement = document.createElement("div");
+      errorElement.className = "error-message";
+      field.parentNode.appendChild(errorElement);
+    }
+
+    errorElement.textContent = message;
+  }
+
+  function clearFieldError(field) {
+    field.classList.remove("error");
+
+    const errorElement = field.parentNode.querySelector(".error-message");
+    if (errorElement) {
+      errorElement.remove();
+    }
   }
 
   // Smooth scrolling for navigation links
