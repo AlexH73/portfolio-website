@@ -128,6 +128,12 @@ function initializePage() {
       }
     });
   });
+
+  setTimeout(() => {
+    setupScrollAnimations();
+  }, 100);
+
+  setupScrollProgress();
 }
 
 function changeLanguage(lang) {
@@ -360,3 +366,41 @@ function updateFiltersLanguage(lang) {
     button.textContent = filters[filter] || filter;
   });
 }
+
+// Отслеживаем появления элементов в области видимости
+function setupScrollAnimations() {
+  const animatedElements = document.querySelectorAll("section, .fade-in");
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
+      });
+    },
+    {
+      threshold: 0.1,
+      rootMargin: "0px 0px -50px 0px",
+    }
+  );
+
+  animatedElements.forEach((element) => {
+    observer.observe(element);
+  });
+}
+
+// обработчик прокрутки
+function setupScrollProgress() {
+  const progressBar = document.getElementById("progressBar");
+
+  window.addEventListener("scroll", () => {
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight - windowHeight;
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const progress = (scrollTop / documentHeight) * 100;
+
+    progressBar.style.width = `${progress}%`;
+  });
+}
+

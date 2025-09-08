@@ -289,6 +289,24 @@ section.visible .project-card:nth-child(3) {
   transition-delay: 0.3s;
 }
 
+/* Индикатор прогресса прокрутки */
+.progress-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: transparent;
+  z-index: 1000;
+}
+
+.progress-bar {
+  height: 4px;
+  background: var(--primary-color);
+  width: 0%;
+  transition: width 0.2s ease;
+}
+
 /* About */
 .about-content {
   display: grid;
