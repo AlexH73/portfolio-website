@@ -8,9 +8,9 @@
         "ru": "Погодное приложение"
       },
       "description": {
-        "de": "Moderne Wetteranwendung mit Echtzeit-Daten und 5-Tage-Vorhersage. Responsives Design mit Standorterkennung.",
-        "en": "Modern weather application with real-time data and 5-day forecast. Responsive design with location detection.",
-        "ru": "Современное погодное приложение с данными в реальном времени и прогнозом на 5 дней. Адаптивный дизайн с определением местоположения."
+        "de": "Moderne Wetteranwendung mit Echtzeit-Daten und 12-Tage-Vorhersage. Responsives Design mit Standorterkennung.",
+        "en": "Modern weather application with real-time data and 12-day forecast. Responsive design with location detection.",
+        "ru": "Современное погодное приложение с данными в реальном времени и прогнозом на 12 дней. Адаптивный дизайн с определением местоположения."
       },
       "technologies": [
         "HTML5",
@@ -19,7 +19,7 @@
         "Weather API",
         "Responsive Design"
       ],
-      "image": "https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1165&q=80",
+      "image": "../images/weather.png",
       "demoLink": "https://alexh73.github.io/frontend_cohort57/homeworks/hw_19/weather-app/index.html",
       "codeLink": "https://github.com/AlexH73/frontend_cohort57/tree/main/homeworks/hw_19/weather-app",
       "category": "frontend",
