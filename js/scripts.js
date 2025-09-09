@@ -252,9 +252,6 @@ function changeLanguage(lang) {
     }
   });
 
-  // Обновляем метатеги
-  updateMetaTags(lang);
-
   // Обновляем HTML lang attribute
   document.documentElement.lang = lang;
 
