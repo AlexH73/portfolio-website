@@ -125,6 +125,28 @@
       "frontend": "Frontend",
       "backend": "Backend",
       "fullstack": "Full Stack"
+    },
+    "cookies": {
+      "message": "Wir verwenden Cookies, um die Website zu verbessern. Wenn Sie die Website weiter nutzen, stimmen Sie dem zu.",
+      "accept": "Akzeptieren",
+      "reject": "Ablehnen",
+      "learnMore": "Mehr erfahren"
+    },
+    "privacy": {
+      "title": "Datenschutzrichtlinie",
+      "cookiesTitle": "Verwendung von Cookies",
+      "cookiesText": "Unsere Website verwendet Cookies, um Ihre Präferenzen (Sprachauswahl, Design) und Analysen zu speichern. Diese Daten werden nicht an Dritte weitergegeben und dienen ausschließlich der Verbesserung der Website.",
+      "typesTitle": "Verwendete Cookie-Typen",
+      "types1": "Notwendige Cookies: für die grundlegenden Funktionen der Website",
+      "types2": "Präferenzen: zum Speichern Ihrer Einstellungen",
+      "types3": "Analytische: zur Analyse der Websitenutzung",
+      "controlsTitle": "Cookie-Verwaltung",
+      "controlsText": "Sie können Ihre Cookie-Einstellungen jederzeit über die Browsereinstellungen oder das untenstehende Formular ändern.",
+      "necessary": "Notwendige Cookies",
+      "preferences": "Präferenz-Cookies",
+      "analytics": "Analytische Cookies",
+      "save": "Einstellungen speichern",
+      "saved": "Einstellungen gespeichert"
     }
   },
   "en": {
@@ -253,6 +275,28 @@
       "frontend": "Frontend",
       "backend": "Backend",
       "fullstack": "Full Stack"
+    },
+    "cookies": {
+      "message": "We use cookies to improve the website. By continuing to use the site, you agree to this.",
+      "accept": "Accept",
+      "reject": "Reject",
+      "learnMore": "Learn more"
+    },
+    "privacy": {
+      "title": "Privacy Policy",
+      "cookiesTitle": "Use of Cookies",
+      "cookiesText": "Our website uses cookies to store your preferences (language selection, theme) and analytics. This data is not shared with third parties and is used solely to improve the website.",
+      "typesTitle": "Types of cookies used",
+      "types1": "Necessary cookies: for basic website functions",
+      "types2": "Preferences: to save your settings",
+      "types3": "Analytical: for website usage analysis",
+      "controlsTitle": "Cookie management",
+      "controlsText": "You can change your cookie preferences at any time through your browser settings or using the form below.",
+      "necessary": "Necessary cookies",
+      "preferences": "Preference cookies",
+      "analytics": "Analytical cookies",
+      "save": "Save settings",
+      "saved": "Settings saved"
     }
   },
   "ru": {
@@ -381,6 +425,28 @@
       "frontend": "Фронтенд",
       "backend": "Бэкенд",
       "fullstack": "Фуллстек"
+    },
+    "cookies": {
+      "message": "Мы используем файлы cookie для улучшения работы сайта. Продолжая использование сайта, вы соглашаетесь с этим.",
+      "accept": "Принять",
+      "reject": "Отклонить",
+      "learnMore": "Подробнее"
+    },
+    "privacy": {
+      "title": "Политика конфиденциальности",
+      "cookiesTitle": "Использование файлов cookie",
+      "cookiesText": "Наш сайт использует файлы cookie для хранения ваших предпочтений (выбор языка, тема оформления) и аналитики. Эти данные не передаются третьим лицам и используются исключительно для улучшения работы сайта.",
+      "typesTitle": "Типы используемых cookie",
+      "types1": "Необходимые cookies: для работы основных функций сайта",
+      "types2": "Предпочтения: для сохранения ваших настроек",
+      "types3": "Аналитические: для анализа использования сайта",
+      "controlsTitle": "Управление cookies",
+      "controlsText": "Вы можете в любое время изменить свои предпочтения относительно cookies через настройки браузера или используя форму ниже.",
+      "necessary": "Необходимые cookies",
+      "preferences": "Cookies предпочтений",
+      "analytics": "Аналитические cookies",
+      "save": "Сохранить настройки",
+      "saved": "Настройки сохранены"
     }
   }
 }
