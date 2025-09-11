@@ -57,6 +57,8 @@ function initializePage() {
   setupBackToTop();
   setupMobileMenu();
   setupCookiesBanner();
+  // Функции для модального окна политики
+  setupPrivacyModal();
 }
 
 // ==================== ФУНКЦИИ ТЕМЫ ====================
@@ -782,9 +784,47 @@ function saveCookiesPreferences() {
   setCookie("cookies_preferences", prefsChecked.toString(), 365);
   setCookie("cookies_analytics", analyticsChecked.toString(), 365);
 
-  alert(
-    getTranslation("privacy.saved", currentLanguage) || "Настройки сохранены"
-  );
+  // alert(
+  //   getTranslation("privacy.saved", currentLanguage) || "Настройки сохранены"
+  // );
+  // Находим кнопку и контейнер для сообщения
+  const saveBtn = document.getElementById("save-cookies-preferences");
+  let msg = document.getElementById("cookies-save-message");
+  if (!msg) {
+    msg = document.createElement("div");
+    msg.id = "cookies-save-message";
+    msg.style.position = "relative";
+    msg.style.float = "right";
+    msg.style.right = "0";
+    msg.style.top = "0";
+    msg.style.background = "#4caf50";
+    msg.style.color = "#fff";
+    msg.style.padding = "6px 16px";
+    msg.style.borderRadius = "4px";
+    msg.style.fontSize = "14px";
+    msg.style.zIndex = "1000";
+    msg.style.transition = "opacity 0.3s";
+    msg.style.opacity = "0";
+    saveBtn.parentNode.appendChild(msg);
+  }
+
+  msg.textContent =
+    getTranslation("privacy.saved", currentLanguage) || "Настройки сохранены";
+  msg.style.opacity = "1";
+
+  // Показываем сообщение на 2 секунды, затем скрываем и закрываем модалку
+  setTimeout(() => {
+    msg.style.opacity = "0";
+    setTimeout(() => {
+      msg.remove();
+      // Закрываем модальное окно
+      const modal = document.getElementById("privacy-modal");
+      if (modal) {
+        modal.style.display = "none";
+        document.body.style.overflow = "";
+      }
+    }, 300);
+  }, 2000);
 }
 
 function loadCookiesPreferences() {
@@ -839,4 +879,58 @@ function deleteCookie(name) {
 
 function getCurrentLanguage() {
   return currentLanguage;
+}
+
+// Функции для модального окна политики
+function setupPrivacyModal() {
+  const modal = document.getElementById("privacy-modal");
+  const fabButton = document.getElementById("privacy-fab");
+  const closeBtn = document.querySelector(".modal-close");
+  const learnMoreLink = document.getElementById("cookies-learn-more");
+
+  // Открытие модального окна
+  function openModal() {
+    modal.style.display = "block";
+    document.body.style.overflow = "hidden";
+  }
+
+  // Закрытие модального окна
+  function closeModal() {
+    modal.style.display = "none";
+    document.body.style.overflow = "";
+  }
+
+  // Обработчики событий
+  if (fabButton) fabButton.addEventListener("click", openModal);
+  if (closeBtn) closeBtn.addEventListener("click", closeModal);
+  if (learnMoreLink) {
+    learnMoreLink.addEventListener("click", function (e) {
+      e.preventDefault();
+      openModal();
+    });
+  }
+
+  // Закрытие при клике вне окна
+  window.addEventListener("click", function (e) {
+    if (e.target === modal) closeModal();
+  });
+
+  // Закрытие по ESC
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && modal.style.display === "block") closeModal();
+  });
+
+  // Переносим содержимое из старой секции в модальное окно
+  const oldPrivacySection = document.getElementById("privacy");
+  const privacyContent = document.querySelector(".privacy-content");
+
+  if (oldPrivacySection && privacyContent) {
+    const privacyInnerContent =
+      oldPrivacySection.querySelector(".privacy-content");
+    if (privacyInnerContent) {
+      privacyContent.innerHTML = privacyInnerContent.innerHTML;
+      // Удаляем старую секцию
+      oldPrivacySection.remove();
+    }
+  }
 }

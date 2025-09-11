@@ -409,17 +409,6 @@
         <div class="contact-content">
           <div class="contact-info">
             <div class="contact-item">
-              <div class="contact-icon">📧</div>
-              <div>
-                <h3 data-i18n="contact.email">E-Mail</h3>
-                <p>
-                  <a class="social-link" href="mailto:ewebotah@gmail.com"
-                    >ewebotah@gmail.com</a
-                  >
-                </p>
-              </div>
-            </div>
-            <div class="contact-item">
               <div class="contact-icon">💼</div>
               <div>
                 <h3>LinkedIn</h3>
@@ -505,53 +494,36 @@
     </section>
 
     <!-- Cookies Banner -->
-<div id="cookies-banner" class="cookies-banner">
-  <div class="cookies-content">
-    <p data-i18n="cookies.message">Wir verwenden Cookies, um die Website zu verbessern. Wenn Sie die Website weiter nutzen, stimmen Sie dem zu.</p>
-    <div class="cookies-buttons">
-      <button id="cookies-accept" class="btn btn-sm" data-i18n="cookies.accept">Akzeptieren</button>
-      <button id="cookies-reject" class="btn btn-outline btn-sm" data-i18n="cookies.reject">Ablehnen</button>
-      <a href="#privacy" id="cookies-learn-more" data-i18n="cookies.learnMore">Mehr erfahren</a>
-    </div>
-  </div>
-</div>
-
-<!-- Секция с политикой конфиденциальности -->
-<section id="privacy" class="privacy-section">
-  <div class="container">
-    <h2 data-i18n="privacy.title">Datenschutzrichtlinie</h2>
-    <div class="privacy-content">
-      <h3 data-i18n="privacy.cookiesTitle">Verwendung von Cookies</h3>
-      <p data-i18n="privacy.cookiesText">Unsere Website verwendet Cookies, um Ihre Präferenzen (Sprachauswahl, Design) und Analysen zu speichern. Diese Daten werden nicht an Dritte weitergegeben und dienen ausschließlich der Verbesserung der Website.</p>
-      
-      <h3 data-i18n="privacy.typesTitle">Verwendete Cookie-Typen</h3>
-      <ul>
-        <li data-i18n="privacy.types1">Notwendige Cookies: für die grundlegenden Funktionen der Website</li>
-        <li data-i18n="privacy.types2">Präferenzen: zum Speichern Ihrer Einstellungen</li>
-        <li data-i18n="privacy.types3">Analytische: zur Analyse der Websitenutzung</li>
-      </ul>
-      
-      <h3 data-i18n="privacy.controlsTitle">Cookie-Verwaltung</h3>
-      <p data-i18n="privacy.controlsText">Sie können Ihre Cookie-Einstellungen jederzeit über die Browsereinstellungen oder das untenstehende Formular ändern.</p>
-      
-      <div class="cookies-controls">
-        <label>
-          <input type="checkbox" id="cookies-necessary" checked disabled>
-          <span data-i18n="privacy.necessary">Notwendige Cookies</span>
-        </label>
-        <label>
-          <input type="checkbox" id="cookies-preferences" checked>
-          <span data-i18n="privacy.preferences">Präferenz-Cookies</span>
-        </label>
-        <label>
-          <input type="checkbox" id="cookies-analytics" checked>
-          <span data-i18n="privacy.analytics">Analytische Cookies</span>
-        </label>
-        <button id="save-cookies-preferences" class="btn" data-i18n="privacy.save">Einstellungen speichern</button>
+    <div id="cookies-banner" class="cookies-banner">
+      <div class="cookies-content">
+        <p data-i18n="cookies.message">
+          Wir verwenden Cookies, um die Website zu verbessern. Wenn Sie die
+          Website weiter nutzen, stimmen Sie dem zu.
+        </p>
+        <div class="cookies-buttons">
+          <button
+            id="cookies-accept"
+            class="btn btn-sm"
+            data-i18n="cookies.accept"
+          >
+            Akzeptieren
+          </button>
+          <button
+            id="cookies-reject"
+            class="btn btn-outline btn-sm"
+            data-i18n="cookies.reject"
+          >
+            Ablehnen
+          </button>
+          <a
+            href="#privacy"
+            id="cookies-learn-more"
+            data-i18n="cookies.learnMore"
+            >Mehr erfahren</a
+          >
+        </div>
       </div>
     </div>
-  </div>
-</section>
 
     <footer>
       <div class="container">
@@ -592,5 +564,94 @@
 
     <!-- JavaScript -->
     <script src="js/scripts.js"></script>
+
+    <!-- Кнопка доступа к политике конфиденциальности -->
+    <button
+      id="privacy-fab"
+      class="privacy-fab"
+      aria-label="Политика конфиденциальности"
+    >
+      <svg
+        width="60"
+        height="60"
+        viewBox="25 0 50 80"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <g fill="none" stroke="#fff" stroke-width="1">
+          <path
+            d="M50,10 C65,10 80,25 80,40 C80,55 65,70 50,70 C35,70 20,55 20,40 C20,25 35,10 50,10 Z"
+          />
+          <path
+            d="M50,15 C62,15 75,28 75,40 C75,52 62,65 50,65 C38,65 25,52 25,40 C25,28 38,15 50,15 Z"
+          />
+          <path
+            d="M50,20 C59,20 70,31 70,40 C70,49 59,60 50,60 C41,60 30,49 30,40 C30,31 41,20 50,20 Z"
+          />
+          <path
+            d="M50,25 C56,25 65,34 65,40 C65,46 56,55 50,55 C44,55 35,46 35,40 C35,34 44,25 50,25 Z"
+          />
+          <path
+            d="M50,30 C53,30 60,36 60,40 C60,44 53,50 50,50 C47,50 40,44 40,40 C40,36 47,30 50,30 Z"
+          />
+        </g>
+      </svg>
+    </button>
+
+    <!-- Модальное окно политики конфиденциальности -->
+    <div id="privacy-modal" class="modal">
+      <div class="modal-content">
+        <span class="modal-close">&times;</span>
+        <h2 class="section-title" data-i18n="privacy.title">
+          Datenschutzerklärung
+        </h2>
+        <h3 data-i18n="privacy.cookiesTitle">Verwendung von Cookies</h3>
+        <p data-i18n="privacy.cookiesText">
+          Unsere Website verwendet Cookies, um Ihre Präferenzen (Sprachauswahl,
+          Design) und Analysen zu speichern. Diese Daten werden nicht an Dritte
+          weitergegeben und dienen ausschließlich der Verbesserung der Website.
+        </p>
+
+        <h3 data-i18n="privacy.typesTitle">Verwendete Cookie-Typen</h3>
+        <ul>
+          <li data-i18n="privacy.types1">
+            Notwendige Cookies: für die grundlegenden Funktionen der Website
+          </li>
+          <li data-i18n="privacy.types2">
+            Präferenzen: zum Speichern Ihrer Einstellungen
+          </li>
+          <li data-i18n="privacy.types3">
+            Analytische: zur Analyse der Websitenutzung
+          </li>
+        </ul>
+
+        <h3 data-i18n="privacy.controlsTitle">Cookie-Verwaltung</h3>
+        <p data-i18n="privacy.controlsText">
+          Sie können Ihre Cookie-Einstellungen jederzeit über die
+          Browsereinstellungen oder das untenstehende Formular ändern.
+        </p>
+
+        <div class="cookies-controls">
+          <label>
+            <input type="checkbox" id="cookies-necessary" checked disabled />
+            <span data-i18n="privacy.necessary">Notwendige Cookies</span>
+          </label>
+          <label>
+            <input type="checkbox" id="cookies-preferences" checked />
+            <span data-i18n="privacy.preferences">Präferenz-Cookies</span>
+          </label>
+          <label>
+            <input type="checkbox" id="cookies-analytics" checked />
+            <span data-i18n="privacy.analytics">Analytische Cookies</span>
+          </label>
+          <button
+            id="save-cookies-preferences"
+            class="btn"
+            data-i18n="privacy.save"
+          >
+            Einstellungen speichern
+          </button>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
