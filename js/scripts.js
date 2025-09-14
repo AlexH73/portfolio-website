@@ -1,84 +1,94 @@
-// ==================== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ И ИНИЦИАЛИЗАЦИЯ ====================
+// ==================== КОНСТАНТЫ И ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ====================
+const CONFIG = {
+  formspreeUrl: "https://formspree.io/f/xyzdlrvd",
+  chartColors: {
+    primary: "rgba(99, 102, 241, 0.2)",
+    border: "rgba(99, 102, 241, 0.8)",
+    point: "rgba(99, 102, 241, 1)",
+  },
+};
 
 let currentLanguage = "de";
+let translations = {};
+let skillsChartInstance = null;
 
-// Загрузка переводов и инициализация страницы
-document.addEventListener("DOMContentLoaded", function () {
-  loadTranslationsAndInitialize();
-});
+// ==================== ИНИЦИАЛИЗАЦИЯ ПРИЛОЖЕНИЯ ====================
+document.addEventListener("DOMContentLoaded", initApp);
 
-async function loadTranslationsAndInitialize() {
+async function initApp() {
   try {
-    // Загрузка переводов
-    const translationsResponse = await fetch("js/translations.json");
-    window.translations = await translationsResponse.json();
-
-    // Загрузка schema данных
-    const schemaResponse = await fetch("js/schema.json");
-    const schemaData = await schemaResponse.json();
-
-    // Добавление структурированных данных на страницу
-    const script = document.getElementById("structured-data");
-    script.textContent = JSON.stringify(schemaData);
-
-    // Инициализация страницы
+    await loadResources();
     initializePage();
   } catch (error) {
-    console.error("Error loading data:", error);
-    initializePage();
+    console.error("Failed to initialize app:", error);
+    initializePage(); // Пытаемся инициализировать хотя бы базовые функции
   }
 }
 
-// ==================== ОСНОВНАЯ ФУНКЦИЯ ИНИЦИАЛИЗАЦИИ ====================
+async function loadResources() {
+  try {
+    // Параллельная загрузка переводов и schema
+    const [translationsResponse, schemaResponse] = await Promise.all([
+      fetch("js/translations.json"),
+      fetch("js/schema.json"),
+    ]);
 
-function initializePage() {
-  // Инициализация темы с учетом cookies
-  initializeTheme();
+    if (!translationsResponse.ok)
+      throw new Error("Failed to load translations");
+    if (!schemaResponse.ok) throw new Error("Failed to load schema");
 
-  // Инициализация языка с учетом cookies
-  initializeLanguage();
+    translations = await translationsResponse.json();
+    const schemaData = await schemaResponse.json();
 
-  // Загрузка проектов
-  loadProjects();
-
-  // Настройка обработки формы
-  setupFormHandler();
-
-  // Настройка плавной прокрутки
-  setupSmoothScrolling();
-
-  // Настройка анимаций при прокрутке
-  setTimeout(() => {
-    setupScrollAnimations();
-  }, 100);
-
-  // Настройка дополнительных функций
-  setupScrollProgress();
-  setupBackToTop();
-  setupMobileMenu();
-  setupCookiesBanner();
-  // Функции для модального окна политики
-  setupPrivacyModal();
-  // Функция для инициализации диаграммы навыков
-  initSkillsChart();
+    // Добавляем structured data
+    const script = document.getElementById("structured-data");
+    if (script) {
+      script.textContent = JSON.stringify(schemaData);
+    }
+  } catch (error) {
+    console.error("Error loading resources:", error);
+    throw error;
+  }
 }
 
-// ==================== ФУНКЦИИ ТЕМЫ ====================
+function initializePage() {
+  const initFunctions = [
+    initializeTheme,
+    initializeLanguage,
+    loadProjects,
+    setupFormHandler,
+    setupSmoothScrolling,
+    () => setTimeout(setupScrollAnimations, 100),
+    setupScrollProgress,
+    setupBackToTop,
+    setupMobileMenu,
+    setupCookiesBanner,
+    setupPrivacyModal,
+    initSkillsChart,
+  ];
 
+  initFunctions.forEach((fn) => {
+    try {
+      fn();
+    } catch (error) {
+      console.error(`Error in ${fn.name}:`, error);
+    }
+  });
+}
+
+// ==================== ТЕМА ====================
 function initializeTheme() {
   const themeToggle = document.querySelector(".theme-toggle");
-  const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+  if (!themeToggle) return;
 
-  // Проверяем настройки cookies
+  const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
   const cookiesPrefs = getCookie("cookies_preferences");
 
-  let currentTheme;
+  let currentTheme = "light";
 
-  // Если cookies предпочтений отключены, используем системные настройки
   if (cookiesPrefs === "false") {
     currentTheme = prefersDarkScheme.matches ? "dark" : "light";
   } else {
-    // Иначе используем сохраненные настройки
     currentTheme =
       localStorage.getItem("theme") ||
       (prefersDarkScheme.matches ? "dark" : "light");
@@ -92,136 +102,101 @@ function initializeTheme() {
     themeToggle.textContent = "🌙";
   }
 
-  // Обработчик переключения темы
-  themeToggle.addEventListener("click", function () {
-    const cookiesPrefs = getCookie("cookies_preferences");
-
-    document.body.classList.toggle("dark-theme");
-
-    let theme = "light";
-    if (document.body.classList.contains("dark-theme")) {
-      theme = "dark";
-      themeToggle.textContent = "☀️";
-    } else {
-      themeToggle.textContent = "🌙";
-    }
-
-    // Сохраняем настройку только если разрешено
-    if (cookiesPrefs !== "false") {
-      localStorage.setItem("theme", theme);
-    }
-  });
+  themeToggle.addEventListener("click", toggleTheme);
 }
 
-// ==================== ФУНКЦИИ ЯЗЫКА ====================
-
-function initializeLanguage() {
-  const langSelect = document.querySelector(".lang-select");
-
-  // Проверяем настройки cookies
+function toggleTheme() {
+  const themeToggle = document.querySelector(".theme-toggle");
   const cookiesPrefs = getCookie("cookies_preferences");
 
-  let savedLang;
+  document.body.classList.toggle("dark-theme");
 
-  // Если cookies предпочтений отключены, используем язык по умолчанию
-  if (cookiesPrefs === "false") {
-    savedLang = "de";
+  let theme = "light";
+  if (document.body.classList.contains("dark-theme")) {
+    theme = "dark";
+    themeToggle.textContent = "☀️";
   } else {
-    // Иначе используем сохраненные настройки
-    savedLang = localStorage.getItem("language") || "de";
+    themeToggle.textContent = "🌙";
   }
 
-  // Устанавливаем язык
-  currentLanguage = savedLang;
-  langSelect.value = savedLang;
-  updateMetaTags(savedLang);
-  changeLanguage(savedLang);
-
-  // Обработчик изменения языка
-  langSelect.addEventListener("change", function () {
-    const cookiesPrefs = getCookie("cookies_preferences");
-    const lang = this.value;
-
-    // Сохраняем настройку только если разрешено
-    if (cookiesPrefs !== "false") {
-      localStorage.setItem("language", lang);
-    }
-
-    currentLanguage = lang;
-    changeLanguage(lang);
-  });
+  if (cookiesPrefs !== "false") {
+    localStorage.setItem("theme", theme);
+  }
 }
 
-function changeLanguage(lang) {
-  if (!window.translations) return;
+// ==================== ЯЗЫК ====================
+function initializeLanguage() {
+  const langSelect = document.querySelector(".lang-select");
+  if (!langSelect) return;
 
-  // Обновляем все элементы с атрибутом data-i18n
-  const elements = document.querySelectorAll("[data-i18n]");
-  elements.forEach((element) => {
-    const key = element.getAttribute("data-i18n");
-    const translation = getTranslation(key, lang);
+  const cookiesPrefs = getCookie("cookies_preferences");
+  const savedLang =
+    cookiesPrefs === "false" ? "de" : localStorage.getItem("language") || "de";
 
-    if (translation) {
-      if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
-        element.placeholder = translation;
-      } else {
-        element.textContent = translation;
-      }
-    }
-  });
+  currentLanguage = savedLang;
+  langSelect.value = savedLang;
 
-  // Обновляем атрибут lang HTML
-  document.documentElement.lang = lang;
+  updateMetaTags(savedLang);
+  applyLanguage(savedLang);
 
-  // Обновляем метатеги
+  langSelect.addEventListener("change", handleLanguageChange);
+}
+
+function handleLanguageChange() {
+  const cookiesPrefs = getCookie("cookies_preferences");
+  const lang = this.value;
+
+  if (cookiesPrefs !== "false") {
+    localStorage.setItem("language", lang);
+  }
+
+  currentLanguage = lang;
+  applyLanguage(lang);
+}
+
+function applyLanguage(lang) {
   updateMetaTags(lang);
-
-  // Обновляем проекты
+  updateContentLanguage(lang);
   loadProjects(lang);
-
-  // Обновляем фильтры проектов
   updateFiltersLanguage(lang);
 
-  // Обновляем диаграмму навыков
-  if (window.skillsChartInstance) {
+  if (skillsChartInstance) {
     initSkillsChart();
   }
 }
 
-function getTranslation(key, lang) {
-  if (!window.translations || !window.translations[lang]) return null;
+function updateContentLanguage(lang) {
+  const elements = document.querySelectorAll("[data-i18n]");
 
-  const keys = key.split(".");
-  let value = window.translations[lang];
+  elements.forEach((element) => {
+    const key = element.getAttribute("data-i18n");
+    const translation = getTranslation(key, lang);
 
-  for (const k of keys) {
-    if (value[k] === undefined) return null;
-    value = value[k];
-  }
+    if (!translation) return;
 
-  return value;
+    if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
+      element.placeholder = translation;
+    } else {
+      element.textContent = translation;
+    }
+  });
+
+  document.documentElement.lang = lang;
 }
 
 // ==================== МЕТАТЕГИ ====================
-
 function updateMetaTags(lang) {
-  if (!window.translations || !window.translations[lang]) return;
+  if (!translations[lang]?.meta) return;
 
-  const meta = window.translations[lang].meta;
-  if (!meta) return;
+  const meta = translations[lang].meta;
 
-  // Обновляем description
   updateMetaTag("name", "description", meta.description);
-
-  // Обновляем keywords
   updateMetaTag("name", "keywords", meta.keywords);
 
-  // Обновляем title
   if (meta.title) {
     document.title = meta.title;
   }
 
-  // Обновляем Open Graph метатеги
   updateSocialMeta(
     "og:title",
     meta.title || "Alexander Hermann - Full-Stack Developer"
@@ -229,7 +204,6 @@ function updateMetaTags(lang) {
   updateSocialMeta("og:description", meta.description);
   updateSocialMeta("og:locale", getOgLocale(lang));
 
-  // Обновляем Twitter метатеги
   updateSocialMeta(
     "twitter:title",
     meta.title || "Alexander Hermann - Full-Stack Developer"
@@ -277,54 +251,39 @@ function getOgLocale(lang) {
 }
 
 // ==================== ПРОЕКТЫ ====================
-
-function loadProjects(lang = null) {
-  if (!lang) lang = currentLanguage;
-
+async function loadProjects(lang = currentLanguage) {
   const projectsGrid = document.querySelector(".projects-grid");
   if (!projectsGrid) return;
 
-  // Пытаемся загрузить из внешнего JSON
-  fetch("js/projects.json")
-    .then((response) => {
-      if (!response.ok) throw new Error("Projects file not found");
-      return response.json();
-    })
-    .then((data) => {
-      displayProjects(data.projects, lang, projectsGrid);
-    })
-    .catch((error) => {
-      console.error("Error loading projects:", error);
-      showProjectsError(lang, projectsGrid, error.message);
-    });
+  showLoadingIndicator(projectsGrid);
+
+  try {
+    const response = await fetch("js/projects.json");
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+    const data = await response.json();
+    displayProjects(data.projects, lang, projectsGrid);
+  } catch (error) {
+    console.error("Error loading projects:", error);
+    showProjectsError(lang, projectsGrid, error.message);
+  }
 }
 
 function displayProjects(projects, lang, container) {
-  container.innerHTML = "";
-
   const projectsToShow = projects.filter(
     (project) => project.featured !== false
   );
 
-  // Если проектов нет, показываем сообщение
   if (projectsToShow.length === 0) {
-    container.innerHTML = `
-      <div class="no-projects">
-        <p>${
-          getTranslation("projects.none", lang) || "No projects available yet."
-        }</p>
-      </div>
-    `;
+    container.innerHTML = createNoProjectsMessage(lang);
     return;
   }
 
-  // Создаем карточки проектов
+  container.innerHTML = "";
   projectsToShow.forEach((project) => {
-    const projectCard = createProjectCard(project, lang);
-    container.appendChild(projectCard);
+    container.appendChild(createProjectCard(project, lang));
   });
 
-  // Настраиваем фильтры проектов
   setupProjectFilters(lang);
 }
 
@@ -340,53 +299,56 @@ function createProjectCard(project, lang) {
   projectCard.setAttribute("data-category", project.category);
 
   projectCard.innerHTML = `
-    <div class="project-image">
-      <img src="${project.image}" alt="${title}" loading="lazy">
-    </div>
-    <div class="project-content">
-      <h3 class="project-title">${title}</h3>
-      <p class="project-description">${description}</p>
-      <div class="project-tech">
-        ${project.technologies
-          .map((tech) => `<span class="tech-tag">${tech}</span>`)
-          .join("")}
-      </div>
-      <div class="project-links">
-        ${
-          project.demoLink !== "#"
-            ? `<a href="${project.demoLink}" class="btn" target="_blank">${
-                getTranslation("projects.demo", lang) || "Demo"
-              }</a>`
-            : ""
-        }
-        <a href="${project.codeLink}" class="btn ${
+                <div class="project-image">
+                    <img src="${project.image}" alt="${title}" loading="lazy">
+                </div>
+                <div class="project-content">
+                    <h3 class="project-title">${title}</h3>
+                    <p class="project-description">${description}</p>
+                    <div class="project-tech">
+                        ${project.technologies
+                          .map(
+                            (tech) => `<span class="tech-tag">${tech}</span>`
+                          )
+                          .join("")}
+                    </div>
+                    <div class="project-links">
+                        ${
+                          project.demoLink !== "#"
+                            ? `<a href="${
+                                project.demoLink
+                              }" class="btn" target="_blank">${
+                                getTranslation("projects.demo", lang) || "Demo"
+                              }</a>`
+                            : ""
+                        }
+                        <a href="${project.codeLink}" class="btn ${
     project.demoLink === "#" ? "" : "btn-outline"
   }" target="_blank">
-          ${getTranslation("projects.code", lang) || "Code"}
-        </a>
-      </div>
-    </div>
-  `;
+                            ${getTranslation("projects.code", lang) || "Code"}
+                        </a>
+                    </div>
+                </div>
+            `;
 
   return projectCard;
 }
 
 function showProjectsError(lang, container, errorMessage) {
   container.innerHTML = `
-    <div class="no-projects">
-      <p>${
-        getTranslation("projects.unavailable", lang) ||
-        "Projects are temporarily unavailable."
-      }</p>
-      <p><small>Error: ${errorMessage}</small></p>
-    </div>
-  `;
+                <div class="no-projects">
+                    <p>${
+                      getTranslation("projects.unavailable", lang) ||
+                      "Projects are temporarily unavailable."
+                    }</p>
+                    <p><small>Error: ${errorMessage}</small></p>
+                </div>
+            `;
 }
 
-function setupProjectFilters(lang = null) {
+function setupProjectFilters(lang = currentLanguage) {
   if (!lang) lang = currentLanguage;
 
-  // Проверяем, не добавлены ли уже фильтры
   if (document.querySelector(".projects-filters")) {
     updateFiltersLanguage(lang);
     return;
@@ -402,13 +364,12 @@ function setupProjectFilters(lang = null) {
   const filtersContainer = document.createElement("div");
   filtersContainer.className = "projects-filters";
   filtersContainer.innerHTML = `
-    <button class="filter-btn active" data-filter="all">${filters.all}</button>
-    <button class="filter-btn" data-filter="frontend">${filters.frontend}</button>
-    <button class="filter-btn" data-filter="backend">${filters.backend}</button>
-    <button class="filter-btn" data-filter="fullstack">${filters.fullstack}</button>
-  `;
+                <button class="filter-btn active" data-filter="all">${filters.all}</button>
+                <button class="filter-btn" data-filter="frontend">${filters.frontend}</button>
+                <button class="filter-btn" data-filter="backend">${filters.backend}</button>
+                <button class="filter-btn" data-filter="fullstack">${filters.fullstack}</button>
+            `;
 
-  // Находим контейнер для вставки фильтров
   const projectsContainer = document.querySelector(".projects .container");
   const sectionTitle = document.querySelector(".projects .section-title");
 
@@ -424,14 +385,9 @@ function setupFilterButtons() {
   const filterButtons = document.querySelectorAll(".filter-btn");
   filterButtons.forEach((button) => {
     button.addEventListener("click", () => {
-      // Убираем активный класс у всех кнопок
       filterButtons.forEach((btn) => btn.classList.remove("active"));
-      // Добавляем активный класс текущей кнопке
       button.classList.add("active");
-
-      // Фильтруем проекты
-      const filter = button.getAttribute("data-filter");
-      filterProjects(filter);
+      filterProjects(button.getAttribute("data-filter"));
     });
   });
 }
@@ -466,81 +422,70 @@ function updateFiltersLanguage(lang) {
 }
 
 // ==================== ФОРМА ОБРАТНОЙ СВЯЗИ ====================
-
 function setupFormHandler() {
   const contactForm = document.getElementById("contactForm");
   if (!contactForm) return;
 
-  // Добавляем валидацию в реальном времени
-  const inputs = contactForm.querySelectorAll("input, textarea");
+  setupFormValidation(contactForm);
+  contactForm.addEventListener("submit", handleFormSubmit);
+}
+
+function setupFormValidation(form) {
+  const inputs = form.querySelectorAll("input, textarea");
+
   inputs.forEach((input) => {
-    input.addEventListener("blur", (e) => validateField(e.target));
-    input.addEventListener("input", (e) => clearFieldError(e.target));
+    input.addEventListener("blur", () => validateField(input));
+    input.addEventListener("input", () => clearFieldError(input));
   });
+}
 
-  // Обработчик отправки формы
-  contactForm.addEventListener("submit", function (e) {
-    e.preventDefault();
+async function handleFormSubmit(e) {
+  e.preventDefault();
+  const form = e.target;
 
-    // Валидация всех полей перед отправкой
-    let isValid = true;
-    inputs.forEach((input) => {
-      if (!validateField(input)) isValid = false;
-    });
+  if (!validateForm(form)) {
+    showError(getTranslation("form.validationError", currentLanguage));
+    return;
+  }
 
-    if (!isValid) {
-      alert(
-        getTranslation("form.validationError", currentLanguage) ||
-          "Please fill all fields correctly."
-      );
-      return;
-    }
+  const submitBtn = form.querySelector('button[type="submit"]');
+  const originalText = submitBtn.textContent;
 
-    // Показываем индикатор загрузки
-    const submitBtn = contactForm.querySelector('button[type="submit"]');
-    const originalText = submitBtn.textContent;
-    submitBtn.textContent =
-      getTranslation("form.sending", currentLanguage) || "Sending...";
-    submitBtn.disabled = true;
+  try {
+    setButtonState(
+      submitBtn,
+      true,
+      getTranslation("form.sending", currentLanguage)
+    );
 
-    // Подготовка данных формы
     const formData = {
       name: document.getElementById("name").value,
       email: document.getElementById("email").value,
       message: document.getElementById("message").value,
     };
 
-    // Отправка формы
-    sendFormData(formData)
-      .then(() => {
-        alert(getTranslation("form.success", currentLanguage));
-        contactForm.reset();
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        alert(
-          getTranslation("form.error", currentLanguage) ||
-            "There was a problem sending your message."
-        );
-      })
-      .finally(() => {
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
-      });
-  });
+    await sendFormData(formData);
+    showSuccess(getTranslation("form.success", currentLanguage));
+    form.reset();
+  } catch (error) {
+    console.error("Form submission error:", error);
+    showError(
+      `${getTranslation("form.error", currentLanguage)}: ${error.message}`
+    );
+  } finally {
+    setButtonState(submitBtn, false, originalText);
+  }
 }
 
-async function sendFormData(formData) {
-  const response = await fetch("https://formspree.io/f/xyzdlrvd", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(formData),
+function validateForm(form) {
+  let isValid = true;
+  const inputs = form.querySelectorAll("input, textarea");
+
+  inputs.forEach((input) => {
+    if (!validateField(input)) isValid = false;
   });
 
-  if (!response.ok) throw new Error("Form submission failed");
-  return response.json();
+  return isValid;
 }
 
 function validateField(field) {
@@ -561,7 +506,10 @@ function validateField(field) {
       "Please enter a valid email address";
   }
 
-  if (!isValid) showFieldError(field, errorMessage);
+  if (!isValid) {
+    showFieldError(field, errorMessage);
+  }
+
   return isValid;
 }
 
@@ -590,8 +538,93 @@ function clearFieldError(field) {
   if (errorElement) errorElement.remove();
 }
 
-// ==================== ПЛАВНАЯ ПРОКРУТКА ====================
+async function sendFormData(formData) {
+  const response = await fetch(CONFIG.formspreeUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(formData),
+  });
 
+  if (!response.ok) throw new Error("Form submission failed");
+  return response.json();
+}
+
+// ==================== УВЕДОМЛЕНИЯ ====================
+function showNotification(type, title, message) {
+  const modal = document.getElementById("notification-modal");
+  const icon = document.getElementById("notification-icon");
+  const titleEl = document.getElementById("notification-title");
+  const messageEl = document.getElementById("notification-message");
+  const confirmBtn = document.getElementById("notification-confirm");
+
+  if (!modal || !icon || !titleEl || !messageEl || !confirmBtn) return;
+
+  modal.className = "modal";
+  modal.classList.add(`notification-${type}`);
+
+  switch (type) {
+    case "success":
+      icon.innerHTML = "✅";
+      break;
+    case "error":
+      icon.innerHTML = "❌";
+      break;
+    case "warning":
+      icon.innerHTML = "⚠️";
+      break;
+    default:
+      icon.innerHTML = "ℹ️";
+  }
+
+  titleEl.textContent = title;
+  messageEl.textContent = message;
+
+  modal.style.display = "block";
+  document.body.style.overflow = "hidden";
+
+  const closeModal = () => {
+    modal.style.display = "none";
+    document.body.style.overflow = "";
+  };
+
+  confirmBtn.onclick = closeModal;
+
+  const closeBtn = document.getElementById("notification-close");
+  if (closeBtn) closeBtn.onclick = closeModal;
+
+  window.onclick = function (event) {
+    if (event.target === modal) closeModal();
+  };
+
+  document.addEventListener("keydown", function closeOnEsc(event) {
+    if (event.key === "Escape" && modal.style.display === "block") {
+      closeModal();
+      document.removeEventListener("keydown", closeOnEsc);
+    }
+  });
+}
+
+function showSuccess(message) {
+  const title =
+    getTranslation("notification.success", currentLanguage) || "Success";
+  showNotification("success", title, message);
+}
+
+function showError(message) {
+  const title =
+    getTranslation("notification.error", currentLanguage) || "Error";
+  showNotification("error", title, message);
+}
+
+function showWarning(message) {
+  const title =
+    getTranslation("notification.warning", currentLanguage) || "Warning";
+  showNotification("warning", title, message);
+}
+
+// ==================== ПЛАВНАЯ ПРОКРУТКА ====================
 function setupSmoothScrolling() {
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener("click", function (e) {
@@ -618,7 +651,6 @@ function setupSmoothScrolling() {
 }
 
 // ==================== АНИМАЦИИ ПРИ ПРОКРУТКЕ ====================
-
 function setupScrollAnimations() {
   const animatedElements = document.querySelectorAll("section, .fade-in");
 
@@ -638,7 +670,6 @@ function setupScrollAnimations() {
 }
 
 // ==================== ИНДИКАТОР ПРОКРУТКИ ====================
-
 function setupScrollProgress() {
   const progressBar = document.getElementById("progressBar");
   if (!progressBar) return;
@@ -654,7 +685,6 @@ function setupScrollProgress() {
 }
 
 // ==================== КНОПКА "НАВЕРХ" ====================
-
 function setupBackToTop() {
   const backToTopBtn = document.getElementById("backToTop");
   if (!backToTopBtn) return;
@@ -672,7 +702,6 @@ function setupBackToTop() {
 }
 
 // ==================== МОБИЛЬНОЕ МЕНЮ ====================
-
 function setupMobileMenu() {
   const menuToggle = document.getElementById("menuToggle");
   const nav = document.querySelector("nav ul");
@@ -718,7 +747,6 @@ function closeMobileMenu(nav, menuToggle) {
 }
 
 // ==================== УПРАВЛЕНИЕ COOKIES ====================
-
 function setupCookiesBanner() {
   const banner = document.getElementById("cookies-banner");
   const acceptBtn = document.getElementById("cookies-accept");
@@ -728,21 +756,15 @@ function setupCookiesBanner() {
 
   if (!banner || !acceptBtn || !rejectBtn) return;
 
-  // Проверяем, было ли уже принято решение о cookies
   const cookiesDecision = getCookie("cookies_decision");
 
   if (!cookiesDecision) {
-    // Показываем баннер, если решение еще не принято
     setTimeout(() => banner.classList.add("active"), 1000);
   }
 
-  // Обработка принятия cookies
   acceptBtn.addEventListener("click", () => acceptCookies(banner));
-
-  // Обработка отклонения cookies
   rejectBtn.addEventListener("click", () => rejectCookies(banner));
 
-  // Плавный скролл к разделу с политикой
   if (learnMoreLink) {
     learnMoreLink.addEventListener("click", (e) => {
       e.preventDefault();
@@ -752,12 +774,10 @@ function setupCookiesBanner() {
     });
   }
 
-  // Сохранение настроек cookies
   if (savePrefsBtn) {
     savePrefsBtn.addEventListener("click", saveCookiesPreferences);
   }
 
-  // Загрузка сохраненных настроек
   loadCookiesPreferences();
 }
 
@@ -774,13 +794,11 @@ function rejectCookies(banner) {
   setCookie("cookies_analytics", "false", 365);
   banner.classList.remove("active");
 
-  // Удаляем все cookies, которые не являются необходимыми
   deleteCookie("cookies_preferences");
   deleteCookie("cookies_analytics");
   deleteCookie("theme");
   deleteCookie("language");
 
-  // Перезагружаем страницу для применения настроек
   setTimeout(() => window.location.reload(), 500);
 }
 
@@ -791,66 +809,24 @@ function saveCookiesPreferences() {
   setCookie("cookies_preferences", prefsChecked.toString(), 365);
   setCookie("cookies_analytics", analyticsChecked.toString(), 365);
 
-  // alert(
-  //   getTranslation("privacy.saved", currentLanguage) || "Настройки сохранены"
-  // );
-  // Находим кнопку и контейнер для сообщения
-  const saveBtn = document.getElementById("save-cookies-preferences");
-  let msg = document.getElementById("cookies-save-message");
-  if (!msg) {
-    msg = document.createElement("div");
-    msg.id = "cookies-save-message";
-    msg.style.position = "relative";
-    msg.style.float = "right";
-    msg.style.right = "0";
-    msg.style.top = "0";
-    msg.style.background = "#4caf50";
-    msg.style.color = "#fff";
-    msg.style.padding = "6px 16px";
-    msg.style.borderRadius = "4px";
-    msg.style.fontSize = "14px";
-    msg.style.zIndex = "1000";
-    msg.style.transition = "opacity 0.3s";
-    msg.style.opacity = "0";
-    saveBtn.parentNode.appendChild(msg);
-  }
-
-  msg.textContent =
-    getTranslation("privacy.saved", currentLanguage) || "Настройки сохранены";
-  msg.style.opacity = "1";
-
-  // Показываем сообщение на 2 секунды, затем скрываем и закрываем модалку
-  setTimeout(() => {
-    msg.style.opacity = "0";
-    setTimeout(() => {
-      msg.remove();
-      // Закрываем модальное окно
-      const modal = document.getElementById("privacy-modal");
-      if (modal) {
-        modal.style.display = "none";
-        document.body.style.overflow = "";
-      }
-    }, 300);
-  }, 1000);
+  showSuccess(
+    getTranslation("privacy.saved", currentLanguage) || "Settings saved"
+  );
 }
 
 function loadCookiesPreferences() {
-  // Загружаем настройки cookies и применяем их
   const prefs = getCookie("cookies_preferences");
   const analytics = getCookie("cookies_analytics");
 
-  // Если cookies предпочтений отключены, очищаем настройки
   if (prefs === "false") {
     localStorage.removeItem("theme");
     localStorage.removeItem("language");
   }
 
-  // Если аналитические cookies отключены, отключаем аналитику
   if (analytics === "false") {
     window["ga-disable-UA-XXXXX-Y"] = true;
   }
 
-  // Обновляем чекбоксы в настройках
   const prefsCheckbox = document.getElementById("cookies-preferences");
   const analyticsCheckbox = document.getElementById("cookies-analytics");
 
@@ -859,7 +835,6 @@ function loadCookiesPreferences() {
 }
 
 // ==================== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ COOKIES ====================
-
 function setCookie(name, value, days) {
   const date = new Date();
   date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
@@ -872,8 +847,8 @@ function getCookie(name) {
   const ca = document.cookie.split(";");
   for (let i = 0; i < ca.length; i++) {
     let c = ca[i];
-    while (c.charAt(0) == " ") c = c.substring(1, c.length);
-    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    while (c.charAt(0) === " ") c = c.substring(1, c.length);
+    if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
   }
   return null;
 }
@@ -882,32 +857,25 @@ function deleteCookie(name) {
   document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 }
 
-// ==================== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ====================
-
-function getCurrentLanguage() {
-  return currentLanguage;
-}
-
-// Функции для модального окна политики
+// ==================== МОДАЛЬНОЕ ОКНО ПОЛИТИКИ ====================
 function setupPrivacyModal() {
   const modal = document.getElementById("privacy-modal");
   const fabButton = document.getElementById("privacy-fab");
   const closeBtn = document.querySelector(".modal-close");
   const learnMoreLink = document.getElementById("cookies-learn-more");
 
-  // Открытие модального окна
+  if (!modal) return;
+
   function openModal() {
     modal.style.display = "block";
     document.body.style.overflow = "hidden";
   }
 
-  // Закрытие модального окна
   function closeModal() {
     modal.style.display = "none";
     document.body.style.overflow = "";
   }
 
-  // Обработчики событий
   if (fabButton) fabButton.addEventListener("click", openModal);
   if (closeBtn) closeBtn.addEventListener("click", closeModal);
   if (learnMoreLink) {
@@ -917,17 +885,15 @@ function setupPrivacyModal() {
     });
   }
 
-  // Закрытие при клике вне окна
   window.addEventListener("click", function (e) {
     if (e.target === modal) closeModal();
   });
 
-  // Закрытие по ESC
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape" && modal.style.display === "block") closeModal();
   });
 
-  // Переносим содержимое из старой секции в модальное окно
+  // Перенос содержимого из старой секции
   const oldPrivacySection = document.getElementById("privacy");
   const privacyContent = document.querySelector(".privacy-content");
 
@@ -936,18 +902,16 @@ function setupPrivacyModal() {
       oldPrivacySection.querySelector(".privacy-content");
     if (privacyInnerContent) {
       privacyContent.innerHTML = privacyInnerContent.innerHTML;
-      // Удаляем старую секцию
       oldPrivacySection.remove();
     }
   }
 }
 
-// Функция для инициализации диаграммы навыков
+// ==================== ДИАГРАММА НАВЫКОВ ====================
 function initSkillsChart() {
   const ctx = document.getElementById("skills-chart");
   if (!ctx) return;
 
-  // Убедимся, что Chart доступен
   if (typeof Chart === "undefined") {
     console.error("Chart.js is not loaded");
     return;
@@ -966,25 +930,23 @@ function initSkillsChart() {
       {
         label: getTranslation("skills.level", currentLanguage) || "Skill Level",
         data: [85, 90, 80, 75, 85, 95],
-        backgroundColor: "rgba(99, 102, 241, 0.2)",
-        borderColor: "rgba(99, 102, 241, 0.8)",
-        pointBackgroundColor: "rgba(99, 102, 241, 1)",
+        backgroundColor: CONFIG.chartColors.primary,
+        borderColor: CONFIG.chartColors.border,
+        pointBackgroundColor: CONFIG.chartColors.point,
         pointBorderColor: "#fff",
         pointHoverBackgroundColor: "#fff",
-        pointHoverBorderColor: "rgba(99, 102, 241, 1)",
+        pointHoverBorderColor: CONFIG.chartColors.border,
         pointRadius: 4,
         pointHoverRadius: 6,
       },
     ],
   };
 
-  // Удаляем предыдущий график, если он существует
-  if (window.skillsChartInstance) {
-    window.skillsChartInstance.destroy();
+  if (skillsChartInstance) {
+    skillsChartInstance.destroy();
   }
 
-  // Создаем новый график
-  window.skillsChartInstance = new Chart(ctx, {
+  skillsChartInstance = new Chart(ctx, {
     type: "radar",
     data: skillsData,
     options: {
@@ -1033,8 +995,48 @@ function initSkillsChart() {
   });
 }
 
-window.addEventListener("resize", function () {
-  if (window.skillsChartInstance) {
-    window.skillsChartInstance.resize();
+// ==================== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ====================
+function getTranslation(key, lang = currentLanguage) {
+  if (!translations[lang]) return null;
+  return key.split(".").reduce((obj, k) => obj && obj[k], translations[lang]);
+}
+
+function setButtonState(button, disabled, text) {
+  button.disabled = disabled;
+  button.textContent = text;
+}
+
+function showLoadingIndicator(container) {
+  container.innerHTML = '<div class="loading-spinner"></div>';
+}
+
+function createNoProjectsMessage(lang) {
+  return `
+                <div class="no-projects">
+                    <p>${
+                      getTranslation("projects.none", lang) ||
+                      "No projects available yet."
+                    }</p>
+                </div>
+            `;
+}
+
+// Обработчик изменения размера окна для диаграммы
+window.addEventListener("resize", () => {
+  if (skillsChartInstance) {
+    skillsChartInstance.resize();
+  }
+});
+
+// Глобальный обработчик клавиши ESC
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    const modals = document.querySelectorAll(".modal");
+    modals.forEach((modal) => {
+      if (modal.style.display === "block") {
+        modal.style.display = "none";
+        document.body.style.overflow = "";
+      }
+    });
   }
 });

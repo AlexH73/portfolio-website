@@ -1052,6 +1052,58 @@ footer {
   color: var(--text-primary);
 }
 
+/* Стили для уведомлений */
+.notification-content {
+  text-align: center;
+  max-width: 400px;
+}
+
+.notification-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.notification-success .notification-icon {
+  color: #10b981;
+}
+
+.notification-error .notification-icon {
+  color: #ef4444;
+}
+
+.notification-warning .notification-icon {
+  color: #f59e0b;
+}
+
+#notification-title {
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+}
+
+#notification-message {
+  margin-bottom: 1.5rem;
+  color: var(--text-secondary);
+}
+
+#notification-confirm {
+  width: 100%;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid var(--border-color);
+  border-top: 4px solid var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 2rem auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 /* Responsive Design */
 @media (max-width: 992px) {
   .about-content,
