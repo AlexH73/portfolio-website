@@ -999,10 +999,10 @@ function initSkillsChart() {
             stepSize: 20,
           },
           grid: {
-            color: "rgba(255, 255, 255, 0.1)",
+            color: "rgba(119, 119, 119, 0.1)",
           },
           angleLines: {
-            color: "rgba(255, 255, 255, 0.1)",
+            color: "rgba(119, 119, 119, 0.1)",
           },
           pointLabels: {
             color: "var(--text-primary)",
