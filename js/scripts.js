@@ -421,6 +421,87 @@ function updateFiltersLanguage(lang) {
   });
 }
 
+// ==================== ВАЛИДАЦИЯ ФОРМЫ ====================
+
+function setupFormValidation(form) {
+  const inputs = form.querySelectorAll('input, textarea');
+  
+  inputs.forEach(input => {
+    input.addEventListener('blur', () => validateField(input));
+    input.addEventListener('input', () => clearFieldError(input));
+  });
+}
+
+function validateForm(form) {
+  let isValid = true;
+  const inputs = form.querySelectorAll('input, textarea');
+  
+  inputs.forEach(input => {
+    if (!validateField(input)) isValid = false;
+  });
+  
+  return isValid;
+}
+
+function validateField(field) {
+  clearFieldError(field);
+
+  let isValid = true;
+  let errorMessage = '';
+
+  if (field.value.trim() === '') {
+    isValid = false;
+    errorMessage = getTranslation('form.required', currentLanguage) || 'This field is required';
+  } else if (field.type === 'email' && !isValidEmail(field.value)) {
+    isValid = false;
+    errorMessage = getTranslation('form.invalidEmail', currentLanguage) || 'Please enter a valid email address';
+  }
+
+  if (!isValid) {
+    showFieldError(field, errorMessage);
+  }
+  
+  return isValid;
+}
+
+function isValidEmail(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
+function showFieldError(field, message) {
+  field.classList.add('error');
+
+  let errorElement = field.parentNode.querySelector('.error-message');
+  if (!errorElement) {
+    errorElement = document.createElement('div');
+    errorElement.className = 'error-message';
+    field.parentNode.appendChild(errorElement);
+  }
+
+  errorElement.textContent = message;
+}
+
+function clearFieldError(field) {
+  field.classList.remove('error');
+
+  const errorElement = field.parentNode.querySelector('.error-message');
+  if (errorElement) errorElement.remove();
+}
+
+async function sendFormData(formData) {
+  const response = await fetch(CONFIG.formspreeUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(formData),
+  });
+
+  if (!response.ok) throw new Error('Form submission failed');
+  return response.json();
+}
+
 // ==================== ФОРМА ОБРАТНОЙ СВЯЗИ С reCAPTCHA ====================
 
 function setupFormHandler() {
@@ -503,74 +584,6 @@ function getRecaptchaToken() {
       }
     });
   });
-}
-
-// ==================== ВАЛИДАЦИЯ ФОРМЫ ====================
-
-function setupFormValidation(form) {
-  const inputs = form.querySelectorAll('input, textarea');
-  
-  inputs.forEach(input => {
-    input.addEventListener('blur', () => validateField(input));
-    input.addEventListener('input', () => clearFieldError(input));
-  });
-}
-
-function validateForm(form) {
-  let isValid = true;
-  const inputs = form.querySelectorAll('input, textarea');
-  
-  inputs.forEach(input => {
-    if (!validateField(input)) isValid = false;
-  });
-  
-  return isValid;
-}
-
-function validateField(field) {
-  clearFieldError(field);
-
-  let isValid = true;
-  let errorMessage = '';
-
-  if (field.value.trim() === '') {
-    isValid = false;
-    errorMessage = getTranslation('form.required', currentLanguage) || 'This field is required';
-  } else if (field.type === 'email' && !isValidEmail(field.value)) {
-    isValid = false;
-    errorMessage = getTranslation('form.invalidEmail', currentLanguage) || 'Please enter a valid email address';
-  }
-
-  if (!isValid) {
-    showFieldError(field, errorMessage);
-  }
-  
-  return isValid;
-}
-
-function isValidEmail(email) {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-}
-
-function showFieldError(field, message) {
-  field.classList.add('error');
-
-  let errorElement = field.parentNode.querySelector('.error-message');
-  if (!errorElement) {
-    errorElement = document.createElement('div');
-    errorElement.className = 'error-message';
-    field.parentNode.appendChild(errorElement);
-  }
-
-  errorElement.textContent = message;
-}
-
-function clearFieldError(field) {
-  field.classList.remove('error');
-
-  const errorElement = field.parentNode.querySelector('.error-message');
-  if (errorElement) errorElement.remove();
 }
 
 // ==================== УВЕДОМЛЕНИЯ ====================
