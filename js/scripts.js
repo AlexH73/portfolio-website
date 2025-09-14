@@ -421,134 +421,69 @@ function updateFiltersLanguage(lang) {
   });
 }
 
-// ==================== ФОРМА ОБРАТНОЙ СВЯЗИ ====================
+// ==================== ФОРМА ОБРАТНОЙ СВЯЗИ С reCAPTCHA ====================
+
 function setupFormHandler() {
-  const contactForm = document.getElementById("contactForm");
+  const contactForm = document.getElementById('contactForm');
   if (!contactForm) return;
 
   setupFormValidation(contactForm);
-  contactForm.addEventListener("submit", handleFormSubmit);
-}
-
-function setupFormValidation(form) {
-  const inputs = form.querySelectorAll("input, textarea");
-
-  inputs.forEach((input) => {
-    input.addEventListener("blur", () => validateField(input));
-    input.addEventListener("input", () => clearFieldError(input));
-  });
+  contactForm.addEventListener('submit', handleFormSubmit);
 }
 
 async function handleFormSubmit(e) {
   e.preventDefault();
   const form = e.target;
-
+  
   if (!validateForm(form)) {
-    showError(getTranslation("form.validationError", currentLanguage));
+    showError(getTranslation('form.validationError', currentLanguage));
     return;
   }
-
+  
   const submitBtn = form.querySelector('button[type="submit"]');
   const originalText = submitBtn.textContent;
-
+  
   try {
-    setButtonState(
-      submitBtn,
-      true,
-      getTranslation("form.sending", currentLanguage)
-    );
-
+    setButtonState(submitBtn, true, getTranslation('form.sending', currentLanguage));
+    
+    // Получаем токен reCAPTCHA
+    const recaptchaToken = await getRecaptchaToken();
+    
     const formData = {
-      name: document.getElementById("name").value,
-      email: document.getElementById("email").value,
-      message: document.getElementById("message").value,
+      name: document.getElementById('name').value,
+      email: document.getElementById('email').value,
+      message: document.getElementById('message').value,
+      'g-recaptcha-response': recaptchaToken // Добавляем токен reCAPTCHA
     };
-
+    
     await sendFormData(formData);
-    showSuccess(getTranslation("form.success", currentLanguage));
+    showSuccess(getTranslation('form.success', currentLanguage));
     form.reset();
   } catch (error) {
-    console.error("Form submission error:", error);
-    showError(
-      `${getTranslation("form.error", currentLanguage)}: ${error.message}`
-    );
+    console.error('Form submission error:', error);
+    showError(`${getTranslation('form.error', currentLanguage)}: ${error.message}`);
   } finally {
     setButtonState(submitBtn, false, originalText);
   }
 }
 
-function validateForm(form) {
-  let isValid = true;
-  const inputs = form.querySelectorAll("input, textarea");
-
-  inputs.forEach((input) => {
-    if (!validateField(input)) isValid = false;
+// Функция для получения токена reCAPTCHA
+function getRecaptchaToken() {
+  return new Promise((resolve, reject) => {
+    if (typeof grecaptcha === 'undefined') {
+      reject(new Error('reCAPTCHA not loaded'));
+      return;
+    }
+    
+    grecaptcha.ready(async () => {
+      try {
+        const token = await grecaptcha.execute('6LeKX8grAAAAAFr3OMmNKYUKl-br5q9HlWq2eJG1', { action: 'submit' });
+        resolve(token);
+      } catch (error) {
+        reject(error);
+      }
+    });
   });
-
-  return isValid;
-}
-
-function validateField(field) {
-  clearFieldError(field);
-
-  let isValid = true;
-  let errorMessage = "";
-
-  if (field.value.trim() === "") {
-    isValid = false;
-    errorMessage =
-      getTranslation("form.required", currentLanguage) ||
-      "This field is required";
-  } else if (field.type === "email" && !isValidEmail(field.value)) {
-    isValid = false;
-    errorMessage =
-      getTranslation("form.invalidEmail", currentLanguage) ||
-      "Please enter a valid email address";
-  }
-
-  if (!isValid) {
-    showFieldError(field, errorMessage);
-  }
-
-  return isValid;
-}
-
-function isValidEmail(email) {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-}
-
-function showFieldError(field, message) {
-  field.classList.add("error");
-
-  let errorElement = field.parentNode.querySelector(".error-message");
-  if (!errorElement) {
-    errorElement = document.createElement("div");
-    errorElement.className = "error-message";
-    field.parentNode.appendChild(errorElement);
-  }
-
-  errorElement.textContent = message;
-}
-
-function clearFieldError(field) {
-  field.classList.remove("error");
-
-  const errorElement = field.parentNode.querySelector(".error-message");
-  if (errorElement) errorElement.remove();
-}
-
-async function sendFormData(formData) {
-  const response = await fetch(CONFIG.formspreeUrl, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(formData),
-  });
-
-  if (!response.ok) throw new Error("Form submission failed");
-  return response.json();
 }
 
 // ==================== УВЕДОМЛЕНИЯ ====================
