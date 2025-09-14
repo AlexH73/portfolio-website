@@ -424,41 +424,60 @@ function updateFiltersLanguage(lang) {
 // ==================== ФОРМА ОБРАТНОЙ СВЯЗИ С reCAPTCHA ====================
 
 function setupFormHandler() {
-  const contactForm = document.getElementById('contactForm');
+  const contactForm = document.getElementById("contactForm");
   if (!contactForm) return;
 
   setupFormValidation(contactForm);
-  contactForm.addEventListener('submit', handleFormSubmit);
+  contactForm.addEventListener("submit", handleFormSubmit);
 }
 
 async function handleFormSubmit(e) {
   e.preventDefault();
   const form = e.target;
-  
+
   if (!validateForm(form)) {
-    showError(getTranslation('form.validationError', currentLanguage));
+    showError(getTranslation("form.validationError", currentLanguage));
     return;
   }
-  
+
   const submitBtn = form.querySelector('button[type="submit"]');
   const originalText = submitBtn.textContent;
-  
+
   try {
-    setButtonState(submitBtn, true, getTranslation('form.sending', currentLanguage));
-    
+    setButtonState(
+      submitBtn,
+      true,
+      getTranslation("form.sending", currentLanguage)
+    );
+
     // Получаем токен reCAPTCHA
-  const recaptchaResponse = grecaptcha.getResponse();
-  if (!recaptchaResponse) {
-    showError("Please complete the reCAPTCHA");
-    return;
-  }
-    
+    let recaptchaToken = "";
+    try {
+      recaptchaToken = await getRecaptchaToken();
+    } catch (error) {
+      console.warn("reCAPTCHA error:", error);
+      // Продолжаем без reCAPTCHA, если есть проблемы
+    }
+
+    const formData = {
+      name: document.getElementById("name").value,
+      email: document.getElementById("email").value,
+      message: document.getElementById("message").value,
+    };
+
+    // Добавляем токен reCAPTCHA, если он есть
+    if (recaptchaToken) {
+      formData["g-recaptcha-response"] = recaptchaToken;
+    }
+
     await sendFormData(formData);
-    showSuccess(getTranslation('form.success', currentLanguage));
+    showSuccess(getTranslation("form.success", currentLanguage));
     form.reset();
   } catch (error) {
-    console.error('Form submission error:', error);
-    showError(`${getTranslation('form.error', currentLanguage)}: ${error.message}`);
+    console.error("Form submission error:", error);
+    showError(
+      `${getTranslation("form.error", currentLanguage)}: ${error.message}`
+    );
   } finally {
     setButtonState(submitBtn, false, originalText);
   }
@@ -467,11 +486,11 @@ async function handleFormSubmit(e) {
 // Функция для получения токена reCAPTCHA
 function getRecaptchaToken() {
   return new Promise((resolve, reject) => {
-    if (typeof grecaptcha === 'undefined') {
-      reject(new Error('reCAPTCHA not loaded'));
+    if (typeof grecaptcha === "undefined") {
+      reject(new Error("reCAPTCHA not loaded"));
       return;
     }
-    
+
     grecaptcha.ready(async () => {
       try {
         const token = await grecaptcha.execute(
@@ -484,6 +503,74 @@ function getRecaptchaToken() {
       }
     });
   });
+}
+
+// ==================== ВАЛИДАЦИЯ ФОРМЫ ====================
+
+function setupFormValidation(form) {
+  const inputs = form.querySelectorAll('input, textarea');
+  
+  inputs.forEach(input => {
+    input.addEventListener('blur', () => validateField(input));
+    input.addEventListener('input', () => clearFieldError(input));
+  });
+}
+
+function validateForm(form) {
+  let isValid = true;
+  const inputs = form.querySelectorAll('input, textarea');
+  
+  inputs.forEach(input => {
+    if (!validateField(input)) isValid = false;
+  });
+  
+  return isValid;
+}
+
+function validateField(field) {
+  clearFieldError(field);
+
+  let isValid = true;
+  let errorMessage = '';
+
+  if (field.value.trim() === '') {
+    isValid = false;
+    errorMessage = getTranslation('form.required', currentLanguage) || 'This field is required';
+  } else if (field.type === 'email' && !isValidEmail(field.value)) {
+    isValid = false;
+    errorMessage = getTranslation('form.invalidEmail', currentLanguage) || 'Please enter a valid email address';
+  }
+
+  if (!isValid) {
+    showFieldError(field, errorMessage);
+  }
+  
+  return isValid;
+}
+
+function isValidEmail(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
+function showFieldError(field, message) {
+  field.classList.add('error');
+
+  let errorElement = field.parentNode.querySelector('.error-message');
+  if (!errorElement) {
+    errorElement = document.createElement('div');
+    errorElement.className = 'error-message';
+    field.parentNode.appendChild(errorElement);
+  }
+
+  errorElement.textContent = message;
+}
+
+function clearFieldError(field) {
+  field.classList.remove('error');
+
+  const errorElement = field.parentNode.querySelector('.error-message');
+  if (errorElement) errorElement.remove();
 }
 
 // ==================== УВЕДОМЛЕНИЯ ====================
@@ -947,13 +1034,12 @@ function showLoadingIndicator(container) {
 
 function createNoProjectsMessage(lang) {
   return `
-                <div class="no-projects">
-                    <p>${
-                      getTranslation("projects.none", lang) ||
-                      "No projects available yet."
-                    }</p>
-                </div>
-            `;
+    <div class="no-projects">
+      <p>${
+        getTranslation("projects.none", lang) || "No projects available yet."
+      }</p>
+    </div>
+  `;
 }
 
 // Обработчик изменения размера окна для диаграммы
