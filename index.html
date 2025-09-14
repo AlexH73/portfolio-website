@@ -85,8 +85,8 @@
     <!-- Styles -->
     <link rel="stylesheet" href="css/style.css" />
 
-     <!-- reCAPTCHA -->
-    <script src="https://www.google.com/recaptcha/api.js?render=6LeKX8grAAAAAFr3OMmNKYUKl-br5q9HlWq2eJG1"></script>
+    <!-- reCAPTCHA -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   </head>
   <body>
     <header>
@@ -492,6 +492,11 @@
                   required
                 ></textarea>
               </div>
+              <!-- Поля формы -->
+              <div
+                class="g-recaptcha"
+                data-sitekey="6LeKX8grAAAAAFr3OMmNKYUKl-br5q9HlWq2eJG1"
+              ></div>
               <button type="submit" class="btn" data-i18n="contact.form.send">
                 Nachricht senden
               </button>
@@ -576,7 +581,6 @@
 
     <!-- JavaScript -->
     <script src="js/scripts.js"></script>
-
 
     <!-- Кнопка доступа к политике конфиденциальности -->
     <button

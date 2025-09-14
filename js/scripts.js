@@ -447,14 +447,11 @@ async function handleFormSubmit(e) {
     setButtonState(submitBtn, true, getTranslation('form.sending', currentLanguage));
     
     // Получаем токен reCAPTCHA
-    const recaptchaToken = await getRecaptchaToken();
-    
-    const formData = {
-      name: document.getElementById('name').value,
-      email: document.getElementById('email').value,
-      message: document.getElementById('message').value,
-      'g-recaptcha-response': recaptchaToken // Добавляем токен reCAPTCHA
-    };
+  const recaptchaResponse = grecaptcha.getResponse();
+  if (!recaptchaResponse) {
+    showError("Please complete the reCAPTCHA");
+    return;
+  }
     
     await sendFormData(formData);
     showSuccess(getTranslation('form.success', currentLanguage));
