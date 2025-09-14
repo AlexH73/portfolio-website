@@ -474,7 +474,10 @@ function getRecaptchaToken() {
     
     grecaptcha.ready(async () => {
       try {
-        const token = await grecaptcha.execute('6LeKX8grAAAAAFr3OMmNKYUKl-br5q9HlWq2eJG1', { action: 'submit' });
+        const token = await grecaptcha.execute(
+          "6LeKX8grAAAAAFr3OMmNKYUKl-br5q9HlWq2eJG1",
+          { action: "submit" }
+        );
         resolve(token);
       } catch (error) {
         reject(error);
