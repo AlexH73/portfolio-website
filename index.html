@@ -167,7 +167,7 @@
     <section class="hero">
       <div class="container hero-content">
         <img
-          src="https://media.licdn.com/dms/image/v2/D5635AQG-16BroJGQ6A/profile-framedphoto-shrink_200_200/B56Ze4a_3ZHQAc-/0/1751145774914?e=1757808000&v=beta&t=ZaZAzmlS9XfZGiS_J-v40pdKikUBD5tsq_I3AWleSw0"
+          src="./images/1bb0aea3.jpg"
           alt="Alexander Hermann"
           class="avatar"
         />
@@ -223,6 +223,11 @@
     <section id="skills" class="skills">
       <div class="container">
         <h2 class="section-title" data-i18n="skills.title">Fähigkeiten</h2>
+        <div class="skills-container">
+          <div class="skills-chart-container">
+            <canvas id="skills-chart"></canvas>
+          </div>
+        </div>
         <div class="skills-grid">
           <div class="skill-card">
             <div class="skill-icon">💻</div>
@@ -559,6 +564,10 @@
         />
       </svg>
     </button>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <!-- JSON-LD structured data -->
     <script type="application/ld+json" id="structured-data"></script>
 

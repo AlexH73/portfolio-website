@@ -30,6 +30,7 @@
     },
     "skills": {
       "title": "Fähigkeiten",
+      "level": "Kenntnisstand",
       "frontend": "Frontend-Entwicklung",
       "frontendDesc": "HTML, CSS, JavaScript, TypeScript, React",
       "backend": "Backend-Entwicklung (Java)",
@@ -180,6 +181,7 @@
     },
     "skills": {
       "title": "Skills",
+      "level": "Skill Level",
       "frontend": "Frontend Development",
       "frontendDesc": "HTML, CSS, JavaScript, TypeScript, React",
       "backend": "Backend Development (Java)",
@@ -330,6 +332,7 @@
     },
     "skills": {
       "title": "Навыки",
+      "level": "Уровень навыка",
       "frontend": "Фронтенд-разработка",
       "frontendDesc": "HTML, CSS, JavaScript, TypeScript, React",
       "backend": "Бэкенд-разработка (Java)",

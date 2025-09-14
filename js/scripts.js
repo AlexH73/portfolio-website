@@ -59,6 +59,8 @@ function initializePage() {
   setupCookiesBanner();
   // Функции для модального окна политики
   setupPrivacyModal();
+  // Функция для инициализации диаграммы навыков
+  initSkillsChart();
 }
 
 // ==================== ФУНКЦИИ ТЕМЫ ====================
@@ -179,6 +181,11 @@ function changeLanguage(lang) {
 
   // Обновляем фильтры проектов
   updateFiltersLanguage(lang);
+
+  // Обновляем диаграмму навыков
+  if (window.skillsChartInstance) {
+    initSkillsChart();
+  }
 }
 
 function getTranslation(key, lang) {
@@ -934,3 +941,100 @@ function setupPrivacyModal() {
     }
   }
 }
+
+// Функция для инициализации диаграммы навыков
+function initSkillsChart() {
+  const ctx = document.getElementById("skills-chart");
+  if (!ctx) return;
+
+  // Убедимся, что Chart доступен
+  if (typeof Chart === "undefined") {
+    console.error("Chart.js is not loaded");
+    return;
+  }
+
+  const skillsData = {
+    labels: [
+      getTranslation("skills.frontend", currentLanguage) || "Frontend",
+      getTranslation("skills.backend", currentLanguage) || "Backend",
+      getTranslation("skills.databases", currentLanguage) || "Databases",
+      getTranslation("skills.algorithms", currentLanguage) || "Algorithms",
+      getTranslation("skills.tools", currentLanguage) || "Tools",
+      getTranslation("skills.oop", currentLanguage) || "OOP",
+    ],
+    datasets: [
+      {
+        label: getTranslation("skills.level", currentLanguage) || "Skill Level",
+        data: [85, 90, 80, 75, 85, 95],
+        backgroundColor: "rgba(99, 102, 241, 0.2)",
+        borderColor: "rgba(99, 102, 241, 0.8)",
+        pointBackgroundColor: "rgba(99, 102, 241, 1)",
+        pointBorderColor: "#fff",
+        pointHoverBackgroundColor: "#fff",
+        pointHoverBorderColor: "rgba(99, 102, 241, 1)",
+        pointRadius: 4,
+        pointHoverRadius: 6,
+      },
+    ],
+  };
+
+  // Удаляем предыдущий график, если он существует
+  if (window.skillsChartInstance) {
+    window.skillsChartInstance.destroy();
+  }
+
+  // Создаем новый график
+  window.skillsChartInstance = new Chart(ctx, {
+    type: "radar",
+    data: skillsData,
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        r: {
+          beginAtZero: true,
+          max: 100,
+          ticks: {
+            display: false,
+            stepSize: 20,
+          },
+          grid: {
+            color: "rgba(255, 255, 255, 0.1)",
+          },
+          angleLines: {
+            color: "rgba(255, 255, 255, 0.1)",
+          },
+          pointLabels: {
+            color: "var(--text-primary)",
+            font: {
+              size: 12,
+              family: "'Inter', sans-serif",
+            },
+          },
+        },
+      },
+      plugins: {
+        legend: {
+          display: false,
+        },
+        tooltip: {
+          callbacks: {
+            label: function (context) {
+              return context.dataset.label + ": " + context.raw + "%";
+            },
+          },
+        },
+      },
+      animation: {
+        duration: 2000,
+        easing: "easeOutQuart",
+      },
+    },
+  });
+}
+
+window.addEventListener("resize", function () {
+  if (window.skillsChartInstance) {
+    window.skillsChartInstance.resize();
+  }
+});

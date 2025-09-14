@@ -441,6 +441,19 @@ section.visible .project-card:nth-child(3) {
   color: var(--text-secondary);
 }
 
+.skills-container {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto 2rem;
+  max-width: 800px;
+}
+
+.skills-chart-container {
+  position: relative;
+  height: 400px;
+  width: 100%;
+}
+
 /* Education Section */
 .education {
   background: var(--bg-gradient), url("../images/textures/education-bg.svg");
@@ -1132,6 +1145,10 @@ footer {
   .privacy-fab {
     width: 45px;
   }
+
+  .skills-chart-container {
+    height: 300px;
+  }
 }
 
 @media (max-width: 576px) {
@@ -1157,3 +1174,4 @@ footer {
     margin-bottom: 20px;
   }
 }
+
