@@ -1,0 +1,14 @@
+<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="edu-grid-light" x="0" y="0" width="50" height="50" patternUnits="userSpaceOnUse">
+      <path d="M0 0 L50 0 L50 50 L0 50 Z" stroke="#e0e0e0" stroke-width="0.5" fill="none"/>
+      <circle cx="25" cy="25" r="2" fill="#d0d0d0" />
+    </pattern>
+    <linearGradient id="edu-fade-light" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#f5f5f5" />
+    </linearGradient>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#edu-fade-light)" />
+  <rect width="100%" height="100%" fill="url(#edu-grid-light)" opacity="0.6" />
+</svg>

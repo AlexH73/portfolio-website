@@ -1,0 +1,13 @@
+<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="lines-light" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M0 0 L60 60 M60 0 L0 60" stroke="#e0e0e0" stroke-width="0.99" />
+    </pattern>
+    <linearGradient id="glow-light" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#f0f0f0" />
+    </linearGradient>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#glow-light)" />
+  <rect width="100%" height="100%" fill="url(#lines-light)" />
+</svg>

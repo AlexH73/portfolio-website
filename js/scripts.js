@@ -824,7 +824,7 @@ function saveCookiesPreferences() {
         document.body.style.overflow = "";
       }
     }, 300);
-  }, 2000);
+  }, 1000);
 }
 
 function loadCookiesPreferences() {

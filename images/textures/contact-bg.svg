@@ -1,0 +1,13 @@
+<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="contact-wave-light" x="0" y="0" width="120" height="60" patternUnits="userSpaceOnUse">
+      <path d="M0 30 Q30 0 60 30 T120 30" stroke="#dcdcdc" stroke-width="1" fill="none" />
+    </pattern>
+    <radialGradient id="contact-glow-light" cx="50%" cy="50%" r="80%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#f2f2f2" />
+    </radialGradient>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#contact-glow-light)" />
+  <rect width="100%" height="100%" fill="url(#contact-wave-light)" opacity="0.9" />
+</svg>

@@ -9,6 +9,10 @@
   --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --transition: all 0.3s ease-in-out;
+  --bg-gradient: linear-gradient(
+    rgba(249, 250, 251, 0.95),
+    rgb(249, 250, 251, 0.6)
+  );
 }
 
 .dark-theme {
@@ -20,6 +24,7 @@
   --bg-secondary: #1f2937;
   --border-color: #374151;
   --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  --bg-gradient: linear-gradient(rgba(31, 41, 55, 0.95), rgba(31, 41, 55, 0.7));
 }
 
 * {
@@ -187,8 +192,13 @@ nav a:hover {
 /* Hero Section */
 .hero {
   padding: 8rem 0 4rem;
-  background-color: var(--bg-secondary);
+  background: var(--bg-gradient), url("../images/textures/hero-bg.svg");
+  background-size: cover;
   text-align: center;
+}
+
+.dark-theme .hero {
+  background: var(--bg-gradient), url("../images/textures/hero-bg-dark.svg");
 }
 
 .hero-content {
@@ -345,6 +355,15 @@ section.visible .project-card:nth-child(3) {
 }
 
 /* About */
+.about {
+  background: var(--bg-gradient), url("../images/textures/about-bg.svg");
+  background-size: cover;
+}
+
+.dark-theme .about {
+  background: var(--bg-gradient), url("../images/textures/about-bg-dark.svg");
+}
+
 .about-content {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -381,7 +400,12 @@ section.visible .project-card:nth-child(3) {
 
 /* Skills */
 .skills {
-  background-color: var(--bg-secondary);
+  background: var(--bg-gradient), url("../images/textures/skills-bg.svg");
+  background-size: cover;
+}
+
+.dark-theme .skills {
+  background: var(--bg-gradient), url("../images/textures/skills-bg-dark.svg");
 }
 
 .skills-grid {
@@ -419,7 +443,13 @@ section.visible .project-card:nth-child(3) {
 
 /* Education Section */
 .education {
-  background-color: var(--bg-secondary);
+  background: var(--bg-gradient), url("../images/textures/education-bg.svg");
+  background-size: cover;
+}
+
+.dark-theme .education {
+  background: var(--bg-gradient),
+    url("../images/textures/education-bg-dark.svg");
 }
 
 .education-item {
@@ -483,6 +513,16 @@ section.visible .project-card:nth-child(3) {
 }
 
 /* Projects */
+
+.projects {
+  background: var(--bg-gradient), url("../images/textures/projects-bg.svg");
+  background-size: cover;
+}
+
+.dark-theme .projects {
+  background: var(--bg-gradient), url("../images/textures/projects-bg-dark.svg");
+}
+
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -643,7 +683,12 @@ section.visible .project-card:nth-child(3) {
 
 /* QA Section */
 .qa {
-  background-color: var(--bg-secondary);
+  background: var(--bg-gradient), url("../images/textures/qa-bg.svg");
+  background-size: cover;
+}
+
+.dark-theme .qa {
+  background: var(--bg-gradient), url("../images/textures/qa-bg-dark.svg");
 }
 
 .qa-content {
@@ -694,7 +739,12 @@ section.visible .project-card:nth-child(3) {
 
 /* Contact */
 .contact {
-  background-color: var(--bg-secondary);
+  background: var(--bg-gradient), url("../images/textures/contact-bg.svg");
+  background-size: cover;
+}
+
+.dark-theme .contact {
+  background: var(--bg-gradient), url("../images/textures/contact-bg-dark.svg");
 }
 
 .contact-content {
