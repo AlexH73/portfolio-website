@@ -427,18 +427,25 @@ section.visible .project-card:nth-child(3) {
 }
 
 .skill-icon {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
+  font-size: 4.5rem;
+  margin-bottom: 0.3rem;
   color: var(--primary-color);
+  display: flex;
+  justify-content: center;
 }
 
 .skill-title {
-  font-size: 1.25rem;
-  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;  background: linear-gradient(90deg, var(--primary-color), #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .skill-description {
   color: var(--text-secondary);
+  font-size: 1rem;
+  font-style: italic;
+  text-shadow: var(--shadow);
 }
 
 .skills-container {
@@ -1031,7 +1038,7 @@ footer {
 }
 
 .modal-content h2 {
-  font-size: 1.7rem;
+  font-size: 1.3rem;
 }
 
 .modal-close {

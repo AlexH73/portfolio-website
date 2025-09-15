@@ -9,5 +9,5 @@
     </linearGradient>
   </defs>
   <rect width="100%" height="100%" fill="url(#fade-light)" />
-  <rect width="100%" height="100%" fill="url(#dots-light)" opacity="0.3" />
+  <rect width="100%" height="100%" fill="url(#dots-light)" opacity="0.6" />
 </svg>
