@@ -424,22 +424,22 @@ function updateFiltersLanguage(lang) {
 // ==================== ВАЛИДАЦИЯ ФОРМЫ ====================
 
 function setupFormValidation(form) {
-  const inputs = form.querySelectorAll('input, textarea');
-  
-  inputs.forEach(input => {
-    input.addEventListener('blur', () => validateField(input));
-    input.addEventListener('input', () => clearFieldError(input));
+  const inputs = form.querySelectorAll("input, textarea");
+
+  inputs.forEach((input) => {
+    input.addEventListener("blur", () => validateField(input));
+    input.addEventListener("input", () => clearFieldError(input));
   });
 }
 
 function validateForm(form) {
   let isValid = true;
-  const inputs = form.querySelectorAll('input, textarea');
-  
-  inputs.forEach(input => {
+  const inputs = form.querySelectorAll("input, textarea");
+
+  inputs.forEach((input) => {
     if (!validateField(input)) isValid = false;
   });
-  
+
   return isValid;
 }
 
@@ -447,20 +447,24 @@ function validateField(field) {
   clearFieldError(field);
 
   let isValid = true;
-  let errorMessage = '';
+  let errorMessage = "";
 
-  if (field.value.trim() === '') {
+  if (field.value.trim() === "") {
     isValid = false;
-    errorMessage = getTranslation('form.required', currentLanguage) || 'This field is required';
-  } else if (field.type === 'email' && !isValidEmail(field.value)) {
+    errorMessage =
+      getTranslation("form.required", currentLanguage) ||
+      "This field is required";
+  } else if (field.type === "email" && !isValidEmail(field.value)) {
     isValid = false;
-    errorMessage = getTranslation('form.invalidEmail', currentLanguage) || 'Please enter a valid email address';
+    errorMessage =
+      getTranslation("form.invalidEmail", currentLanguage) ||
+      "Please enter a valid email address";
   }
 
   if (!isValid) {
     showFieldError(field, errorMessage);
   }
-  
+
   return isValid;
 }
 
@@ -470,12 +474,12 @@ function isValidEmail(email) {
 }
 
 function showFieldError(field, message) {
-  field.classList.add('error');
+  field.classList.add("error");
 
-  let errorElement = field.parentNode.querySelector('.error-message');
+  let errorElement = field.parentNode.querySelector(".error-message");
   if (!errorElement) {
-    errorElement = document.createElement('div');
-    errorElement.className = 'error-message';
+    errorElement = document.createElement("div");
+    errorElement.className = "error-message";
     field.parentNode.appendChild(errorElement);
   }
 
@@ -483,22 +487,22 @@ function showFieldError(field, message) {
 }
 
 function clearFieldError(field) {
-  field.classList.remove('error');
+  field.classList.remove("error");
 
-  const errorElement = field.parentNode.querySelector('.error-message');
+  const errorElement = field.parentNode.querySelector(".error-message");
   if (errorElement) errorElement.remove();
 }
 
 async function sendFormData(formData) {
   const response = await fetch(CONFIG.formspreeUrl, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify(formData),
   });
 
-  if (!response.ok) throw new Error('Form submission failed');
+  if (!response.ok) throw new Error("Form submission failed");
   return response.json();
 }
 
@@ -661,29 +665,98 @@ function showWarning(message) {
 
 // ==================== ПЛАВНАЯ ПРОКРУТКА ====================
 function setupSmoothScrolling() {
-  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-    anchor.addEventListener("click", function (e) {
-      e.preventDefault();
+  // Проверяем, поддерживает ли браузер нативную плавную прокрутку
+  const supportsNativeSmoothScroll =
+    "scrollBehavior" in document.documentElement.style;
 
-      const targetId = this.getAttribute("href");
-      if (targetId === "#") return;
+  if (supportsNativeSmoothScroll) {
+    // Используем нативную плавную прокрутку
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener("click", function (e) {
+        e.preventDefault();
 
-      const targetElement = document.querySelector(targetId);
+        const targetId = this.getAttribute("href");
+        if (targetId === "#") return;
+
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          const headerHeight = document.querySelector("header").offsetHeight;
+          const extraOffset = 20;
+          const targetPosition =
+            targetElement.offsetTop - headerHeight - extraOffset;
+
+          window.scrollTo({
+            top: targetPosition,
+            behavior: "smooth",
+          });
+        }
+      });
+    });
+  } else {
+    // Фолбэк для старых браузеров
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener("click", function (e) {
+        e.preventDefault();
+
+        const targetId = this.getAttribute("href");
+        if (targetId === "#") return;
+
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          const headerHeight = document.querySelector("header").offsetHeight;
+          const extraOffset = 20;
+          const targetPosition =
+            targetElement.offsetTop - headerHeight - extraOffset;
+
+          // Анимация с requestAnimationFrame
+          const startPosition = window.pageYOffset;
+          const distance = targetPosition - startPosition;
+          const duration = 800;
+          let startTime = null;
+
+          function animation(currentTime) {
+            if (startTime === null) startTime = currentTime;
+            const timeElapsed = currentTime - startTime;
+            const progress = Math.min(timeElapsed / duration, 1);
+            const easeProgress =
+              progress < 0.5
+                ? 2 * progress * progress
+                : -1 + (4 - 2 * progress) * progress;
+
+            window.scrollTo(0, startPosition + distance * easeProgress);
+
+            if (timeElapsed < duration) {
+              requestAnimationFrame(animation);
+            }
+          }
+
+          requestAnimationFrame(animation);
+        }
+      });
+    });
+  }
+}
+
+// Обновление позиции при изменении размера окна
+let resizeTimeout;
+window.addEventListener("resize", function () {
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(function () {
+    // Обновляем позицию прокрутки после изменения размера
+    const hash = window.location.hash;
+    if (hash) {
+      const targetElement = document.querySelector(hash);
       if (targetElement) {
         const headerHeight = document.querySelector("header").offsetHeight;
+        const extraOffset = 20;
         const targetPosition =
-          targetElement.getBoundingClientRect().top +
-          window.pageYOffset -
-          headerHeight;
+          targetElement.offsetTop - headerHeight - extraOffset;
 
-        window.scrollTo({
-          top: targetPosition,
-          behavior: "smooth",
-        });
+        window.scrollTo(0, targetPosition);
       }
-    });
-  });
-}
+    }
+  }, 250); // Задержка в 250 мс после окончания изменения размера
+});
 
 // ==================== АНИМАЦИИ ПРИ ПРОКРУТКЕ ====================
 function setupScrollAnimations() {
