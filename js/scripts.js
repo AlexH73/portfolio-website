@@ -696,8 +696,8 @@ function setupScrollAnimations() {
       });
     },
     {
-      threshold: 0.1,
-      rootMargin: "0px 0px -50px 0px",
+      threshold: 0.01,
+      rootMargin: "0px 0px -100px 0px",
     }
   );
 
@@ -843,10 +843,48 @@ function saveCookiesPreferences() {
 
   setCookie("cookies_preferences", prefsChecked.toString(), 365);
   setCookie("cookies_analytics", analyticsChecked.toString(), 365);
+  const saveBtn = document.getElementById("save-cookies-preferences");
+  let msg = document.getElementById("cookies-save-message");
+  if (!msg) {
+    msg = document.createElement("div");
+    msg.id = "cookies-save-message";
+    msg.style.position = "relative";
+    msg.style.float = "right";
+    msg.style.right = "0";
+    msg.style.top = "0";
+    msg.style.background = "#4caf4fff";
+    msg.style.color = "#ffffffff";
+    msg.style.padding = "6px 16px";
+    msg.style.borderRadius = "4px";
+    msg.style.border = "1px solid #047208ff";
+    msg.style.fontSize = "14px";
+    msg.style.zIndex = "1000";
+    msg.style.transition = "opacity 0.3s";
+    msg.style.opacity = "0";
+    saveBtn.parentNode.appendChild(msg);
+  }
 
-  showSuccess(
-    getTranslation("privacy.saved", currentLanguage) || "Settings saved"
-  );
+  msg.textContent =
+    getTranslation("privacy.saved", currentLanguage) || "Settings saved";
+  msg.style.opacity = "1";
+
+  // Показываем сообщение на 2 секунды, затем скрываем и закрываем модалку
+  setTimeout(() => {
+    msg.style.opacity = "0";
+    setTimeout(() => {
+      msg.remove();
+      // Закрываем модальное окно
+      const modal = document.getElementById("privacy-modal");
+      if (modal) {
+        modal.style.display = "none";
+        document.body.style.overflow = "";
+      }
+    }, 300);
+  }, 2000);
+
+  // showSuccess(
+  //   getTranslation("privacy.saved", currentLanguage) || "Settings saved"
+  // );
 }
 
 function loadCookiesPreferences() {
