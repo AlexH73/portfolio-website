@@ -190,6 +190,12 @@ nav a:hover {
 }
 
 /* Hero Section */
+.hero-section {
+  display: flex;
+  justify-self: center;
+  gap: 30px;
+}
+
 .hero {
   padding: 8rem 0 4rem;
   background: var(--bg-gradient), url("../images/textures/hero-bg.svg");
@@ -206,13 +212,18 @@ nav a:hover {
   margin: 0 auto;
 }
 
-.avatar {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
+.hero-photo .photo {
+  width: 350px;
+  height: 350px;
   object-fit: cover;
   margin-bottom: 1.5rem;
-  border: 4px solid var(--primary-color);
+}
+
+.image-blurred-edge {
+  width: 100%;
+  height: 100%;
+  box-shadow: 0px 0px 100px 100px #4f46e526;
+  background-color: #4f46e526;
 }
 
 h1 {
@@ -436,7 +447,8 @@ section.visible .project-card:nth-child(3) {
 
 .skill-title {
   font-size: 1.2rem;
-  margin-bottom: 0.5rem;  background: linear-gradient(90deg, var(--primary-color), #ec4899);
+  margin-bottom: 0.5rem;
+  background: linear-gradient(90deg, var(--primary-color), #ec4899);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -1107,8 +1119,12 @@ footer {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Responsive Design */
