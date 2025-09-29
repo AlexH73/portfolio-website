@@ -217,6 +217,7 @@ nav a:hover {
   height: 350px;
   object-fit: cover;
   margin-bottom: 1.5rem;
+  border-radius: 0 0 10% 10%;
 }
 
 .hero-blurred-photo {
