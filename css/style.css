@@ -1340,6 +1340,7 @@ footer {
 
   nav ul.active {
     transform: translateX(0);
+    margin-top: -212px;
   }
 
   .cookies-content {

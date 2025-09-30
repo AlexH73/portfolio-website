@@ -1,4 +1,6 @@
-// ==================== КОНСТАНТЫ И ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ====================
+// ==================== ОПТИМИЗИРОВАННЫЙ КОД ====================
+// Версия с кэшированием DOM, debounce и улучшенной производительностью
+
 const CONFIG = {
   formspreeUrl: "https://formspree.io/f/xyzdlrvd",
   chartColors: {
@@ -8,26 +10,96 @@ const CONFIG = {
   },
 };
 
+// Глобальные переменные
 let currentLanguage = "de";
 let translations = {};
 let skillsChartInstance = null;
 
-// ==================== ИНИЦИАЛИЗАЦИЯ ПРИЛОЖЕНИЯ ====================
+// Кэш DOM элементов
+const domCache = {};
+
+// Утилиты для debounce и throttling
+const debounce = (func, wait, immediate = false) => {
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () => {
+      timeout = null;
+      if (!immediate) func(...args);
+    };
+    const callNow = immediate && !timeout;
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+    if (callNow) func(...args);
+  };
+};
+
+const throttle = (func, limit) => {
+  let inThrottle;
+  return function (...args) {
+    if (!inThrottle) {
+      func.apply(this, args);
+      inThrottle = true;
+      setTimeout(() => (inThrottle = false), limit);
+    }
+  };
+};
+
+// ==================== ИНИЦИАЛИЗАЦИЯ ====================
 document.addEventListener("DOMContentLoaded", initApp);
 
 async function initApp() {
   try {
     await loadResources();
+    cacheDOMElements();
     initializePage();
+    setupPerformanceMonitoring();
   } catch (error) {
     console.error("Failed to initialize app:", error);
     initializePage(); // Пытаемся инициализировать хотя бы базовые функции
   }
 }
 
+function cacheDOMElements() {
+  const elements = {
+    // Основные элементы
+    menuToggle: "#menuToggle",
+    nav: "nav ul",
+    backToTopBtn: "#backToTop",
+    progressBar: "#progressBar",
+    contactForm: "#contactForm",
+    cookiesBanner: "#cookies-banner",
+    privacyModal: "#privacy-modal",
+    skillsChart: "#skills-chart",
+    projectsGrid: ".projects-grid",
+    langSelect: ".lang-select",
+    themeToggle: ".theme-toggle",
+    privacyFab: "#privacy-fab",
+
+    // Форма
+    nameInput: "#name",
+    emailInput: "#email",
+    messageInput: "#message",
+
+    // Cookies
+    cookiesAccept: "#cookies-accept",
+    cookiesReject: "#cookies-reject",
+    cookiesLearnMore: "#cookies-learn-more",
+
+    // Модальные окна
+    modalClose: ".modal-close",
+    saveCookiesPrefs: "#save-cookies-preferences",
+  };
+
+  Object.keys(elements).forEach((key) => {
+    const selector = elements[key];
+    domCache[key] = selector.startsWith("#")
+      ? document.getElementById(selector.replace("#", ""))
+      : document.querySelector(selector);
+  });
+}
+
 async function loadResources() {
   try {
-    // Параллельная загрузка переводов и schema
     const [translationsResponse, schemaResponse] = await Promise.all([
       fetch("js/translations.json"),
       fetch("js/schema.json"),
@@ -40,7 +112,6 @@ async function loadResources() {
     translations = await translationsResponse.json();
     const schemaData = await schemaResponse.json();
 
-    // Добавляем structured data
     const script = document.getElementById("structured-data");
     if (script) {
       script.textContent = JSON.stringify(schemaData);
@@ -64,7 +135,7 @@ function initializePage() {
     setupMobileMenu,
     setupCookiesBanner,
     setupPrivacyModal,
-    initSkillsChart,
+    initSkillsChartObserver,
   ];
 
   initFunctions.forEach((fn) => {
@@ -78,8 +149,7 @@ function initializePage() {
 
 // ==================== ТЕМА ====================
 function initializeTheme() {
-  const themeToggle = document.querySelector(".theme-toggle");
-  if (!themeToggle) return;
+  if (!domCache.themeToggle) return;
 
   const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
   const cookiesPrefs = getCookie("cookies_preferences");
@@ -94,19 +164,17 @@ function initializeTheme() {
       (prefersDarkScheme.matches ? "dark" : "light");
   }
 
-  // Применяем тему
   if (currentTheme === "dark") {
     document.body.classList.add("dark-theme");
-    themeToggle.textContent = "☀️";
+    domCache.themeToggle.textContent = "☀️";
   } else {
-    themeToggle.textContent = "🌙";
+    domCache.themeToggle.textContent = "🌙";
   }
 
-  themeToggle.addEventListener("click", toggleTheme);
+  domCache.themeToggle.addEventListener("click", toggleTheme);
 }
 
 function toggleTheme() {
-  const themeToggle = document.querySelector(".theme-toggle");
   const cookiesPrefs = getCookie("cookies_preferences");
 
   document.body.classList.toggle("dark-theme");
@@ -114,9 +182,9 @@ function toggleTheme() {
   let theme = "light";
   if (document.body.classList.contains("dark-theme")) {
     theme = "dark";
-    themeToggle.textContent = "☀️";
+    domCache.themeToggle.textContent = "☀️";
   } else {
-    themeToggle.textContent = "🌙";
+    domCache.themeToggle.textContent = "🌙";
   }
 
   if (cookiesPrefs !== "false") {
@@ -126,20 +194,19 @@ function toggleTheme() {
 
 // ==================== ЯЗЫК ====================
 function initializeLanguage() {
-  const langSelect = document.querySelector(".lang-select");
-  if (!langSelect) return;
+  if (!domCache.langSelect) return;
 
   const cookiesPrefs = getCookie("cookies_preferences");
   const savedLang =
     cookiesPrefs === "false" ? "de" : localStorage.getItem("language") || "de";
 
   currentLanguage = savedLang;
-  langSelect.value = savedLang;
+  domCache.langSelect.value = savedLang;
 
   updateMetaTags(savedLang);
   applyLanguage(savedLang);
 
-  langSelect.addEventListener("change", handleLanguageChange);
+  domCache.langSelect.addEventListener("change", handleLanguageChange);
 }
 
 function handleLanguageChange() {
@@ -252,20 +319,19 @@ function getOgLocale(lang) {
 
 // ==================== ПРОЕКТЫ ====================
 async function loadProjects(lang = currentLanguage) {
-  const projectsGrid = document.querySelector(".projects-grid");
-  if (!projectsGrid) return;
+  if (!domCache.projectsGrid) return;
 
-  showLoadingIndicator(projectsGrid);
+  showLoadingIndicator(domCache.projectsGrid);
 
   try {
     const response = await fetch("js/projects.json");
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
     const data = await response.json();
-    displayProjects(data.projects, lang, projectsGrid);
+    displayProjects(data.projects, lang, domCache.projectsGrid);
   } catch (error) {
     console.error("Error loading projects:", error);
-    showProjectsError(lang, projectsGrid, error.message);
+    showProjectsError(lang, domCache.projectsGrid, error.message);
   }
 }
 
@@ -299,51 +365,47 @@ function createProjectCard(project, lang) {
   projectCard.setAttribute("data-category", project.category);
 
   projectCard.innerHTML = `
-                <div class="project-image">
-                    <img src="${project.image}" alt="${title}" loading="lazy">
-                </div>
-                <div class="project-content">
-                    <h3 class="project-title">${title}</h3>
-                    <p class="project-description">${description}</p>
-                    <div class="project-tech">
-                        ${project.technologies
-                          .map(
-                            (tech) => `<span class="tech-tag">${tech}</span>`
-                          )
-                          .join("")}
-                    </div>
-                    <div class="project-links">
-                        ${
-                          project.demoLink !== "#"
-                            ? `<a href="${
-                                project.demoLink
-                              }" class="btn" target="_blank">${
-                                getTranslation("projects.demo", lang) || "Demo"
-                              }</a>`
-                            : ""
-                        }
-                        <a href="${project.codeLink}" class="btn ${
+    <div class="project-image">
+      <img src="${project.image}" alt="${title}" loading="lazy">
+    </div>
+    <div class="project-content">
+      <h3 class="project-title">${title}</h3>
+      <p class="project-description">${description}</p>
+      <div class="project-tech">
+        ${project.technologies
+          .map((tech) => `<span class="tech-tag">${tech}</span>`)
+          .join("")}
+      </div>
+      <div class="project-links">
+        ${
+          project.demoLink !== "#"
+            ? `<a href="${project.demoLink}" class="btn" target="_blank">${
+                getTranslation("projects.demo", lang) || "Demo"
+              }</a>`
+            : ""
+        }
+        <a href="${project.codeLink}" class="btn ${
     project.demoLink === "#" ? "" : "btn-outline"
   }" target="_blank">
-                            ${getTranslation("projects.code", lang) || "Code"}
-                        </a>
-                    </div>
-                </div>
-            `;
+          ${getTranslation("projects.code", lang) || "Code"}
+        </a>
+      </div>
+    </div>
+  `;
 
   return projectCard;
 }
 
 function showProjectsError(lang, container, errorMessage) {
   container.innerHTML = `
-                <div class="no-projects">
-                    <p>${
-                      getTranslation("projects.unavailable", lang) ||
-                      "Projects are temporarily unavailable."
-                    }</p>
-                    <p><small>Error: ${errorMessage}</small></p>
-                </div>
-            `;
+    <div class="no-projects">
+      <p>${
+        getTranslation("projects.unavailable", lang) ||
+        "Projects are temporarily unavailable."
+      }</p>
+      <p><small>Error: ${errorMessage}</small></p>
+    </div>
+  `;
 }
 
 function setupProjectFilters(lang = currentLanguage) {
@@ -364,11 +426,11 @@ function setupProjectFilters(lang = currentLanguage) {
   const filtersContainer = document.createElement("div");
   filtersContainer.className = "projects-filters";
   filtersContainer.innerHTML = `
-                <button class="filter-btn active" data-filter="all">${filters.all}</button>
-                <button class="filter-btn" data-filter="frontend">${filters.frontend}</button>
-                <button class="filter-btn" data-filter="backend">${filters.backend}</button>
-                <button class="filter-btn" data-filter="fullstack">${filters.fullstack}</button>
-            `;
+    <button class="filter-btn active" data-filter="all">${filters.all}</button>
+    <button class="filter-btn" data-filter="frontend">${filters.frontend}</button>
+    <button class="filter-btn" data-filter="backend">${filters.backend}</button>
+    <button class="filter-btn" data-filter="fullstack">${filters.fullstack}</button>
+  `;
 
   const projectsContainer = document.querySelector(".projects .container");
   const sectionTitle = document.querySelector(".projects .section-title");
@@ -393,8 +455,9 @@ function setupFilterButtons() {
 }
 
 function filterProjects(filter) {
-  const projectsGrid = document.querySelector(".projects-grid");
-  const projectCards = projectsGrid.querySelectorAll(".project-card");
+  if (!domCache.projectsGrid) return;
+
+  const projectCards = domCache.projectsGrid.querySelectorAll(".project-card");
 
   projectCards.forEach((card) => {
     const category = card.getAttribute("data-category");
@@ -421,7 +484,13 @@ function updateFiltersLanguage(lang) {
   });
 }
 
-// ==================== ВАЛИДАЦИЯ ФОРМЫ ====================
+// ==================== ФОРМА ====================
+function setupFormHandler() {
+  if (!domCache.contactForm) return;
+
+  setupFormValidation(domCache.contactForm);
+  domCache.contactForm.addEventListener("submit", handleFormSubmit);
+}
 
 function setupFormValidation(form) {
   const inputs = form.querySelectorAll("input, textarea");
@@ -493,29 +562,6 @@ function clearFieldError(field) {
   if (errorElement) errorElement.remove();
 }
 
-async function sendFormData(formData) {
-  const response = await fetch(CONFIG.formspreeUrl, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(formData),
-  });
-
-  if (!response.ok) throw new Error("Form submission failed");
-  return response.json();
-}
-
-// ==================== ФОРМА ОБРАТНОЙ СВЯЗИ С reCAPTCHA ====================
-
-function setupFormHandler() {
-  const contactForm = document.getElementById("contactForm");
-  if (!contactForm) return;
-
-  setupFormValidation(contactForm);
-  contactForm.addEventListener("submit", handleFormSubmit);
-}
-
 async function handleFormSubmit(e) {
   e.preventDefault();
   const form = e.target;
@@ -535,22 +581,19 @@ async function handleFormSubmit(e) {
       getTranslation("form.sending", currentLanguage)
     );
 
-    // Получаем токен reCAPTCHA
     let recaptchaToken = "";
     try {
       recaptchaToken = await getRecaptchaToken();
     } catch (error) {
       console.warn("reCAPTCHA error:", error);
-      // Продолжаем без reCAPTCHA, если есть проблемы
     }
 
     const formData = {
-      name: document.getElementById("name").value,
-      email: document.getElementById("email").value,
-      message: document.getElementById("message").value,
+      name: domCache.nameInput.value,
+      email: domCache.emailInput.value,
+      message: domCache.messageInput.value,
     };
 
-    // Добавляем токен reCAPTCHA, если он есть
     if (recaptchaToken) {
       formData["g-recaptcha-response"] = recaptchaToken;
     }
@@ -568,7 +611,6 @@ async function handleFormSubmit(e) {
   }
 }
 
-// Функция для получения токена reCAPTCHA
 function getRecaptchaToken() {
   return new Promise((resolve, reject) => {
     if (typeof grecaptcha === "undefined") {
@@ -588,6 +630,19 @@ function getRecaptchaToken() {
       }
     });
   });
+}
+
+async function sendFormData(formData) {
+  const response = await fetch(CONFIG.formspreeUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(formData),
+  });
+
+  if (!response.ok) throw new Error("Form submission failed");
+  return response.json();
 }
 
 // ==================== УВЕДОМЛЕНИЯ ====================
@@ -657,20 +712,12 @@ function showError(message) {
   showNotification("error", title, message);
 }
 
-function showWarning(message) {
-  const title =
-    getTranslation("notification.warning", currentLanguage) || "Warning";
-  showNotification("warning", title, message);
-}
-
 // ==================== ПЛАВНАЯ ПРОКРУТКА ====================
 function setupSmoothScrolling() {
-  // Проверяем, поддерживает ли браузер нативную плавную прокрутку
   const supportsNativeSmoothScroll =
     "scrollBehavior" in document.documentElement.style;
 
   if (supportsNativeSmoothScroll) {
-    // Используем нативную плавную прокрутку
     document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
       anchor.addEventListener("click", function (e) {
         e.preventDefault();
@@ -708,7 +755,6 @@ function setupSmoothScrolling() {
           const targetPosition =
             targetElement.offsetTop - headerHeight - extraOffset;
 
-          // Анимация с requestAnimationFrame
           const startPosition = window.pageYOffset;
           const distance = targetPosition - startPosition;
           const duration = 800;
@@ -735,14 +781,9 @@ function setupSmoothScrolling() {
       });
     });
   }
-}
 
-// Обновление позиции при изменении размера окна
-let resizeTimeout;
-window.addEventListener("resize", function () {
-  clearTimeout(resizeTimeout);
-  resizeTimeout = setTimeout(function () {
-    // Обновляем позицию прокрутки после изменения размера
+  // Оптимизация: debounce для resize
+  const debouncedResize = debounce(() => {
     const hash = window.location.hash;
     if (hash) {
       const targetElement = document.querySelector(hash);
@@ -755,8 +796,10 @@ window.addEventListener("resize", function () {
         window.scrollTo(0, targetPosition);
       }
     }
-  }, 250); // Задержка в 250 мс после окончания изменения размера
-});
+  }, 250);
+
+  window.addEventListener("resize", debouncedResize);
+}
 
 // ==================== АНИМАЦИИ ПРИ ПРОКРУТКЕ ====================
 function setupScrollAnimations() {
@@ -779,29 +822,31 @@ function setupScrollAnimations() {
 
 // ==================== ИНДИКАТОР ПРОКРУТКИ ====================
 function setupScrollProgress() {
-  const progressBar = document.getElementById("progressBar");
-  if (!progressBar) return;
+  if (!domCache.progressBar) return;
 
-  window.addEventListener("scroll", () => {
+  const throttledScroll = throttle(() => {
     const windowHeight = window.innerHeight;
     const documentHeight = document.documentElement.scrollHeight - windowHeight;
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     const progress = (scrollTop / documentHeight) * 100;
 
-    progressBar.style.width = `${progress}%`;
-  });
+    domCache.progressBar.style.width = `${progress}%`;
+  }, 10);
+
+  window.addEventListener("scroll", throttledScroll);
 }
 
 // ==================== КНОПКА "НАВЕРХ" ====================
 function setupBackToTop() {
-  const backToTopBtn = document.getElementById("backToTop");
-  if (!backToTopBtn) return;
+  if (!domCache.backToTopBtn) return;
 
-  window.addEventListener("scroll", () => {
-    backToTopBtn.classList.toggle("visible", window.pageYOffset > 300);
-  });
+  const throttledScroll = throttle(() => {
+    domCache.backToTopBtn.classList.toggle("visible", window.pageYOffset > 300);
+  }, 10);
 
-  backToTopBtn.addEventListener("click", () => {
+  window.addEventListener("scroll", throttledScroll);
+
+  domCache.backToTopBtn.addEventListener("click", () => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
@@ -811,96 +856,90 @@ function setupBackToTop() {
 
 // ==================== МОБИЛЬНОЕ МЕНЮ ====================
 function setupMobileMenu() {
-  const menuToggle = document.getElementById("menuToggle");
-  const nav = document.querySelector("nav ul");
-  if (!menuToggle || !nav) return;
+  if (!domCache.menuToggle || !domCache.nav) return;
 
-  menuToggle.addEventListener("click", () => {
-    nav.classList.toggle("active");
-    menuToggle.classList.toggle("active");
-    document.body.style.overflow = nav.classList.contains("active")
+  const toggleMenu = () => {
+    domCache.nav.classList.toggle("active");
+    domCache.menuToggle.classList.toggle("active");
+    document.body.style.overflow = domCache.nav.classList.contains("active")
       ? "hidden"
       : "";
-  });
+  };
 
-  // Закрытие меню при клике на ссылку
+  domCache.menuToggle.addEventListener("click", toggleMenu);
+
   const navLinks = document.querySelectorAll("nav a");
   navLinks.forEach((link) => {
-    link.addEventListener("click", () => closeMobileMenu(nav, menuToggle));
+    link.addEventListener("click", () => {
+      if (domCache.nav.classList.contains("active")) {
+        toggleMenu();
+      }
+    });
   });
 
-  // Закрытие меню при клике вне его области
   document.addEventListener("click", (e) => {
     if (
-      nav.classList.contains("active") &&
-      !nav.contains(e.target) &&
-      !menuToggle.contains(e.target)
+      domCache.nav.classList.contains("active") &&
+      !domCache.nav.contains(e.target) &&
+      !domCache.menuToggle.contains(e.target)
     ) {
-      closeMobileMenu(nav, menuToggle);
+      toggleMenu();
     }
   });
 
-  // Закрытие меню при нажатии ESC
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && nav.classList.contains("active")) {
-      closeMobileMenu(nav, menuToggle);
+    if (e.key === "Escape" && domCache.nav.classList.contains("active")) {
+      toggleMenu();
     }
   });
 }
 
-function closeMobileMenu(nav, menuToggle) {
-  nav.classList.remove("active");
-  menuToggle.classList.remove("active");
-  document.body.style.overflow = "";
-}
-
-// ==================== УПРАВЛЕНИЕ COOKIES ====================
+// ==================== COOKIES ====================
 function setupCookiesBanner() {
-  const banner = document.getElementById("cookies-banner");
-  const acceptBtn = document.getElementById("cookies-accept");
-  const rejectBtn = document.getElementById("cookies-reject");
-  const learnMoreLink = document.getElementById("cookies-learn-more");
-  const savePrefsBtn = document.getElementById("save-cookies-preferences");
-
-  if (!banner || !acceptBtn || !rejectBtn) return;
+  if (
+    !domCache.cookiesBanner ||
+    !domCache.cookiesAccept ||
+    !domCache.cookiesReject
+  )
+    return;
 
   const cookiesDecision = getCookie("cookies_decision");
 
   if (!cookiesDecision) {
-    setTimeout(() => banner.classList.add("active"), 1000);
+    setTimeout(() => domCache.cookiesBanner.classList.add("active"), 1000);
   }
 
-  acceptBtn.addEventListener("click", () => acceptCookies(banner));
-  rejectBtn.addEventListener("click", () => rejectCookies(banner));
+  domCache.cookiesAccept.addEventListener("click", () => acceptCookies());
+  domCache.cookiesReject.addEventListener("click", () => rejectCookies());
 
-  if (learnMoreLink) {
-    learnMoreLink.addEventListener("click", (e) => {
+  if (domCache.cookiesLearnMore) {
+    domCache.cookiesLearnMore.addEventListener("click", (e) => {
       e.preventDefault();
-      banner.classList.remove("active");
+      domCache.cookiesBanner.classList.remove("active");
       const privacySection = document.getElementById("privacy");
       if (privacySection) privacySection.scrollIntoView({ behavior: "smooth" });
     });
   }
 
-  if (savePrefsBtn) {
-    savePrefsBtn.addEventListener("click", saveCookiesPreferences);
+  if (domCache.saveCookiesPrefs) {
+    domCache.saveCookiesPrefs.addEventListener("click", saveCookiesPreferences);
   }
 
   loadCookiesPreferences();
 }
 
-function acceptCookies(banner) {
+function acceptCookies() {
   setCookie("cookies_decision", "accepted", 365);
   setCookie("cookies_preferences", "true", 365);
   setCookie("cookies_analytics", "true", 365);
-  banner.classList.remove("active");
+  if (domCache.cookiesBanner) domCache.cookiesBanner.classList.remove("active");
 }
 
-function rejectCookies(banner) {
+function rejectCookies() {
   setCookie("cookies_decision", "rejected", 365);
   setCookie("cookies_preferences", "false", 365);
   setCookie("cookies_analytics", "false", 365);
-  banner.classList.remove("active");
+  if (domCache.cookiesBanner) domCache.cookiesBanner.classList.remove("active");
 
   deleteCookie("cookies_preferences");
   deleteCookie("cookies_analytics");
@@ -911,53 +950,17 @@ function rejectCookies(banner) {
 }
 
 function saveCookiesPreferences() {
-  const prefsChecked = document.getElementById("cookies-preferences").checked;
-  const analyticsChecked = document.getElementById("cookies-analytics").checked;
+  const prefsChecked =
+    document.getElementById("cookies-preferences")?.checked || false;
+  const analyticsChecked =
+    document.getElementById("cookies-analytics")?.checked || false;
 
   setCookie("cookies_preferences", prefsChecked.toString(), 365);
   setCookie("cookies_analytics", analyticsChecked.toString(), 365);
-  const saveBtn = document.getElementById("save-cookies-preferences");
-  let msg = document.getElementById("cookies-save-message");
-  if (!msg) {
-    msg = document.createElement("div");
-    msg.id = "cookies-save-message";
-    msg.style.position = "relative";
-    msg.style.float = "right";
-    msg.style.right = "0";
-    msg.style.top = "0";
-    msg.style.background = "#4caf4fff";
-    msg.style.color = "#ffffffff";
-    msg.style.padding = "6px 16px";
-    msg.style.borderRadius = "4px";
-    msg.style.border = "1px solid #047208ff";
-    msg.style.fontSize = "14px";
-    msg.style.zIndex = "1000";
-    msg.style.transition = "opacity 0.3s";
-    msg.style.opacity = "0";
-    saveBtn.parentNode.appendChild(msg);
-  }
 
-  msg.textContent =
-    getTranslation("privacy.saved", currentLanguage) || "Settings saved";
-  msg.style.opacity = "1";
-
-  // Показываем сообщение на 2 секунды, затем скрываем и закрываем модалку
-  setTimeout(() => {
-    msg.style.opacity = "0";
-    setTimeout(() => {
-      msg.remove();
-      // Закрываем модальное окно
-      const modal = document.getElementById("privacy-modal");
-      if (modal) {
-        modal.style.display = "none";
-        document.body.style.overflow = "";
-      }
-    }, 300);
-  }, 2000);
-
-  // showSuccess(
-  //   getTranslation("privacy.saved", currentLanguage) || "Settings saved"
-  // );
+  showSuccess(
+    getTranslation("privacy.saved", currentLanguage) || "Settings saved"
+  );
 }
 
 function loadCookiesPreferences() {
@@ -980,83 +983,62 @@ function loadCookiesPreferences() {
   if (analyticsCheckbox) analyticsCheckbox.checked = analytics !== "false";
 }
 
-// ==================== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ COOKIES ====================
-function setCookie(name, value, days) {
-  const date = new Date();
-  date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-  const expires = "expires=" + date.toUTCString();
-  document.cookie = name + "=" + value + ";" + expires + ";path=/";
-}
-
-function getCookie(name) {
-  const nameEQ = name + "=";
-  const ca = document.cookie.split(";");
-  for (let i = 0; i < ca.length; i++) {
-    let c = ca[i];
-    while (c.charAt(0) === " ") c = c.substring(1, c.length);
-    if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
-  }
-  return null;
-}
-
-function deleteCookie(name) {
-  document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-}
-
-// ==================== МОДАЛЬНОЕ ОКНО ПОЛИТИКИ ====================
+// ==================== МОДАЛЬНОЕ ОКНО ====================
 function setupPrivacyModal() {
-  const modal = document.getElementById("privacy-modal");
-  const fabButton = document.getElementById("privacy-fab");
-  const closeBtn = document.querySelector(".modal-close");
-  const learnMoreLink = document.getElementById("cookies-learn-more");
-
-  if (!modal) return;
+  if (!domCache.privacyModal) return;
 
   function openModal() {
-    modal.style.display = "block";
+    domCache.privacyModal.style.display = "block";
     document.body.style.overflow = "hidden";
   }
 
   function closeModal() {
-    modal.style.display = "none";
+    domCache.privacyModal.style.display = "none";
     document.body.style.overflow = "";
   }
 
-  if (fabButton) fabButton.addEventListener("click", openModal);
-  if (closeBtn) closeBtn.addEventListener("click", closeModal);
-  if (learnMoreLink) {
-    learnMoreLink.addEventListener("click", function (e) {
+  if (domCache.privacyFab)
+    domCache.privacyFab.addEventListener("click", openModal);
+  if (domCache.modalClose)
+    domCache.modalClose.addEventListener("click", closeModal);
+  if (domCache.cookiesLearnMore) {
+    domCache.cookiesLearnMore.addEventListener("click", function (e) {
       e.preventDefault();
       openModal();
     });
   }
 
   window.addEventListener("click", function (e) {
-    if (e.target === modal) closeModal();
+    if (e.target === domCache.privacyModal) closeModal();
   });
 
   document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape" && modal.style.display === "block") closeModal();
+    if (e.key === "Escape" && domCache.privacyModal.style.display === "block")
+      closeModal();
   });
-
-  // Перенос содержимого из старой секции
-  const oldPrivacySection = document.getElementById("privacy");
-  const privacyContent = document.querySelector(".privacy-content");
-
-  if (oldPrivacySection && privacyContent) {
-    const privacyInnerContent =
-      oldPrivacySection.querySelector(".privacy-content");
-    if (privacyInnerContent) {
-      privacyContent.innerHTML = privacyInnerContent.innerHTML;
-      oldPrivacySection.remove();
-    }
-  }
 }
 
 // ==================== ДИАГРАММА НАВЫКОВ ====================
+function initSkillsChartObserver() {
+  if (!domCache.skillsChart) return;
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          initSkillsChart();
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.1 }
+  );
+
+  observer.observe(domCache.skillsChart);
+}
+
 function initSkillsChart() {
-  const ctx = document.getElementById("skills-chart");
-  if (!ctx) return;
+  if (!domCache.skillsChart) return;
 
   if (typeof Chart === "undefined") {
     console.error("Chart.js is not loaded");
@@ -1092,7 +1074,7 @@ function initSkillsChart() {
     skillsChartInstance.destroy();
   }
 
-  skillsChartInstance = new Chart(ctx, {
+  skillsChartInstance = new Chart(domCache.skillsChart, {
     type: "radar",
     data: skillsData,
     options: {
@@ -1102,29 +1084,17 @@ function initSkillsChart() {
         r: {
           beginAtZero: true,
           max: 100,
-          ticks: {
-            display: false,
-            stepSize: 20,
-          },
-          grid: {
-            color: "rgba(119, 119, 119, 0.1)",
-          },
-          angleLines: {
-            color: "rgba(119, 119, 119, 0.1)",
-          },
+          ticks: { display: false, stepSize: 20 },
+          grid: { color: "rgba(119, 119, 119, 0.1)" },
+          angleLines: { color: "rgba(119, 119, 119, 0.1)" },
           pointLabels: {
             color: "var(--text-primary)",
-            font: {
-              size: 12,
-              family: "'Inter', sans-serif",
-            },
+            font: { size: 12, family: "'Inter', sans-serif" },
           },
         },
       },
       plugins: {
-        legend: {
-          display: false,
-        },
+        legend: { display: false },
         tooltip: {
           callbacks: {
             label: function (context) {
@@ -1166,12 +1136,91 @@ function createNoProjectsMessage(lang) {
   `;
 }
 
-// Обработчик изменения размера окна для диаграммы
-window.addEventListener("resize", () => {
-  if (skillsChartInstance) {
-    skillsChartInstance.resize();
+// ==================== COOKIES УТИЛИТЫ ====================
+function setCookie(name, value, days) {
+  const date = new Date();
+  date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+  const expires = "expires=" + date.toUTCString();
+  document.cookie = name + "=" + value + ";" + expires + ";path=/";
+}
+
+function getCookie(name) {
+  const nameEQ = name + "=";
+  const ca = document.cookie.split(";");
+  for (let i = 0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) === " ") c = c.substring(1, c.length);
+    if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
   }
-});
+  return null;
+}
+
+function deleteCookie(name) {
+  document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+}
+
+// ==================== МОНИТОРИНГ ПРОИЗВОДИТЕЛЬНОСТИ ====================
+function setupPerformanceMonitoring() {
+  // Мониторинг FPS (только в development)
+  if (
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1"
+  ) {
+    monitorFPS();
+  }
+}
+
+function monitorFPS() {
+  let frameCount = 0;
+  let lastTime = performance.now();
+  let fps = 0;
+
+  function checkFPS() {
+    frameCount++;
+    const currentTime = performance.now();
+
+    if (currentTime - lastTime >= 1000) {
+      fps = Math.round((frameCount * 1000) / (currentTime - lastTime));
+      frameCount = 0;
+      lastTime = currentTime;
+
+      if (fps < 50) {
+        console.warn(
+          `Low FPS detected: ${fps}. Consider optimizing animations.`
+        );
+      }
+    }
+
+    requestAnimationFrame(checkFPS);
+  }
+
+  checkFPS();
+}
+
+// ==================== ОЧИСТКА ПАМЯТИ ====================
+function cleanup() {
+  if (skillsChartInstance) {
+    skillsChartInstance.destroy();
+    skillsChartInstance = null;
+  }
+
+  // Очищаем кэш
+  Object.keys(domCache).forEach((key) => {
+    domCache[key] = null;
+  });
+}
+
+window.addEventListener("beforeunload", cleanup);
+
+// Обработчик изменения размера окна для диаграммы
+window.addEventListener(
+  "resize",
+  debounce(() => {
+    if (skillsChartInstance) {
+      skillsChartInstance.resize();
+    }
+  }, 250)
+);
 
 // Глобальный обработчик клавиши ESC
 document.addEventListener("keydown", (e) => {
@@ -1185,3 +1234,5 @@ document.addEventListener("keydown", (e) => {
     });
   }
 });
+
+console.log("Optimized JavaScript loaded successfully!");
