@@ -17,40 +17,26 @@
   <symbol id="icon-leetcode" viewBox="0 0 24 24">
     <path d="M13.483 0c1.084 0 2.055.447 2.708 1.15l3.584 3.578c.622.622.776 1.482.624 2.28-.11.565-.392 1.056-.857 1.521l-2.064 2.065c-.465.465-.956.747-1.52.857-.798.152-1.658-.002-2.28-.624l-3.584-3.578C5.962 6.817 5.245 7.537 5.245 8.5v6.967c0 .819-.662 1.483-1.483 1.483-.82 0-1.482-.664-1.482-1.483V8.5c0-2.37 1.92-4.288 4.288-4.288.205 0 .412.014.617.043.204-.03.41-.043.614-.043h4.67zm-2.788 4.287c.819 0 1.482.663 1.482 1.482 0 .819-.663 1.482-1.482 1.482-.82 0-1.483-.663-1.483-1.482 0-.819.663-1.482 1.483-1.482zm3.596 5.523c-1.262 0-2.294 1.031-2.294 2.293v7.767c0 1.262 1.032 2.294 2.294 2.294h4.671c1.261 0 2.293-1.032 2.293-2.294v-7.767c0-1.262-1.032-2.293-2.293-2.293h-4.671z"/>
   </symbol>
-  
-
-  <!-- Логотип -->
-  <symbol id="logo" viewBox="0 0 150 40" fill="none">
-    <rect x="5" y="5" width="35" height="35" rx="8" class="logo-bg"/>
-    <text x="8" y="29" font-family="Inter, sans-serif" font-weight="700" font-size="18" class="logo-initials">AH</text>
-    <text x="45" y="20" font-family="Inter, sans-serif" font-weight="700" font-size="16" class="logo-name">Alexander</text>
-    <text x="45" y="38" font-family="Inter, sans-serif" font-weight="300" font-size="14" class="logo-title">Full-Stack Dev</text>
-  </symbol>
 
   <!-- Иконка "Наверх" -->
   <symbol id="icon-arrow-up" viewBox="0 0 24 24" fill="none">
     <path d="M12 20L12 4M12 4L5 11M12 4L19 11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
   </symbol>
 
-  <!-- Иконка приватности (концентрические круги) -->
-<!-- Максимально выразительный отпечаток -->
+  <!-- Иконка приватности  -->
 <symbol id="icon-privacy" viewBox="0 0 100 100" fill="none">
-  <!-- Очень толстые основные линии -->
   <path d="M10,20 Q50,0 90,20 T98,40" stroke="currentColor" stroke-width="5" fill="none" stroke-linecap="round"/>
   <path d="M5,30 Q50,10 95,30 T99,50" stroke="currentColor" stroke-width="4.5" fill="none" stroke-linecap="round"/>
   <path d="M8,40 Q50,20 92,40 T97,60" stroke="currentColor" stroke-width="4" fill="none" stroke-linecap="round"/>
   
-  <!-- Выразительные центральные волны -->
   <path d="M15,50 Q35,45 50,50 T85,55" stroke="currentColor" stroke-width="4" fill="none" stroke-linecap="round"/>
   <path d="M12,60 Q35,55 50,60 T88,65" stroke="currentColor" stroke-width="3.5" fill="none" stroke-linecap="round"/>
   <path d="M15,70 Q35,65 50,70 T85,75" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/>
   
-  <!-- Детализация с прерывистыми линиями -->
   <path d="M25,55 Q40,52 55,55" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/>
   <path d="M22,65 Q40,62 55,65" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-dasharray="15,5"/>
   <path d="M25,75 Q40,72 55,75" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-dasharray="12,8"/>
   
-  <!-- Крупные акцентные точки -->
   <g fill="currentColor">
     <circle cx="25" cy="35" r="2.5"/>
     <circle cx="50" cy="30" r="2"/>
