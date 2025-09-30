@@ -189,6 +189,16 @@ nav a:hover {
   font-weight: 300;
 }
 
+.logo-svg {
+  transition: var(--transition);
+  height: 40px;
+  width: auto;
+}
+
+.logo:hover .logo-svg {
+  transform: scale(1.05);
+}
+
 /* Hero Section */
 .hero-section {
   display: inline-flex;
@@ -794,13 +804,48 @@ section.visible .project-card:nth-child(3) {
 
 .contact-item {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 1rem;
+  padding: 1rem;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  transition: var(--transition);
+}
+
+.contact-item h3 {
+  margin-bottom: 0.25rem;
+  color: var(--text-primary);
+  font-size: 1.1rem;
+}
+
+.contact-item p {
+  margin: 0;
+  color: var(--text-secondary);
+}
+
+.contact-item:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
 }
 
 .contact-icon {
-  font-size: 1.5rem;
+  font-size: 2.5rem;
   color: var(--primary-color);
+  min-width: 30px;
+}
+
+.contact-link {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 500;
+  transition: var(--transition);
+  border-bottom: 1px solid transparent;
+}
+
+.contact-link:hover {
+  color: var(--primary-hover);
+  border-bottom-color: var(--primary-color);
 }
 
 .contact-form {
@@ -885,6 +930,68 @@ footer {
   color: var(--text-secondary);
 }
 
+/* Социальные ссылки */
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  background: var(--bg-secondary);
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.social-link::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(99, 102, 241, 0.1),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.social-link:hover::before {
+  left: 100%;
+}
+
+.social-link:hover {
+  border-color: var(--primary-color);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
+}
+
+.social-icon {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+  transition: transform 0.3s ease;
+}
+
+.social-link:hover .social-icon {
+  transform: scale(1.1);
+}
+
 /* Кнопка "Вернуться наверх" и "Опечаток" */
 .privacy-fab,
 .back-to-top {
@@ -905,6 +1012,11 @@ footer {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
+/* .back-to-top svg {
+  width: 24px;
+  height: 24px;
+} */
+
 .back-to-top.visible {
   opacity: 1;
   visibility: visible;
@@ -918,15 +1030,33 @@ footer {
   visibility: hidden;
 }
 
+/* Улучшаем видимость для темной темы */
+.dark-theme .privacy-fab {
+  background-color: var(--primary-color);
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.dark-theme .privacy-fab:hover {
+  background-color: var(--primary-hover);
+  color: white;
+}
+
 .privacy-fab {
   left: 2rem;
   bottom: 3rem;
+}
+
+.privacy-fab svg {
+  width: 30px;
+  height: 50px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
 
 .back-to-top:hover,
 .privacy-fab:hover {
   background-color: var(--primary-hover);
   transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
 }
 
 /* Cookies Banner */
@@ -1174,15 +1304,19 @@ footer {
   .logo svg {
     width: 180px;
   }
+  .logo-svg {
+    width: 140px;
+    height: 35px;
+  }
 
   .logo-name,
   .logo-title {
     display: inline;
   }
 
-  .logo svg {
+  /* .logo svg {
     viewbox: 0 0 40 40;
-  }
+  } */
 
   .menu-toggle {
     display: flex;
@@ -1230,6 +1364,40 @@ footer {
   .skills-chart-container {
     height: 300px;
   }
+
+  .contact-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .contact-item {
+    padding: 0.75rem;
+  }
+
+  .social-links {
+    gap: 0.75rem;
+  }
+
+  .social-link {
+    width: 44px;
+    height: 44px;
+  }
+
+  .social-icon {
+    width: 20px;
+    height: 20px;
+  }
+  .privacy-fab {
+    left: 1rem;
+    bottom: 2rem;
+    width: 45px;
+    height: 45px;
+  }
+
+  .privacy-fab svg {
+    width: 25px;
+    height: 25px;
+  }
 }
 
 @media (max-width: 576px) {
@@ -1253,5 +1421,30 @@ footer {
 
   .btn {
     margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo-svg {
+    width: 120px;
+    height: 30px;
+  }
+
+  .social-links {
+    gap: 0.5rem;
+  }
+
+  .social-link {
+    width: 40px;
+    height: 40px;
+  }
+  .privacy-fab {
+    width: 40px;
+    height: 40px;
+  }
+
+  .privacy-fab svg {
+    width: 22px;
+    height: 22px;
   }
 }
