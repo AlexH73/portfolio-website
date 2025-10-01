@@ -253,70 +253,36 @@
     </section>
 
     <section id="skills" class="skills">
-      <div class="container">
-        <h2 class="section-title" data-i18n="skills.title">Fähigkeiten</h2>
-        <div class="skills-container">
-          <div class="skills-chart-container">
-            <canvas id="skills-chart"></canvas>
-          </div>
-        </div>
-        <div class="skills-grid">
-          <div class="skill-card">
-            <div class="skill-icon">💻</div>
-            <h3 class="skill-title" data-i18n="skills.frontend">
-              Frontend-Entwicklung
-            </h3>
-            <p class="skill-description" data-i18n="skills.frontendDesc">
-              HTML, CSS, JavaScript, TypeScript, React
-            </p>
-          </div>
-          <div class="skill-card">
-            <div class="skill-icon">⚙️</div>
-            <h3 class="skill-title" data-i18n="skills.backend">
-              Backend-Entwicklung (Java)
-            </h3>
-            <p class="skill-description" data-i18n="skills.backendDesc">
-              Java, Spring Boot, Spring MVC, Spring Data JPA
-            </p>
-          </div>
-          <div class="skill-card">
-            <div class="skill-icon">🗄️</div>
-            <h3 class="skill-title" data-i18n="skills.databases">
-              Datenbanken
-            </h3>
-            <p class="skill-description" data-i18n="skills.databasesDesc">
-              MySQL, MongoDB
-            </p>
-          </div>
-          <div class="skill-card">
-            <div class="skill-icon">📊</div>
-            <h3 class="skill-title" data-i18n="skills.algorithms">
-              Algorithmen & Datenstrukturen
-            </h3>
-            <p class="skill-description" data-i18n="skills.algorithmsDesc">
-              Sortier- und Suchalgorithmen, Maps, Sets, Listen
-            </p>
-          </div>
-          <div class="skill-card">
-            <div class="skill-icon">🛠️</div>
-            <h3 class="skill-title" data-i18n="skills.tools">Werkzeuge</h3>
-            <p class="skill-description" data-i18n="skills.toolsDesc">
-              Git Bash, GitHub, Linux, IntelliJ IDEA, Maven, PyCharm, VS Code,
-              Docker, MongoDB Compass, Beekeeper Studio
-            </p>
-          </div>
-          <div class="skill-card">
-            <div class="skill-icon">🧩</div>
-            <h3 class="skill-title" data-i18n="skills.oop">
-              OOP & Fortgeschrittenes Java
-            </h3>
-            <p class="skill-description" data-i18n="skills.oopDesc">
-              Klassen und Interfaces, Objekte, Exceptions, OOP-Konzepte
-            </p>
-          </div>
+  <div class="container">
+    <h2 class="section-title" data-i18n="skills.title">Fähigkeiten</h2>
+
+    <div class="skills-container">
+      <div class="skills-chart-container fade-in">
+        <canvas id="skills-chart"></canvas>
+      </div>
+      
+      <div class="chart-legend fade-in" id="chartLegend">
+        <!-- Legend will be populated by JavaScript -->
+      </div>
+    </div>
+
+    <div class="skills-details fade-in">
+      <div class="category-breakdown">
+        <h3 data-i18n="skills.byCategory">Nach Kategorien</h3>
+        <div class="category-list" id="categoryList">
+          <!-- Categories will be populated by JavaScript -->
         </div>
       </div>
-    </section>
+      
+      <div class="skills-interactive">
+        <h3 data-i18n="skills.allTechnologies">Alle Technologien</h3>
+        <div class="skills-cloud" id="skillsCloud">
+          <!-- Skills cloud will be populated by JavaScript -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
     <section id="education" class="education">
       <div class="container">
