@@ -1,0 +1,207 @@
+{
+  "skills": [
+    {
+      "name": "JavaScript",
+      "category": "frontend",
+      "level": 85,
+      "icon": "images/icons/javascript.svg",
+      "description": {
+        "de": "Frontend-Entwicklung",
+        "en": "Frontend Development",
+        "ru": "Фронтенд-разработка"
+      }
+    },
+    {
+      "name": "Vite",
+      "category": "frontend",
+      "level": 80,
+      "icon": "images/icons/vite.svg",
+      "description": {
+        "de": "Frontend-Montage-Werkzeug",
+        "en": "Frontend Build Tool",
+        "ru": "Инструмент сборки фронтенда"
+      }
+    },
+    {
+      "name": "React",
+      "category": "frontend",
+      "level": 80,
+      "icon": "images/icons/react.svg",
+      "description": {
+        "de": "Frontend-Bibliothek",
+        "en": "Frontend Library",
+        "ru": "Фронтенд-библиотека"
+      }
+    },
+    {
+      "name": "CSS",
+      "category": "frontend",
+      "level": 88,
+      "icon": "images/icons/css.svg",
+      "description": {
+        "de": "Styling und Animationen",
+        "en": "Styling and Animations",
+        "ru": "Стилизация и анимации"
+      }
+    },
+    {
+      "name": "HTML",
+      "category": "frontend",
+      "level": 95,
+      "icon": "images/icons/html.svg",
+      "description": {
+        "de": "Semantisches Markup",
+        "en": "Semantic Markup",
+        "ru": "Семантическая верстка"
+      }
+    },
+    {
+      "name": "TailwindCSS",
+      "category": "frontend",
+      "level": 75,
+      "icon": "images/icons/tailwind.svg",
+      "description": {
+        "de": "Utility-first CSS Framework",
+        "en": "Utility-first CSS Framework",
+        "ru": "Utility-first CSS фреймворк"
+      }
+    },
+    {
+      "name": "Python",
+      "category": "backend",
+      "level": 65,
+      "icon": "images/icons/python.svg",
+      "description": {
+        "de": "Backend-Entwicklung",
+        "en": "Backend Development",
+        "ru": "Бэкенд-разработка"
+      }
+    },
+    {
+      "name": "Java",
+      "category": "backend",
+      "level": 78,
+      "icon": "images/icons/java.svg",
+      "description": {
+        "de": "Backend-Entwicklung",
+        "en": "Backend Development",
+        "ru": "Бэкенд-разработка"
+      }
+    },
+    {
+      "name": "MySQL",
+      "category": "database",
+      "level": 75,
+      "icon": "images/icons/mysql.svg",
+      "description": {
+        "de": "QL Datenbank",
+        "en": "SQL Database",
+        "ru": "SQL база данных"
+      }
+    },
+    {
+      "name": "MongoDB",
+      "category": "database",
+      "level": 70,
+      "icon": "images/icons/mongodb.svg",
+      "description": {
+        "de": "NoSQL Datenbank",
+        "en": "NoSQL Database",
+        "ru": "NoSQL база данных"
+      }
+    },
+    {
+      "name": "Figma",
+      "category": "tools",
+      "level": 82,
+      "icon": "images/icons/figma.svg",
+      "description": {
+        "de": "Design und Prototyping",
+        "en": "Design and Prototyping",
+        "ru": "Дизайн и прототипирование"
+      }
+    },
+    {
+      "name": "Stripe",
+      "category": "tools",
+      "level": 68,
+      "icon": "images/icons/stripe.svg",
+      "description": {
+        "de": "Zahlungssystem",
+        "en": "Payment System",
+        "ru": "Платежная система"
+      }
+    },
+    {
+      "name": "Intellij IDEA",
+      "category": "tools",
+      "level": 70,
+      "icon": "images/icons/intellij.svg",
+      "description": {
+        "de": "Entwicklungsumgebung",
+        "en": "Development environment",
+        "ru": "Среда разработки"
+      }
+    },
+    {
+      "name": "PyCharm",
+      "category": "tools",
+      "level": 70,
+      "icon": "images/icons/pycharm.svg",
+      "description": {
+        "de": "Entwicklungsumgebung",
+        "en": "Development environment",
+        "ru": "Среда разработки"
+      }
+    },
+    {
+      "name": "Wordpress",
+      "category": "tools",
+      "level": 60,
+      "icon": "images/icons/wordpress.svg",
+      "description": {
+        "de": "CMS System",
+        "en": "CMS System",
+        "ru": "CMS система"
+      }
+    }
+  ],
+  "categories": [
+    {
+      "name": "frontend",
+      "label": {
+        "de": "Frontend",
+        "en": "Frontend",
+        "ru": "Фронтенд"
+      },
+      "color": "#3B82F6"
+    },
+    {
+      "name": "backend",
+      "label": {
+        "de": "Backend",
+        "en": "Backend",
+        "ru": "Бэкенд"
+      },
+      "color": "#6366F1"
+    },
+    {
+      "name": "database",
+      "label": {
+        "de": "Datenbank",
+        "en": "Database",
+        "ru": "База данных"
+      },
+      "color": "#8B5CF6"
+    },
+    {
+      "name": "tools",
+      "label": {
+        "de": "Werkzeuge",
+        "en": "Tools",
+        "ru": "Инструменты"
+      },
+      "color": "#06B6D4"
+    }
+  ]
+}

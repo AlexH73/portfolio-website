@@ -1,5 +1,4 @@
-// ==================== ОПТИМИЗИРОВАННЫЙ КОД ====================
-// Версия с кэшированием DOM, debounce и улучшенной производительностью
+// ==================== КОНСТАНТЫ И ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ====================
 
 const CONFIG = {
   formspreeUrl: "https://formspree.io/f/xyzdlrvd",
@@ -14,6 +13,7 @@ const CONFIG = {
 let currentLanguage = "de";
 let translations = {};
 let skillsChartInstance = null;
+let skillsData = null;
 
 // Кэш DOM элементов
 const domCache = {};
@@ -126,6 +126,7 @@ function initializePage() {
   const initFunctions = [
     initializeTheme,
     initializeLanguage,
+    loadSkillsData,
     loadProjects,
     setupFormHandler,
     setupSmoothScrolling,
@@ -135,7 +136,6 @@ function initializePage() {
     setupMobileMenu,
     setupCookiesBanner,
     setupPrivacyModal,
-    initSkillsChartObserver,
   ];
 
   initFunctions.forEach((fn) => {
@@ -190,6 +190,10 @@ function toggleTheme() {
   if (cookiesPrefs !== "false") {
     localStorage.setItem("theme", theme);
   }
+
+  if (skillsChartInstance) {
+    initSkillsChart();
+  }
 }
 
 // ==================== ЯЗЫК ====================
@@ -227,9 +231,55 @@ function applyLanguage(lang) {
   loadProjects(lang);
   updateFiltersLanguage(lang);
 
-  if (skillsChartInstance) {
-    initSkillsChart();
+  // Перерисовываем секцию навыков с сбросом анимаций
+  if (skillsData) {
+    // Сбрасываем классы анимации более аккуратно
+    const skillElements = document.querySelectorAll(
+      ".skills-chart-container, .legend-item, .category-item, .cloud-tag"
+    );
+    skillElements.forEach((el) => {
+      el.classList.remove("visible", "chart-visible");
+    });
+
+    // Перерисовываем компоненты
+    renderSkillsLegend();
+    renderCategoryDetails();
+    renderSkillsCloud();
+
+    // Переинициализируем диаграмму с задержкой
+    setTimeout(() => {
+      if (skillsChartInstance) {
+        skillsChartInstance.destroy();
+        skillsChartInstance = null;
+      }
+
+      // Ждем перерисовки DOM перед инициализацией диаграммы
+      setTimeout(() => {
+        initSkillsChart();
+
+        // Запускаем анимации если секция видима
+        const skillsSection = document.getElementById("skills");
+        if (skillsSection && isElementInViewport(skillsSection)) {
+          const chartContainer = document.querySelector(
+            ".skills-chart-container"
+          );
+          if (chartContainer) {
+            handleSkillsChartAnimation(chartContainer);
+          }
+        }
+      }, 100);
+    }, 150);
   }
+}
+
+function isElementInViewport(el) {
+  const rect = el.getBoundingClientRect();
+  return (
+    rect.top >= 0 &&
+    rect.left >= 0 &&
+    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+  );
 }
 
 function updateContentLanguage(lang) {
@@ -803,17 +853,27 @@ function setupSmoothScrolling() {
 
 // ==================== АНИМАЦИИ ПРИ ПРОКРУТКЕ ====================
 function setupScrollAnimations() {
-  const animatedElements = document.querySelectorAll("section, .fade-in");
+  // Добавляем контейнеры навыков в наблюдаемые элементы
+  const animatedElements = document.querySelectorAll(
+    "section, .fade-in, .skills-chart-container, .chart-legend, .skills-details"
+  );
 
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) entry.target.classList.add("visible");
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+
+          // Специальная обработка для диаграммы навыков
+          if (entry.target.classList.contains("skills-chart-container")) {
+            handleSkillsChartAnimation(entry.target);
+          }
+        }
       });
     },
     {
-      threshold: 0.01,
-      rootMargin: "0px 0px -100px 0px",
+      threshold: 0.1, // Увеличиваем порог для лучшей работы
+      rootMargin: "0px 0px -50px 0px",
     }
   );
 
@@ -1062,31 +1122,392 @@ function setupPrivacyModal() {
 }
 
 // ==================== ДИАГРАММА НАВЫКОВ ====================
-function initSkillsChartObserver() {
-  if (!domCache.skillsChart) return;
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          initSkillsChart();
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.1 }
-  );
+async function loadSkillsData() {
+  try {
+    const response = await fetch("js/skills.json");
+    if (!response.ok) throw new Error("Failed to load skills data");
+    skillsData = await response.json();
 
-  observer.observe(domCache.skillsChart);
+    // Ждем немного для гарантии что DOM готов
+    setTimeout(() => {
+      initSkillsChart();
+      renderSkillsLegend();
+      renderCategoryDetails();
+      renderSkillsCloud();
+
+      // Проверяем если секция уже видима при загрузке
+      const skillsSection = document.getElementById("skills");
+      const chartContainer = document.querySelector(".skills-chart-container");
+      if (
+        skillsSection &&
+        chartContainer &&
+        isElementInViewport(skillsSection)
+      ) {
+        handleSkillsChartAnimation(chartContainer);
+      }
+    }, 100);
+  } catch (error) {
+    console.error("Error loading skills data:", error);
+    // Fallback to basic chart
+    setTimeout(() => {
+      initBasicSkillsChart();
+    }, 100);
+  }
 }
 
 function initSkillsChart() {
+  if (!domCache.skillsChart || !skillsData) return;
+
+  if (skillsChartInstance) {
+    skillsChartInstance.destroy();
+  }
+
+  const isDarkTheme = document.body.classList.contains("dark-theme");
+  const textColor = isDarkTheme ? "#f3f4f6" : "#1f2937";
+  const gridColor = isDarkTheme
+    ? "rgba(255, 255, 255, 0.1)"
+    : "rgba(0, 0, 0, 0.1)";
+
+  // Создаем данные для диаграммы на основе skills.json
+  const radarData = prepareRadarData();
+
+  skillsChartInstance = new Chart(domCache.skillsChart, {
+    type: "radar",
+    data: radarData,
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        r: {
+          beginAtZero: true,
+          max: 100,
+          ticks: {
+            display: false,
+            stepSize: 20,
+          },
+          grid: {
+            color: gridColor,
+          },
+          angleLines: {
+            color: gridColor,
+          },
+          pointLabels: {
+            color: textColor,
+            font: {
+              size: 11, // Чуть меньше для лучшего размещения
+              family: "'Inter', sans-serif",
+            },
+          },
+        },
+      },
+      plugins: {
+        legend: {
+          display: false,
+        },
+        tooltip: {
+          backgroundColor: "rgba(0, 0, 0, 0.8)",
+          titleColor: "white",
+          bodyColor: "white",
+          callbacks: {
+            label: function (context) {
+              const label = context.dataset.label || "";
+              const value = context.raw || 0;
+              const category = context.dataset.category || "";
+              return `${label}: ${value}% (${category})`;
+            },
+          },
+        },
+      },
+      animation: {
+        duration: 2000,
+        easing: "easeOutQuart",
+      },
+      elements: {
+        line: {
+          tension: 0.1, // Более плавные линии
+        },
+      },
+    },
+  });
+}
+
+// функция для подготовки данных радара
+function prepareRadarData() {
+  if (!skillsData) return { labels: [], datasets: [] };
+
+  // Собираем все уникальные навыки для labels
+  const allSkills = skillsData.skills.map((skill) => skill.name);
+
+  // Создаем datasets для каждой категории
+  const datasets = skillsData.categories.map((category) => {
+    const skillsInCategory = skillsData.skills.filter(
+      (skill) => skill.category === category.name
+    );
+
+    // Создаем массив данных для этой категории
+    const data = allSkills.map((skillName) => {
+      const skill = skillsInCategory.find((s) => s.name === skillName);
+      return skill ? skill.level : 0; // 0 для навыков не из этой категории
+    });
+
+    return {
+      label:
+        getTranslation(`skills.${category.name}`, currentLanguage) ||
+        category.label[currentLanguage] ||
+        category.name,
+      data: data,
+      backgroundColor: hexToRgba(category.color, 0.2),
+      borderColor: category.color,
+      pointBackgroundColor: category.color,
+      pointBorderColor: "#fff",
+      pointHoverBackgroundColor: "#fff",
+      pointHoverBorderColor: category.color,
+      pointRadius: 4,
+      pointHoverRadius: 6,
+      borderWidth: 2,
+      category: category.name, // Добавляем категорию для фильтрации
+    };
+  });
+
+  return {
+    labels: allSkills,
+    datasets: datasets,
+  };
+}
+
+function renderSkillsLegend() {
+  if (!skillsData || !document.getElementById("chartLegend")) return;
+
+  const legendContainer = document.getElementById("chartLegend");
+  legendContainer.innerHTML = "";
+
+  // Добавляем "All" элемент
+  const allItem = document.createElement("div");
+  allItem.className = "legend-item active";
+  allItem.dataset.filter = "all";
+  allItem.innerHTML = `
+    <div class="legend-color" style="background-color: var(--primary-color)"></div>
+    <div class="legend-info">
+      <div class="legend-name">${
+        getTranslation("filters.all", currentLanguage) || "All"
+      }</div>
+      <div class="legend-count">${skillsData.skills.length} ${
+    getTranslation("skills.technologies", currentLanguage) || "technologies"
+  }</div>
+    </div>
+  `;
+  legendContainer.appendChild(allItem);
+
+  // Добавляем категории
+  skillsData.categories.forEach((category) => {
+    const skillsInCategory = skillsData.skills.filter(
+      (skill) => skill.category === category.name
+    );
+    const avgLevel =
+      skillsInCategory.length > 0
+        ? Math.round(
+            skillsInCategory.reduce((sum, skill) => sum + skill.level, 0) /
+              skillsInCategory.length
+          )
+        : 0;
+
+    const legendItem = document.createElement("div");
+    legendItem.className = "legend-item";
+    legendItem.dataset.filter = category.name;
+
+    legendItem.innerHTML = `
+      <div class="legend-color" style="background-color: ${
+        category.color
+      }"></div>
+      <div class="legend-info">
+        <div class="legend-name">${
+          getTranslation(`skills.${category.name}`, currentLanguage) ||
+          category.label[currentLanguage] ||
+          category.name
+        }</div>
+        <div class="legend-count">${skillsInCategory.length} ${
+      getTranslation("skills.technologies", currentLanguage) || "technologies"
+    } • ${avgLevel}%</div>
+      </div>
+    `;
+
+    legendContainer.appendChild(legendItem);
+  });
+
+  // Добавляем обработчики событий
+  setupLegendInteractivity();
+}
+
+// функция для обработки взаимодействия с легендой
+function setupLegendInteractivity() {
+  const legendItems = document.querySelectorAll('.legend-item');
+  
+  legendItems.forEach(item => {
+    item.addEventListener('click', () => {
+      // Убираем активный класс у всех
+      legendItems.forEach(i => i.classList.remove('active'));
+      // Добавляем активный класс текущему
+      item.classList.add('active');
+      
+      const filter = item.dataset.filter;
+      filterChartData(filter);
+      filterSkillsCloud(filter);
+      filterCategoryDetails(filter);
+    });
+  });
+}
+
+// Функция для фильтрации данных диаграммы
+function filterChartData(filter) {
+  if (!skillsChartInstance || !skillsData) return;
+
+  const datasets = skillsChartInstance.data.datasets;
+  
+  if (filter === 'all') {
+    // Показываем все datasets
+    datasets.forEach(dataset => {
+      dataset.hidden = false;
+    });
+  } else {
+    // Показываем только выбранную категорию
+    datasets.forEach(dataset => {
+      dataset.hidden = dataset.category !== filter;
+    });
+  }
+
+  skillsChartInstance.update();
+}
+
+// Функция для фильтрации деталей категорий
+function filterCategoryDetails(filter) {
+  const categoryItems = document.querySelectorAll('.category-item');
+  
+  categoryItems.forEach(item => {
+    if (filter === 'all') {
+      item.style.display = 'block';
+    } else {
+      const categoryName = item.querySelector('.category-title').textContent.toLowerCase();
+      const shouldShow = categoryName.includes(filter.toLowerCase());
+      item.style.display = shouldShow ? 'block' : 'none';
+    }
+  });
+}
+
+function renderCategoryDetails() {
+  if (!skillsData || !document.getElementById("categoryList")) return;
+
+  const categoryList = document.getElementById("categoryList");
+  categoryList.innerHTML = "";
+
+  skillsData.categories.forEach((category, index) => {
+    const skillsInCategory = skillsData.skills.filter(
+      (skill) => skill.category === category.name
+    );
+    const avgLevel =
+      skillsInCategory.length > 0
+        ? Math.round(
+            skillsInCategory.reduce((sum, skill) => sum + skill.level, 0) /
+              skillsInCategory.length
+          )
+        : 0;
+
+    const categoryItem = document.createElement("div");
+    categoryItem.className = "category-item";
+    categoryItem.style.borderLeftColor = category.color;
+    categoryItem.style.animationDelay = `${index * 0.1}s`;
+
+    categoryItem.innerHTML = `
+      <div class="category-header">
+        <div class="category-title">
+          <div class="legend-color" style="background-color: ${
+            category.color
+          }"></div>
+          ${
+            getTranslation(`skills.${category.name}`, currentLanguage) ||
+            category.label[currentLanguage] ||
+            category.name
+          }
+        </div>
+        <div class="category-stats">
+          ${
+            getTranslation("skills.averageLevel", currentLanguage) || "Average"
+          }: ${avgLevel}%
+        </div>
+      </div>
+      <div class="skills-list">
+        ${skillsInCategory
+          .map(
+            (skill) => `
+          <div class="skill-tag" data-skill="${skill.name}" title="${skill.level}%">
+            <img src="${skill.icon}" alt="${skill.name}" onerror="this.style.display='none'">
+            ${skill.name}
+          </div>
+        `
+          )
+          .join("")}
+      </div>
+    `;
+
+    categoryList.appendChild(categoryItem);
+  });
+}
+
+function renderSkillsCloud() {
+  if (!skillsData || !document.getElementById("skillsCloud")) return;
+
+  const skillsCloud = document.getElementById("skillsCloud");
+  skillsCloud.innerHTML = "";
+
+  // Shuffle skills for variety
+  const shuffledSkills = [...skillsData.skills].sort(() => Math.random() - 0.5);
+
+  shuffledSkills.forEach((skill, index) => {
+    const category = skillsData.categories.find(
+      (cat) => cat.name === skill.category
+    );
+    const cloudTag = document.createElement("div");
+    cloudTag.className = `cloud-tag ${skill.category}`;
+    cloudTag.textContent = skill.name;
+    cloudTag.title = `${skill.name} - ${skill.level}%`;
+    cloudTag.style.animationDelay = `${index * 0.05}s`;
+
+    skillsCloud.appendChild(cloudTag);
+  });
+}
+
+function filterSkillsCloud(filter) {
+  const cloudTags = document.querySelectorAll(".cloud-tag");
+
+  cloudTags.forEach((tag) => {
+    if (filter === "all" || tag.classList.contains(filter)) {
+      tag.style.display = "flex";
+      tag.style.opacity = "1";
+      tag.style.transform = "scale(1)";
+    } else {
+      tag.style.display = "none";
+      tag.style.opacity = "0";
+      tag.style.transform = "scale(0.8)";
+    }
+  });
+}
+
+function hexToRgba(hex, alpha) {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
+function initBasicSkillsChart() {
+  // Fallback basic chart if skills.json fails to load
   if (!domCache.skillsChart) return;
 
-  if (typeof Chart === "undefined") {
-    console.error("Chart.js is not loaded");
-    return;
-  }
+  const isDarkTheme = document.body.classList.contains("dark-theme");
+  const textColor = isDarkTheme ? "#f3f4f6" : "#1f2937";
+  const gridColor = isDarkTheme
+    ? "rgba(255, 255, 255, 0.1)"
+    : "rgba(0, 0, 0, 0.1)";
 
   const skillsData = {
     labels: [
@@ -1113,10 +1534,6 @@ function initSkillsChart() {
     ],
   };
 
-  if (skillsChartInstance) {
-    skillsChartInstance.destroy();
-  }
-
   skillsChartInstance = new Chart(domCache.skillsChart, {
     type: "radar",
     data: skillsData,
@@ -1127,17 +1544,29 @@ function initSkillsChart() {
         r: {
           beginAtZero: true,
           max: 100,
-          ticks: { display: false, stepSize: 20 },
-          grid: { color: "rgba(119, 119, 119, 0.1)" },
-          angleLines: { color: "rgba(119, 119, 119, 0.1)" },
+          ticks: {
+            display: false,
+            stepSize: 20,
+          },
+          grid: {
+            color: gridColor,
+          },
+          angleLines: {
+            color: gridColor,
+          },
           pointLabels: {
-            color: "var(--text-primary)",
-            font: { size: 12, family: "'Inter', sans-serif" },
+            color: textColor,
+            font: {
+              size: 12,
+              family: "'Inter', sans-serif",
+            },
           },
         },
       },
       plugins: {
-        legend: { display: false },
+        legend: {
+          display: false,
+        },
         tooltip: {
           callbacks: {
             label: function (context) {
@@ -1153,6 +1582,57 @@ function initSkillsChart() {
     },
   });
 }
+
+// функция для обработки анимации диаграммы навыков
+function handleSkillsChartAnimation(chartContainer) {
+  // Добавляем класс для запуска анимации
+  chartContainer.classList.add("chart-visible");
+
+  // Инициализируем диаграмму, если она еще не создана
+  if (!skillsChartInstance && skillsData) {
+    setTimeout(() => {
+      initSkillsChart();
+    }, 500);
+  }
+
+  // Анимируем появление элементов легенды с задержкой
+  const legendItems = document.querySelectorAll(".legend-item");
+  legendItems.forEach((item, index) => {
+    setTimeout(() => {
+      item.classList.add("visible");
+    }, index * 100 + 300);
+  });
+
+  // Анимируем появление деталей навыков
+  const categoryItems = document.querySelectorAll(".category-item");
+  const cloudTags = document.querySelectorAll(".cloud-tag");
+
+  categoryItems.forEach((item, index) => {
+    setTimeout(() => {
+      item.classList.add("visible");
+    }, index * 100 + 600);
+  });
+
+  cloudTags.forEach((tag, index) => {
+    setTimeout(() => {
+      tag.classList.add("visible");
+    }, index * 50 + 800);
+  });
+}
+
+window.addEventListener(
+  "resize",
+  debounce(() => {
+    const skillsSection = document.getElementById("skills");
+    const chartContainer = document.querySelector(".skills-chart-container");
+
+    if (skillsSection && chartContainer && isElementInViewport(skillsSection)) {
+      if (!chartContainer.classList.contains("chart-visible")) {
+        handleSkillsChartAnimation(chartContainer);
+      }
+    }
+  }, 250)
+);
 
 // ==================== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ====================
 function getTranslation(key, lang = currentLanguage) {
