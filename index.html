@@ -146,7 +146,7 @@
     <!-- Header Section -->
     <!-- Logo, Navigation Menu, Theme & Language Controls -->
     <!-- ============================= -->
-    <header>
+    <header class="site-header">
       <div class="container header-content">
         <!-- Logo with initials and full name -->
         <a href="/portfolio-website" class="logo" aria-label="Homepage">
@@ -265,6 +265,7 @@
               src="./images/225902.png"
               alt="Portrait of Alexander Hermann"
               class="photo"
+              loading="lazy"
             />
           </figure>
         </div>
@@ -274,9 +275,11 @@
       <!-- About Section -->
       <!-- Biography and resume download link -->
       <!-- ============================= -->
-      <section id="about" class="about">
+      <section id="about" class="about" aria-labelledby="aboutTitle">
         <div class="container">
-          <h2 class="section-title" data-i18n="about.title">Über mich</h2>
+          <h2 id="aboutTitle" class="section-title" data-i18n="about.title">
+            Über mich
+          </h2>
           <div class="about-content">
             <div class="about-text">
               <h3 data-i18n="about.greeting">Hallo! Ich bin Alexander</h3>
@@ -302,6 +305,7 @@
               <img
                 src="./images/photo.avif"
                 alt="Coding workspace with laptop"
+                loading="lazy"
               />
             </figure>
           </div>
@@ -318,28 +322,45 @@
 
           <div class="skills-container">
             <div class="skills-chart-container fade-in">
-              <canvas id="skills-chart"></canvas>
+              <canvas
+                id="skills-chart"
+                role="img"
+                aria-label="Skills proficiency chart"
+              ></canvas>
             </div>
 
-            <div class="chart-legend fade-in" id="chartLegend">
+            <div
+              class="chart-legend fade-in"
+              id="chartLegend"
+              role="list"
+              aria-labelledby="skillsTitle"
+            >
               <!-- Legend populated via JavaScript -->
             </div>
           </div>
 
           <article class="skills-details fade-in">
-            <div class="category-breakdown">
+            <section class="category-breakdown" aria-labelledby="categoryTitle">
               <h3 data-i18n="skills.byCategory">Nach Kategorien</h3>
-              <div class="category-list" id="categoryList">
+              <div
+                class="category-list"
+                id="categoryList"
+                role="list"
+                aria-label="Skill categories"
+              >
                 <!-- Categories populated via JavaScript -->
               </div>
-            </div>
+            </section>
 
-            <div class="skills-interactive">
+            <section
+              class="skills-interactive"
+              aria-label="All technologies cloud"
+            >
               <h3 data-i18n="skills.allTechnologies">Alle Technologien</h3>
               <div class="skills-cloud" id="skillsCloud">
                 <!-- Skills cloud populated via JavaScript -->
               </div>
-            </div>
+            </section>
           </article>
         </div>
       </section>
@@ -351,62 +372,64 @@
       <section id="education" class="education">
         <div class="container">
           <h2 class="section-title" data-i18n="education.title">Ausbildung</h2>
-          <article class="education-content">
-            <div class="education-item">
-              <h3 data-i18n="education.course.title">
-                Java Full-Stack Developer
-              </h3>
-              <p class="education-period" data-i18n="education.course.period">
-                Abschluss 2026
+          <article class="education-item">
+            <h3 data-i18n="education.course.title">
+              Java Full-Stack Developer
+            </h3>
+            <p
+              class="education-period"
+              aria-label="Graduation year: 2026"
+              data-i18n="education.course.period"
+            >
+              Abschluss 2026
+            </p>
+            <div class="education-description">
+              <p data-i18n="education.course.description1">
+                Intensivkurs für Java Full-Stack-Entwicklung mit umfassender
+                Abdeckung moderner Webentwicklungstechnologien.
               </p>
-              <div class="education-description">
-                <p data-i18n="education.course.description1">
-                  Intensivkurs für Java Full-Stack-Entwicklung mit umfassender
-                  Abdeckung moderner Webentwicklungstechnologien.
-                </p>
-                <p data-i18n="education.course.description2">
-                  Das Programm umfasste: Programmiergrundlagen, Algorithmen und
-                  Datenstrukturen, fortgeschrittene Java- und OOP-Konzepte,
-                  Datenbanken, Frontend-Entwicklung, Linux und
-                  Entwicklungswerkzeuge sowie ein Team-Diplomprojekt.
-                </p>
+              <p data-i18n="education.course.description2">
+                Das Programm umfasste: Programmiergrundlagen, Algorithmen und
+                Datenstrukturen, fortgeschrittene Java- und OOP-Konzepte,
+                Datenbanken, Frontend-Entwicklung, Linux und
+                Entwicklungswerkzeuge sowie ein Team-Diplomprojekt.
+              </p>
 
-                <div class="curriculum">
-                  <h4 data-i18n="education.curriculum.title">Kurscurriculum</h4>
-                  <ul>
-                    <li data-i18n="education.curriculum.item1">
-                      Grundlagen der Programmierung
-                    </li>
-                    <li data-i18n="education.curriculum.item2">
-                      Algorithmen und Datenstrukturen
-                    </li>
-                    <li data-i18n="education.curriculum.item3">
-                      Fortgeschrittenes Java & OOP
-                    </li>
-                    <li data-i18n="education.curriculum.item4">
-                      Datenbanken (MySQL, MongoDB)
-                    </li>
-                    <li data-i18n="education.curriculum.item5">
-                      Englisch für Softwareentwickler
-                    </li>
-                    <li data-i18n="education.curriculum.item6">
-                      Frontend-Entwicklung (HTML, CSS, JavaScript)
-                    </li>
-                    <li data-i18n="education.curriculum.item7">
-                      Linux, Cloud-Technologien, Git
-                    </li>
-                    <li data-i18n="education.curriculum.item8">
-                      Abschlussprojekt (Teamarbeit)
-                    </li>
-                    <li data-i18n="education.curriculum.item9">
-                      Fortgeschrittene Frontend-Entwicklung (TypeScript, React)
-                    </li>
-                    <li data-i18n="education.curriculum.item10">
-                      Backend-Entwicklung (Java Stack: Spring Boot, Spring MVC,
-                      Spring Data JPA)
-                    </li>
-                  </ul>
-                </div>
+              <div class="curriculum">
+                <h4 data-i18n="education.curriculum.title">Kurscurriculum</h4>
+                <ul aria-label="Curriculum list">
+                  <li data-i18n="education.curriculum.item1">
+                    Grundlagen der Programmierung
+                  </li>
+                  <li data-i18n="education.curriculum.item2">
+                    Algorithmen und Datenstrukturen
+                  </li>
+                  <li data-i18n="education.curriculum.item3">
+                    Fortgeschrittenes Java & OOP
+                  </li>
+                  <li data-i18n="education.curriculum.item4">
+                    Datenbanken (MySQL, MongoDB)
+                  </li>
+                  <li data-i18n="education.curriculum.item5">
+                    Englisch für Softwareentwickler
+                  </li>
+                  <li data-i18n="education.curriculum.item6">
+                    Frontend-Entwicklung (HTML, CSS, JavaScript)
+                  </li>
+                  <li data-i18n="education.curriculum.item7">
+                    Linux, Cloud-Technologien, Git
+                  </li>
+                  <li data-i18n="education.curriculum.item8">
+                    Abschlussprojekt (Teamarbeit)
+                  </li>
+                  <li data-i18n="education.curriculum.item9">
+                    Fortgeschrittene Frontend-Entwicklung (TypeScript, React)
+                  </li>
+                  <li data-i18n="education.curriculum.item10">
+                    Backend-Entwicklung (Java Stack: Spring Boot, Spring MVC,
+                    Spring Data JPA)
+                  </li>
+                </ul>
               </div>
             </div>
           </article>
@@ -420,7 +443,7 @@
       <section id="projects" class="projects">
         <div class="container">
           <h2 class="section-title" data-i18n="projects.title">Projekte</h2>
-          <div class="projects-grid">
+          <div class="projects-grid" aria-label="List of projects">
             <!-- Projects loaded via JavaScript -->
           </div>
         </div>
@@ -433,8 +456,8 @@
       <section id="qa" class="qa">
         <div class="container">
           <h2 class="section-title" data-i18n="qa.title">Qualitätssicherung</h2>
-          <div class="qa-content">
-            <div class="qa-text">
+          <div class="qa-content" role="region" aria-labelledby="qa-title">
+            <article class="qa-text">
               <h3 data-i18n="qa.subtitle">Qualität in der Entwicklung</h3>
               <p data-i18n="qa.text1">
                 Als Entwickler lege ich großen Wert auf Codequalität,
@@ -446,30 +469,46 @@
                 Software.
               </p>
 
-              <div class="qa-skills">
-                <div class="qa-skill">
+              <div class="qa-skills" aria-label="Quality skills overview">
+                <article
+                  class="qa-skill"
+                  role="group"
+                  aria-labelledby="skill-cleanCode"
+                >
                   <h4 data-i18n="qa.skills.cleanCode">Clean Code</h4>
                   <p data-i18n="qa.skills.cleanCodeDesc">
                     Befolgung von Prinzipien für sauberen, lesbaren und
                     wartbaren Code
                   </p>
-                </div>
-                <div class="qa-skill">
+                </article>
+                <article
+                  class="qa-skill"
+                  role="group"
+                  aria-labelledby="skill-testing"
+                >
                   <h4 data-i18n="qa.skills.testing">Testing</h4>
                   <p data-i18n="qa.skills.testingDesc">
                     Grundlagen des Unit-Testings und Anwendungstests
                   </p>
-                </div>
-                <div class="qa-skill">
+                </article>
+                <article
+                  class="qa-skill"
+                  role="group"
+                  aria-labelledby="skill-debugging"
+                >
                   <h4 data-i18n="qa.skills.debugging">Debugging</h4>
                   <p data-i18n="qa.skills.debuggingDesc">
                     Methoden zur Fehlerbehebung und Problemlösung im Code
                   </p>
-                </div>
+                </article>
               </div>
-            </div>
+            </article>
             <figure class="qa-image">
-              <img src="./images/photo-qa.avif" alt="Code quality illustration" />
+              <img
+                src="./images/photo-qa.avif"
+                alt="Code quality illustration"
+                loading="lazy"
+              />
             </figure>
           </div>
         </div>
@@ -481,9 +520,15 @@
       <!-- ============================= -->
       <section id="contact" class="contact">
         <div class="container">
-          <h2 class="section-title" data-i18n="contact.title">Kontakt</h2>
+          <h2
+            id="contact-title"
+            class="section-title"
+            data-i18n="contact.title"
+          >
+            Kontakt
+          </h2>
           <div class="contact-content">
-            <address class="contact-info">
+            <address class="contact-info" aria-label="Contact information">
               <!-- Social/contact methods -->
               <div class="contact-item">
                 <div class="contact-icon">💼</div>
@@ -577,7 +622,12 @@
       <!-- Cookies Banner -->
       <!-- Inform user about cookies and provide accept/reject options -->
       <!-- ============================= -->
-      <div id="cookies-banner" class="cookies-banner">
+      <div
+        id="cookies-banner"
+        class="cookies-banner"
+        role="region"
+        aria-label="Cookies consent banner"
+      >
         <div class="cookies-content">
           <p data-i18n="cookies.message">
             Wir verwenden Cookies, um die Website zu verbessern. Wenn Sie die
@@ -588,6 +638,7 @@
               id="cookies-accept"
               class="btn btn-sm"
               data-i18n="cookies.accept"
+              aria-label="Accept cookies"
             >
               Akzeptieren
             </button>
@@ -595,6 +646,7 @@
               id="cookies-reject"
               class="btn btn-outline btn-sm"
               data-i18n="cookies.reject"
+              aria-label="Reject cookies"
             >
               Ablehnen
             </button>
@@ -602,6 +654,7 @@
               href="#privacy"
               id="cookies-learn-more"
               data-i18n="cookies.learnMore"
+              aria-label="Learn more about cookies"
               >Mehr erfahren</a
             >
           </div>
@@ -613,9 +666,13 @@
     <!-- Footer Section -->
     <!-- Social links and copyright -->
     <!-- ============================= -->
-    <footer>
+    <footer role="contentinfo">
       <div class="container">
-        <nav class="social-links">
+        <nav
+          class="social-links"
+          role="navigation"
+          aria-label="Social media links"
+        >
           <a
             href="https://t.me/AlexH573"
             class="social-link"
@@ -732,10 +789,10 @@
         <use href="images/icons/sprite.svg#icon-privacy"></use>
       </svg>
     </button>
-    <div id="privacy-modal" class="modal">
+    <div id="privacy-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="privacy-title">
       <div class="modal-content">
-        <span class="modal-close">&times;</span>
-        <h2 class="section-title" data-i18n="privacy.title">
+        <button class="modal-close" aria-label="Close privacy modal">&times;</button>
+        <h2 id="privacy-title class="section-title" data-i18n="privacy.title">
           Datenschutzerklärung
         </h2>
         <h3 data-i18n="privacy.cookiesTitle">Verwendung von Cookies</h3>
@@ -766,21 +823,22 @@
 
         <div class="cookies-controls">
           <label>
-            <input type="checkbox" id="cookies-necessary" checked disabled />
+            <input type="checkbox" id="cookies-necessary" checked disabled aria-checked="true" aria-disabled="true" />
             <span data-i18n="privacy.necessary">Notwendige Cookies</span>
           </label>
           <label>
-            <input type="checkbox" id="cookies-preferences" checked />
+            <input type="checkbox" id="cookies-preferences" checked aria-checked="true" />
             <span data-i18n="privacy.preferences">Präferenz-Cookies</span>
           </label>
           <label>
-            <input type="checkbox" id="cookies-analytics" checked />
+            <input type="checkbox" id="cookies-analytics" checked aria-checked="true" />
             <span data-i18n="privacy.analytics">Analytische Cookies</span>
           </label>
           <button
             id="save-cookies-preferences"
             class="btn"
             data-i18n="privacy.save"
+            aria-label="Save cookie preferences"
           >
             Einstellungen speichern
           </button>

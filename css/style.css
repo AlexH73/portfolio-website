@@ -515,7 +515,6 @@ section.visible .project-card:nth-child(3) {
   padding: 2rem;
   border-radius: 12px;
   box-shadow: var(--shadow);
-  max-width: 800px;
   margin: 0 auto;
 }
 
@@ -1211,6 +1210,7 @@ footer {
   width: 30px;
   height: 30px;
   z-index: 1;
+  border: none;
 }
 
 .modal-close:hover {
