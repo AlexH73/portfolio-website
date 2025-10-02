@@ -199,7 +199,7 @@
         </a>
 
         <!-- Main Navigation -->
-        <nav>
+        <nav aria-label="Main navigation">
           <ul>
             <li><a href="#about" data-i18n="nav.about">Über mich</a></li>
             <li><a href="#skills" data-i18n="nav.skills">Fähigkeiten</a></li>
@@ -214,8 +214,10 @@
 
         <!-- Theme Toggle and Language Selection -->
         <div class="controls">
-          <button class="theme-toggle" aria-label="Toggle theme">🌙</button>
-          <select class="lang-select">
+          <button class="theme-toggle" aria-label="Toggle dark or light theme">
+            🌙
+          </button>
+          <select class="lang-select" aria-label="Language selection">
             <option value="de">DE</option>
             <option value="en">EN</option>
             <option value="ru">RU</option>
@@ -223,386 +225,389 @@
         </div>
 
         <!-- Mobile Menu Toggle -->
-        <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
-          <span></span>
-          <span></span>
-          <span></span>
+        <button
+          class="menu-toggle"
+          id="menuToggle"
+          aria-label="Open navigation menu"
+        >
+          <span></span><span></span><span></span>
         </button>
       </div>
     </header>
 
-    <!-- ============================= -->
-    <!-- Hero Section -->
-    <!-- Introduction with name, description, photo, and call-to-action buttons -->
-    <!-- ============================= -->
-    <section class="hero">
-      <div class="hero-section">
-        <div class="container hero-content">
-          <h1>Alexander Hermann</h1>
-          <p class="hero-description" data-i18n="hero.description">
-            Full-Stack Java-Entwickler mit Fokus auf moderne Webanwendungen
-          </p>
-          <div class="hero-buttons">
-            <a href="#projects" class="btn" data-i18n="hero.projects"
-              >Meine Projekte</a
-            >
-            <a href="#contact" class="btn btn-outline" data-i18n="hero.contact"
-              >Kontakt aufnehmen</a
-            >
+    <main>
+      <!-- ============================= -->
+      <!-- Hero Section -->
+      <!-- Introduction with name, description, photo, and call-to-action buttons -->
+      <!-- ============================= -->
+      <section class="hero">
+        <div class="hero-section">
+          <div class="container hero-content">
+            <h1>Alexander Hermann</h1>
+            <p class="hero-description" data-i18n="hero.description">
+              Full-Stack Java-Entwickler mit Fokus auf moderne Webanwendungen
+            </p>
+            <div class="hero-buttons">
+              <a href="#projects" class="btn" data-i18n="hero.projects"
+                >Meine Projekte</a
+              >
+              <a
+                href="#contact"
+                class="btn btn-outline"
+                data-i18n="hero.contact"
+                >Kontakt aufnehmen</a
+              >
+            </div>
           </div>
-        </div>
-        <div class="hero-photo">
-          <div class="hero-blurred-photo">
+          <figure class="hero-photo">
+            <div class="hero-blurred-photo" aria-hidden="true"></div>
             <img
               src="./images/225902.png"
-              alt="Alexander Hermann"
+              alt="Portrait of Alexander Hermann"
               class="photo"
             />
+          </figure>
+        </div>
+      </section>
+
+      <!-- ============================= -->
+      <!-- About Section -->
+      <!-- Biography and resume download link -->
+      <!-- ============================= -->
+      <section id="about" class="about">
+        <div class="container">
+          <h2 class="section-title" data-i18n="about.title">Über mich</h2>
+          <div class="about-content">
+            <div class="about-text">
+              <h3 data-i18n="about.greeting">Hallo! Ich bin Alexander</h3>
+              <p data-i18n="about.text1">
+                Ich bin ein Full-Stack Java-Entwickler mit einer Leidenschaft
+                für die Erstellung intuitiver und leistungsstarker
+                Webanwendungen. Meine Reise in der IT begann mit dem Interesse
+                an der Funktionsweise von Technologien und der Art und Weise,
+                wie sie reale Probleme lösen können.
+              </p>
+              <p data-i18n="about.text2">
+                Ich habe umfangreiche Erfahrung mit modernen Technologien wie
+                Java, Spring Boot, HTML5, CSS3, JavaScript, TypeScript, React
+                und verschiedenen Datenbankmanagementsystemen. Ich bin stets
+                bestrebt, meine Fähigkeiten zu verbessern und mit den neuesten
+                Trends in der Webentwicklung Schritt zu halten.
+              </p>
+              <a href="./docs/resume.pdf" class="btn" data-i18n="about.resume"
+                >Lebenslauf herunterladen</a
+              >
+            </div>
+            <figure class="about-image">
+              <img
+                src="./images/photo.avif"
+                alt="Coding workspace with laptop"
+              />
+            </figure>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- ============================= -->
-    <!-- About Section -->
-    <!-- Biography and resume download link -->
-    <!-- ============================= -->
-    <section id="about" class="about">
-      <div class="container">
-        <h2 class="section-title" data-i18n="about.title">Über mich</h2>
-        <div class="about-content">
-          <div class="about-text">
-            <h3 data-i18n="about.greeting">Hallo! Ich bin Alexander</h3>
-            <p data-i18n="about.text1">
-              Ich bin ein Full-Stack Java-Entwickler mit einer Leidenschaft für
-              die Erstellung intuitiver und leistungsstarker Webanwendungen.
-              Meine Reise in der IT begann mit dem Interesse an der
-              Funktionsweise von Technologien und der Art und Weise, wie sie
-              reale Probleme lösen können.
-            </p>
-            <p data-i18n="about.text2">
-              Ich habe umfangreiche Erfahrung mit modernen Technologien wie
-              Java, Spring Boot, HTML5, CSS3, JavaScript, TypeScript, React und
-              verschiedenen Datenbankmanagementsystemen. Ich bin stets bestrebt,
-              meine Fähigkeiten zu verbessern und mit den neuesten Trends in der
-              Webentwicklung Schritt zu halten.
-            </p>
-            <a href="./docs/resume.pdf" class="btn" data-i18n="about.resume"
-              >Lebenslauf herunterladen</a
+      <!-- ============================= -->
+      <!-- Skills Section -->
+      <!-- Skill charts, categories, and interactive cloud -->
+      <!-- ============================= -->
+      <section id="skills" class="skills">
+        <div class="container">
+          <h2 class="section-title" data-i18n="skills.title">Fähigkeiten</h2>
+
+          <div class="skills-container">
+            <div class="skills-chart-container fade-in">
+              <canvas id="skills-chart"></canvas>
+            </div>
+
+            <div class="chart-legend fade-in" id="chartLegend">
+              <!-- Legend populated via JavaScript -->
+            </div>
+          </div>
+
+          <article class="skills-details fade-in">
+            <div class="category-breakdown">
+              <h3 data-i18n="skills.byCategory">Nach Kategorien</h3>
+              <div class="category-list" id="categoryList">
+                <!-- Categories populated via JavaScript -->
+              </div>
+            </div>
+
+            <div class="skills-interactive">
+              <h3 data-i18n="skills.allTechnologies">Alle Technologien</h3>
+              <div class="skills-cloud" id="skillsCloud">
+                <!-- Skills cloud populated via JavaScript -->
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ============================= -->
+      <!-- Education Section -->
+      <!-- Course, curriculum, and achievements -->
+      <!-- ============================= -->
+      <section id="education" class="education">
+        <div class="container">
+          <h2 class="section-title" data-i18n="education.title">Ausbildung</h2>
+          <article class="education-content">
+            <div class="education-item">
+              <h3 data-i18n="education.course.title">
+                Java Full-Stack Developer
+              </h3>
+              <p class="education-period" data-i18n="education.course.period">
+                Abschluss 2026
+              </p>
+              <div class="education-description">
+                <p data-i18n="education.course.description1">
+                  Intensivkurs für Java Full-Stack-Entwicklung mit umfassender
+                  Abdeckung moderner Webentwicklungstechnologien.
+                </p>
+                <p data-i18n="education.course.description2">
+                  Das Programm umfasste: Programmiergrundlagen, Algorithmen und
+                  Datenstrukturen, fortgeschrittene Java- und OOP-Konzepte,
+                  Datenbanken, Frontend-Entwicklung, Linux und
+                  Entwicklungswerkzeuge sowie ein Team-Diplomprojekt.
+                </p>
+
+                <div class="curriculum">
+                  <h4 data-i18n="education.curriculum.title">Kurscurriculum</h4>
+                  <ul>
+                    <li data-i18n="education.curriculum.item1">
+                      Grundlagen der Programmierung
+                    </li>
+                    <li data-i18n="education.curriculum.item2">
+                      Algorithmen und Datenstrukturen
+                    </li>
+                    <li data-i18n="education.curriculum.item3">
+                      Fortgeschrittenes Java & OOP
+                    </li>
+                    <li data-i18n="education.curriculum.item4">
+                      Datenbanken (MySQL, MongoDB)
+                    </li>
+                    <li data-i18n="education.curriculum.item5">
+                      Englisch für Softwareentwickler
+                    </li>
+                    <li data-i18n="education.curriculum.item6">
+                      Frontend-Entwicklung (HTML, CSS, JavaScript)
+                    </li>
+                    <li data-i18n="education.curriculum.item7">
+                      Linux, Cloud-Technologien, Git
+                    </li>
+                    <li data-i18n="education.curriculum.item8">
+                      Abschlussprojekt (Teamarbeit)
+                    </li>
+                    <li data-i18n="education.curriculum.item9">
+                      Fortgeschrittene Frontend-Entwicklung (TypeScript, React)
+                    </li>
+                    <li data-i18n="education.curriculum.item10">
+                      Backend-Entwicklung (Java Stack: Spring Boot, Spring MVC,
+                      Spring Data JPA)
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ============================= -->
+      <!-- Projects Section -->
+      <!-- Portfolio projects loaded dynamically -->
+      <!-- ============================= -->
+      <section id="projects" class="projects">
+        <div class="container">
+          <h2 class="section-title" data-i18n="projects.title">Projekte</h2>
+          <div class="projects-grid">
+            <!-- Projects loaded via JavaScript -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================= -->
+      <!-- QA Section -->
+      <!-- Quality assurance and development principles -->
+      <!-- ============================= -->
+      <section id="qa" class="qa">
+        <div class="container">
+          <h2 class="section-title" data-i18n="qa.title">Qualitätssicherung</h2>
+          <div class="qa-content">
+            <div class="qa-text">
+              <h3 data-i18n="qa.subtitle">Qualität in der Entwicklung</h3>
+              <p data-i18n="qa.text1">
+                Als Entwickler lege ich großen Wert auf Codequalität,
+                Wartbarkeit und Zuverlässigkeit.
+              </p>
+              <p data-i18n="qa.text2">
+                Ich befasse mich mit Best Practices, Clean Code-Prinzipien und
+                grundlegenden Testmethoden zur Gewährleistung hochwertiger
+                Software.
+              </p>
+
+              <div class="qa-skills">
+                <div class="qa-skill">
+                  <h4 data-i18n="qa.skills.cleanCode">Clean Code</h4>
+                  <p data-i18n="qa.skills.cleanCodeDesc">
+                    Befolgung von Prinzipien für sauberen, lesbaren und
+                    wartbaren Code
+                  </p>
+                </div>
+                <div class="qa-skill">
+                  <h4 data-i18n="qa.skills.testing">Testing</h4>
+                  <p data-i18n="qa.skills.testingDesc">
+                    Grundlagen des Unit-Testings und Anwendungstests
+                  </p>
+                </div>
+                <div class="qa-skill">
+                  <h4 data-i18n="qa.skills.debugging">Debugging</h4>
+                  <p data-i18n="qa.skills.debuggingDesc">
+                    Methoden zur Fehlerbehebung und Problemlösung im Code
+                  </p>
+                </div>
+              </div>
+            </div>
+            <figure class="qa-image">
+              <img src="./images/photo-qa.avif" alt="Code quality illustration" />
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================= -->
+      <!-- Contact Section -->
+      <!-- Contact info and contact form -->
+      <!-- ============================= -->
+      <section id="contact" class="contact">
+        <div class="container">
+          <h2 class="section-title" data-i18n="contact.title">Kontakt</h2>
+          <div class="contact-content">
+            <address class="contact-info">
+              <!-- Social/contact methods -->
+              <div class="contact-item">
+                <div class="contact-icon">💼</div>
+                <div>
+                  <h3>LinkedIn</h3>
+                  <p>
+                    <a
+                      class="contact-link"
+                      href="https://www.linkedin.com/comm/mynetwork/discovery-see-all?usecase=PEOPLE_FOLLOWS&followMember=alexander-hermann-655b76353"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      >Alexander Hermann</a
+                    >
+                  </p>
+                </div>
+              </div>
+              <div class="contact-item">
+                <div class="contact-icon">💬</div>
+                <div>
+                  <h3>Slack</h3>
+                  <p>
+                    <a
+                      class="contact-link"
+                      href="https://ait-tr.slack.com/team/U07V574LHN0"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      >@Alex</a
+                    >
+                  </p>
+                </div>
+              </div>
+              <div class="contact-item">
+                <div class="contact-icon">📱</div>
+                <div>
+                  <h3>Telegram</h3>
+                  <p>
+                    <a
+                      class="contact-link"
+                      href="https://t.me/AlexH573"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      >@AlexH573</a
+                    >
+                  </p>
+                </div>
+              </div>
+            </address>
+            <div class="contact-form">
+              <form id="contactForm">
+                <div class="form-group">
+                  <label
+                    for="name"
+                    class="form-label"
+                    data-i18n="contact.form.name"
+                    >Name</label
+                  >
+                  <input type="text" id="name" class="form-input" required />
+                </div>
+                <div class="form-group">
+                  <label
+                    for="email"
+                    class="form-label"
+                    data-i18n="contact.form.email"
+                    >E-Mail</label
+                  >
+                  <input type="email" id="email" class="form-input" required />
+                </div>
+                <div class="form-group">
+                  <label
+                    for="message"
+                    class="form-label"
+                    data-i18n="contact.form.message"
+                    >Nachricht</label
+                  >
+                  <textarea
+                    id="message"
+                    class="form-textarea"
+                    required
+                  ></textarea>
+                </div>
+                <button class="btn" type="submit" data-i18n="contact.form.send">
+                  Nachricht senden
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================= -->
+      <!-- Cookies Banner -->
+      <!-- Inform user about cookies and provide accept/reject options -->
+      <!-- ============================= -->
+      <div id="cookies-banner" class="cookies-banner">
+        <div class="cookies-content">
+          <p data-i18n="cookies.message">
+            Wir verwenden Cookies, um die Website zu verbessern. Wenn Sie die
+            Website weiter nutzen, stimmen Sie dem zu.
+          </p>
+          <div class="cookies-buttons">
+            <button
+              id="cookies-accept"
+              class="btn btn-sm"
+              data-i18n="cookies.accept"
+            >
+              Akzeptieren
+            </button>
+            <button
+              id="cookies-reject"
+              class="btn btn-outline btn-sm"
+              data-i18n="cookies.reject"
+            >
+              Ablehnen
+            </button>
+            <a
+              href="#privacy"
+              id="cookies-learn-more"
+              data-i18n="cookies.learnMore"
+              >Mehr erfahren</a
             >
           </div>
-          <div class="about-image">
-            <img
-              src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
-              alt="Coding workspace"
-            />
-          </div>
         </div>
       </div>
-    </section>
-
-    <!-- ============================= -->
-    <!-- Skills Section -->
-    <!-- Skill charts, categories, and interactive cloud -->
-    <!-- ============================= -->
-    <section id="skills" class="skills">
-      <div class="container">
-        <h2 class="section-title" data-i18n="skills.title">Fähigkeiten</h2>
-
-        <div class="skills-container">
-          <div class="skills-chart-container fade-in">
-            <canvas id="skills-chart"></canvas>
-          </div>
-
-          <div class="chart-legend fade-in" id="chartLegend">
-            <!-- Legend populated via JavaScript -->
-          </div>
-        </div>
-
-        <div class="skills-details fade-in">
-          <div class="category-breakdown">
-            <h3 data-i18n="skills.byCategory">Nach Kategorien</h3>
-            <div class="category-list" id="categoryList">
-              <!-- Categories populated via JavaScript -->
-            </div>
-          </div>
-
-          <div class="skills-interactive">
-            <h3 data-i18n="skills.allTechnologies">Alle Technologien</h3>
-            <div class="skills-cloud" id="skillsCloud">
-              <!-- Skills cloud populated via JavaScript -->
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================= -->
-    <!-- Education Section -->
-    <!-- Course, curriculum, and achievements -->
-    <!-- ============================= -->
-    <section id="education" class="education">
-      <div class="container">
-        <h2 class="section-title" data-i18n="education.title">Ausbildung</h2>
-        <div class="education-content">
-          <div class="education-item">
-            <h3 data-i18n="education.course.title">
-              Java Full-Stack Developer
-            </h3>
-            <p class="education-period" data-i18n="education.course.period">
-              Abschluss 2026
-            </p>
-            <div class="education-description">
-              <p data-i18n="education.course.description1">
-                Intensivkurs für Java Full-Stack-Entwicklung mit umfassender
-                Abdeckung moderner Webentwicklungstechnologien.
-              </p>
-              <p data-i18n="education.course.description2">
-                Das Programm umfasste: Programmiergrundlagen, Algorithmen und
-                Datenstrukturen, fortgeschrittene Java- und OOP-Konzepte,
-                Datenbanken, Frontend-Entwicklung, Linux und
-                Entwicklungswerkzeuge sowie ein Team-Diplomprojekt.
-              </p>
-
-              <div class="curriculum">
-                <h4 data-i18n="education.curriculum.title">Kurscurriculum</h4>
-                <ul>
-                  <li data-i18n="education.curriculum.item1">
-                    Grundlagen der Programmierung
-                  </li>
-                  <li data-i18n="education.curriculum.item2">
-                    Algorithmen und Datenstrukturen
-                  </li>
-                  <li data-i18n="education.curriculum.item3">
-                    Fortgeschrittenes Java & OOP
-                  </li>
-                  <li data-i18n="education.curriculum.item4">
-                    Datenbanken (MySQL, MongoDB)
-                  </li>
-                  <li data-i18n="education.curriculum.item5">
-                    Englisch für Softwareentwickler
-                  </li>
-                  <li data-i18n="education.curriculum.item6">
-                    Frontend-Entwicklung (HTML, CSS, JavaScript)
-                  </li>
-                  <li data-i18n="education.curriculum.item7">
-                    Linux, Cloud-Technologien, Git
-                  </li>
-                  <li data-i18n="education.curriculum.item8">
-                    Abschlussprojekt (Teamarbeit)
-                  </li>
-                  <li data-i18n="education.curriculum.item9">
-                    Fortgeschrittene Frontend-Entwicklung (TypeScript, React)
-                  </li>
-                  <li data-i18n="education.curriculum.item10">
-                    Backend-Entwicklung (Java Stack: Spring Boot, Spring MVC,
-                    Spring Data JPA)
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================= -->
-    <!-- Projects Section -->
-    <!-- Portfolio projects loaded dynamically -->
-    <!-- ============================= -->
-    <section id="projects" class="projects">
-      <div class="container">
-        <h2 class="section-title" data-i18n="projects.title">Projekte</h2>
-        <div class="projects-grid">
-          <!-- Projects loaded via JavaScript -->
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================= -->
-    <!-- QA Section -->
-    <!-- Quality assurance and development principles -->
-    <!-- ============================= -->
-    <section id="qa" class="qa">
-      <div class="container">
-        <h2 class="section-title" data-i18n="qa.title">Qualitätssicherung</h2>
-        <div class="qa-content">
-          <div class="qa-text">
-            <h3 data-i18n="qa.subtitle">Qualität in der Entwicklung</h3>
-            <p data-i18n="qa.text1">
-              Als Entwickler lege ich großen Wert auf Codequalität, Wartbarkeit
-              und Zuverlässigkeit.
-            </p>
-            <p data-i18n="qa.text2">
-              Ich befasse mich mit Best Practices, Clean Code-Prinzipien und
-              grundlegenden Testmethoden zur Gewährleistung hochwertiger
-              Software.
-            </p>
-
-            <div class="qa-skills">
-              <div class="qa-skill">
-                <h4 data-i18n="qa.skills.cleanCode">Clean Code</h4>
-                <p data-i18n="qa.skills.cleanCodeDesc">
-                  Befolgung von Prinzipien für sauberen, lesbaren und wartbaren
-                  Code
-                </p>
-              </div>
-              <div class="qa-skill">
-                <h4 data-i18n="qa.skills.testing">Testing</h4>
-                <p data-i18n="qa.skills.testingDesc">
-                  Grundlagen des Unit-Testings und Anwendungstests
-                </p>
-              </div>
-              <div class="qa-skill">
-                <h4 data-i18n="qa.skills.debugging">Debugging</h4>
-                <p data-i18n="qa.skills.debuggingDesc">
-                  Methoden zur Fehlerbehebung und Problemlösung im Code
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="qa-image">
-            <img
-              src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
-              alt="Quality Code"
-            />
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================= -->
-    <!-- Contact Section -->
-    <!-- Contact info and contact form -->
-    <!-- ============================= -->
-    <section id="contact" class="contact">
-      <div class="container">
-        <h2 class="section-title" data-i18n="contact.title">Kontakt</h2>
-        <div class="contact-content">
-          <div class="contact-info">
-            <!-- Social/contact methods -->
-            <div class="contact-item">
-              <div class="contact-icon">💼</div>
-              <div>
-                <h3>LinkedIn</h3>
-                <p>
-                  <a
-                    class="contact-link"
-                    href="https://www.linkedin.com/comm/mynetwork/discovery-see-all?usecase=PEOPLE_FOLLOWS&followMember=alexander-hermann-655b76353"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    >Alexander Hermann</a
-                  >
-                </p>
-              </div>
-            </div>
-            <div class="contact-item">
-              <div class="contact-icon">💬</div>
-              <div>
-                <h3>Slack</h3>
-                <p>
-                  <a
-                    class="contact-link"
-                    href="https://ait-tr.slack.com/team/U07V574LHN0"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    >@Alex</a
-                  >
-                </p>
-              </div>
-            </div>
-            <div class="contact-item">
-              <div class="contact-icon">📱</div>
-              <div>
-                <h3>Telegram</h3>
-                <p>
-                  <a
-                    class="contact-link"
-                    href="https://t.me/AlexH573"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    >@AlexH573</a
-                  >
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="contact-form">
-            <form id="contactForm">
-              <div class="form-group">
-                <label
-                  for="name"
-                  class="form-label"
-                  data-i18n="contact.form.name"
-                  >Name</label
-                >
-                <input type="text" id="name" class="form-input" required />
-              </div>
-              <div class="form-group">
-                <label
-                  for="email"
-                  class="form-label"
-                  data-i18n="contact.form.email"
-                  >E-Mail</label
-                >
-                <input type="email" id="email" class="form-input" required />
-              </div>
-              <div class="form-group">
-                <label
-                  for="message"
-                  class="form-label"
-                  data-i18n="contact.form.message"
-                  >Nachricht</label
-                >
-                <textarea
-                  id="message"
-                  class="form-textarea"
-                  required
-                ></textarea>
-              </div>
-              <button class="btn" type="submit" data-i18n="contact.form.send">
-                Nachricht senden
-              </button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================= -->
-    <!-- Cookies Banner -->
-    <!-- Inform user about cookies and provide accept/reject options -->
-    <!-- ============================= -->
-    <div id="cookies-banner" class="cookies-banner">
-      <div class="cookies-content">
-        <p data-i18n="cookies.message">
-          Wir verwenden Cookies, um die Website zu verbessern. Wenn Sie die
-          Website weiter nutzen, stimmen Sie dem zu.
-        </p>
-        <div class="cookies-buttons">
-          <button
-            id="cookies-accept"
-            class="btn btn-sm"
-            data-i18n="cookies.accept"
-          >
-            Akzeptieren
-          </button>
-          <button
-            id="cookies-reject"
-            class="btn btn-outline btn-sm"
-            data-i18n="cookies.reject"
-          >
-            Ablehnen
-          </button>
-          <a
-            href="#privacy"
-            id="cookies-learn-more"
-            data-i18n="cookies.learnMore"
-            >Mehr erfahren</a
-          >
-        </div>
-      </div>
-    </div>
+    </main>
 
     <!-- ============================= -->
     <!-- Footer Section -->
@@ -610,7 +615,7 @@
     <!-- ============================= -->
     <footer>
       <div class="container">
-        <div class="social-links">
+        <nav class="social-links">
           <a
             href="https://t.me/AlexH573"
             class="social-link"
@@ -684,7 +689,7 @@
               <use href="images/icons/sprite.svg#icon-leetcode"></use>
             </svg>
           </a>
-        </div>
+        </nav>
         <p class="copyright">
           &copy; 2025 Alexander Hermann.
           <span data-i18n="footer.rights">Alle Rechte vorbehalten</span>
