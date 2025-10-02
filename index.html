@@ -4,6 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Alexander Hermann - Full-Stack Java Developer</title>
+
+    <!-- ============================= -->
+    <!-- Security: Content Security Policy -->
+    <!-- Defines allowed sources for scripts, styles, images, etc. -->
+    <!-- ============================= -->
     <meta
       http-equiv="Content-Security-Policy"
       content="
@@ -17,7 +22,10 @@
 "
     />
 
+    <!-- ============================= -->
     <!-- SEO Meta Tags -->
+    <!-- Information for search engines and page metadata -->
+    <!-- ============================= -->
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://alexh73.github.io/portfolio-website" />
     <meta
@@ -30,7 +38,10 @@
       content="Java Developer, Full-Stack, Spring Boot, Web Development, Portfolio, JavaScript, HTML, CSS"
     />
 
-    <!-- Open Graph -->
+    <!-- ============================= -->
+    <!-- Open Graph Meta Tags -->
+    <!-- Used for social media previews -->
+    <!-- ============================= -->
     <meta
       property="og:title"
       content="Alexander Hermann - Full-Stack Java Developer"
@@ -49,7 +60,10 @@
     />
     <meta property="og:type" content="website" />
 
-    <!-- Twitter Cards -->
+    <!-- ============================= -->
+    <!-- Twitter Card Meta Tags -->
+    <!-- Enhance sharing on Twitter -->
+    <!-- ============================= -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta
       name="twitter:title"
@@ -64,7 +78,10 @@
       content="https://alexh73.github.io/portfolio-website/images/preview.svg"
     />
 
-    <!-- Favicon -->
+    <!-- ============================= -->
+    <!-- Favicon and Touch Icons -->
+    <!-- Display icons in browser tab and mobile devices -->
+    <!-- ============================= -->
     <link
       rel="icon"
       href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2280%22 fill=%22%236366f1%22>AH</text></svg>"
@@ -86,7 +103,10 @@
       href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 180 180%22><rect width=%22180%22 height=%22180%22 rx=%2230%22 fill=%22%236366f1%22/><text x=%2290%22 y=%22120%22 font-family=%22Arial%22 font-size=%2270%22 font-weight=%22bold%22 text-anchor=%22middle%22 fill=%22white%22>AH</text></svg>"
     />
 
+    <!-- ============================= -->
     <!-- Fonts -->
+    <!-- Load Google Fonts -->
+    <!-- ============================= -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -94,14 +114,23 @@
       rel="stylesheet"
     />
 
-    <!-- Styles -->
+    <!-- ============================= -->
+    <!-- Stylesheet -->
+    <!-- Main CSS file for layout and styling -->
+    <!-- ============================= -->
     <link rel="stylesheet" href="css/style.css" />
 
-    <!-- reCAPTCHA -->
+    <!-- ============================= -->
+    <!-- Google reCAPTCHA -->
+    <!-- Security: bot prevention -->
+    <!-- ============================= -->
     <script src="https://www.google.com/recaptcha/api.js?render=6LeKX8grAAAAAFr3OMmNKYUKl-br5q9HlWq2eJG1"></script>
   </head>
   <body>
+    <!-- ============================= -->
     <!-- SVG Sprite Loader -->
+    <!-- Preload icons for later use -->
+    <!-- ============================= -->
     <svg style="display: none">
       <defs>
         <link
@@ -112,8 +141,14 @@
         />
       </defs>
     </svg>
+
+    <!-- ============================= -->
+    <!-- Header Section -->
+    <!-- Logo, Navigation Menu, Theme & Language Controls -->
+    <!-- ============================= -->
     <header>
       <div class="container header-content">
+        <!-- Logo with initials and full name -->
         <a href="/portfolio-website" class="logo" aria-label="Homepage">
           <svg
             width="150"
@@ -162,6 +197,8 @@
             </text>
           </svg>
         </a>
+
+        <!-- Main Navigation -->
         <nav>
           <ul>
             <li><a href="#about" data-i18n="nav.about">Über mich</a></li>
@@ -174,6 +211,8 @@
             <li><a href="#contact" data-i18n="nav.contact">Kontakt</a></li>
           </ul>
         </nav>
+
+        <!-- Theme Toggle and Language Selection -->
         <div class="controls">
           <button class="theme-toggle" aria-label="Toggle theme">🌙</button>
           <select class="lang-select">
@@ -182,6 +221,8 @@
             <option value="ru">RU</option>
           </select>
         </div>
+
+        <!-- Mobile Menu Toggle -->
         <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
           <span></span>
           <span></span>
@@ -190,6 +231,10 @@
       </div>
     </header>
 
+    <!-- ============================= -->
+    <!-- Hero Section -->
+    <!-- Introduction with name, description, photo, and call-to-action buttons -->
+    <!-- ============================= -->
     <section class="hero">
       <div class="hero-section">
         <div class="container hero-content">
@@ -218,6 +263,10 @@
       </div>
     </section>
 
+    <!-- ============================= -->
+    <!-- About Section -->
+    <!-- Biography and resume download link -->
+    <!-- ============================= -->
     <section id="about" class="about">
       <div class="container">
         <h2 class="section-title" data-i18n="about.title">Über mich</h2>
@@ -252,38 +301,46 @@
       </div>
     </section>
 
+    <!-- ============================= -->
+    <!-- Skills Section -->
+    <!-- Skill charts, categories, and interactive cloud -->
+    <!-- ============================= -->
     <section id="skills" class="skills">
-  <div class="container">
-    <h2 class="section-title" data-i18n="skills.title">Fähigkeiten</h2>
+      <div class="container">
+        <h2 class="section-title" data-i18n="skills.title">Fähigkeiten</h2>
 
-    <div class="skills-container">
-      <div class="skills-chart-container fade-in">
-        <canvas id="skills-chart"></canvas>
-      </div>
-      
-      <div class="chart-legend fade-in" id="chartLegend">
-        <!-- Legend will be populated by JavaScript -->
-      </div>
-    </div>
+        <div class="skills-container">
+          <div class="skills-chart-container fade-in">
+            <canvas id="skills-chart"></canvas>
+          </div>
 
-    <div class="skills-details fade-in">
-      <div class="category-breakdown">
-        <h3 data-i18n="skills.byCategory">Nach Kategorien</h3>
-        <div class="category-list" id="categoryList">
-          <!-- Categories will be populated by JavaScript -->
+          <div class="chart-legend fade-in" id="chartLegend">
+            <!-- Legend populated via JavaScript -->
+          </div>
+        </div>
+
+        <div class="skills-details fade-in">
+          <div class="category-breakdown">
+            <h3 data-i18n="skills.byCategory">Nach Kategorien</h3>
+            <div class="category-list" id="categoryList">
+              <!-- Categories populated via JavaScript -->
+            </div>
+          </div>
+
+          <div class="skills-interactive">
+            <h3 data-i18n="skills.allTechnologies">Alle Technologien</h3>
+            <div class="skills-cloud" id="skillsCloud">
+              <!-- Skills cloud populated via JavaScript -->
+            </div>
+          </div>
         </div>
       </div>
-      
-      <div class="skills-interactive">
-        <h3 data-i18n="skills.allTechnologies">Alle Technologien</h3>
-        <div class="skills-cloud" id="skillsCloud">
-          <!-- Skills cloud will be populated by JavaScript -->
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+    </section>
 
+    <!-- ============================= -->
+    <!-- Education Section -->
+    <!-- Course, curriculum, and achievements -->
+    <!-- ============================= -->
     <section id="education" class="education">
       <div class="container">
         <h2 class="section-title" data-i18n="education.title">Ausbildung</h2>
@@ -349,15 +406,23 @@
       </div>
     </section>
 
+    <!-- ============================= -->
+    <!-- Projects Section -->
+    <!-- Portfolio projects loaded dynamically -->
+    <!-- ============================= -->
     <section id="projects" class="projects">
       <div class="container">
         <h2 class="section-title" data-i18n="projects.title">Projekte</h2>
         <div class="projects-grid">
-          <!-- Projects will be loaded dynamically from JavaScript -->
+          <!-- Projects loaded via JavaScript -->
         </div>
       </div>
     </section>
 
+    <!-- ============================= -->
+    <!-- QA Section -->
+    <!-- Quality assurance and development principles -->
+    <!-- ============================= -->
     <section id="qa" class="qa">
       <div class="container">
         <h2 class="section-title" data-i18n="qa.title">Qualitätssicherung</h2>
@@ -406,11 +471,16 @@
       </div>
     </section>
 
+    <!-- ============================= -->
+    <!-- Contact Section -->
+    <!-- Contact info and contact form -->
+    <!-- ============================= -->
     <section id="contact" class="contact">
       <div class="container">
         <h2 class="section-title" data-i18n="contact.title">Kontakt</h2>
         <div class="contact-content">
           <div class="contact-info">
+            <!-- Social/contact methods -->
             <div class="contact-item">
               <div class="contact-icon">💼</div>
               <div>
@@ -490,7 +560,6 @@
                   required
                 ></textarea>
               </div>
-              <!-- Поля формы -->
               <button class="btn" type="submit" data-i18n="contact.form.send">
                 Nachricht senden
               </button>
@@ -500,7 +569,10 @@
       </div>
     </section>
 
+    <!-- ============================= -->
     <!-- Cookies Banner -->
+    <!-- Inform user about cookies and provide accept/reject options -->
+    <!-- ============================= -->
     <div id="cookies-banner" class="cookies-banner">
       <div class="cookies-content">
         <p data-i18n="cookies.message">
@@ -532,6 +604,10 @@
       </div>
     </div>
 
+    <!-- ============================= -->
+    <!-- Footer Section -->
+    <!-- Social links and copyright -->
+    <!-- ============================= -->
     <footer>
       <div class="container">
         <div class="social-links">
@@ -615,25 +691,33 @@
         </p>
       </div>
     </footer>
+
+    <!-- ============================= -->
+    <!-- Scroll Progress Bar -->
+    <!-- ============================= -->
     <div class="progress-container">
       <div class="progress-bar" id="progressBar"></div>
     </div>
+
+    <!-- ============================= -->
+    <!-- Back to Top Button -->
+    <!-- ============================= -->
     <button class="back-to-top" id="backToTop" aria-label="Back to top">
       <svg width="24" height="24">
         <use href="images/icons/sprite.svg#icon-arrow-up"></use>
       </svg>
     </button>
 
-    <!-- Chart.js -->
+    <!-- ============================= -->
+    <!-- JavaScript Libraries and Scripts -->
+    <!-- ============================= -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <!-- JSON-LD structured data -->
     <script type="application/ld+json" id="structured-data"></script>
-
-    <!-- JavaScript -->
     <script src="js/scripts.js"></script>
 
-    <!-- Кнопка доступа к политике конфиденциальности -->
+    <!-- ============================= -->
+    <!-- Privacy Policy Button and Modal -->
+    <!-- ============================= -->
     <button
       id="privacy-fab"
       class="privacy-fab"
@@ -643,8 +727,6 @@
         <use href="images/icons/sprite.svg#icon-privacy"></use>
       </svg>
     </button>
-
-    <!-- Модальное окно политики конфиденциальности -->
     <div id="privacy-modal" class="modal">
       <div class="modal-content">
         <span class="modal-close">&times;</span>
@@ -674,7 +756,7 @@
         <h3 data-i18n="privacy.controlsTitle">Cookie-Verwaltung</h3>
         <p data-i18n="privacy.controlsText">
           Sie können Ihre Cookie-Einstellungen jederzeit über die
-          Browsereinstellungen oder das untenstehende Formular ändern.
+          -Browsereinstellungen oder das untenstehende Formular ändern.
         </p>
 
         <div class="cookies-controls">
