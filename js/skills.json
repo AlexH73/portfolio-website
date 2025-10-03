@@ -94,9 +94,20 @@
       "level": 75,
       "icon": "images/icons/mysql.svg",
       "description": {
-        "de": "QL Datenbank",
-        "en": "SQL Database",
-        "ru": "SQL база данных"
+        "de": "SQL Relationales Datenbankmanagementsystem",
+        "en": "SQL Relational Database Management System",
+        "ru": "SQL Система управления реляционными базами данных"
+      }
+    },
+    {
+      "name": "PostgreSQL",
+      "category": "database",
+      "level": 70,
+      "icon": "images/icons/postgre.svg",
+      "description": {
+        "de": "SQL Objektrelationales Datenbankverwaltungssystem",
+        "en": "SQL Object relational database management system",
+        "ru": "SQL Система управления объектно-реляционными базами данных"
       }
     },
     {
@@ -105,9 +116,9 @@
       "level": 70,
       "icon": "images/icons/mongodb.svg",
       "description": {
-        "de": "NoSQL Datenbank",
-        "en": "NoSQL Database",
-        "ru": "NoSQL база данных"
+        "de": "NoSQL Dokumentenorientiertes Datenbankmanagementsystem",
+        "en": "NoSQL Document-oriented database management system",
+        "ru": "NoSQL Документоориентированная система управления базами данных"
       }
     },
     {
