@@ -3,6 +3,11 @@
 // =====================================================
 
 import { init, cleanup, AppState } from './core/app.js';
+import { ErrorHandler } from './utils/error-handler.js';
+import { Debugger } from './utils/debug.js';
+
+ErrorHandler.init();
+Debugger.init();
 
 // Initialize application when DOM is loaded
 document.addEventListener('DOMContentLoaded', init);

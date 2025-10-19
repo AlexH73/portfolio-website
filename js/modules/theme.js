@@ -14,8 +14,12 @@ export const Theme = {
     if (!themeToggle) return;
 
     // Get user preference
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const savedTheme = Storage.getPreference(STORAGE_KEYS.THEME) || (prefersDark ? THEMES.DARK : THEMES.LIGHT);
+    const prefersDark = window.matchMedia(
+      '(prefers-color-scheme: dark)'
+    ).matches;
+    const savedTheme =
+      Storage.getPreference(STORAGE_KEYS.THEME) ||
+      (prefersDark ? THEMES.DARK : THEMES.LIGHT);
 
     this.apply(savedTheme);
     this.bindEvents();
@@ -46,7 +50,7 @@ export const Theme = {
 
   refreshChart() {
     // Import skills module dynamically to avoid circular dependency
-    import('./skills.js').then(module => {
+    import('./skills.js').then((module) => {
       if (module.Skills.refreshChart) {
         module.Skills.refreshChart();
       }
@@ -58,5 +62,5 @@ export const Theme = {
     if (themeToggle) {
       themeToggle.addEventListener('click', () => this.toggle());
     }
-  }
+  },
 };
