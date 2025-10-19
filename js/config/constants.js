@@ -6,10 +6,10 @@ export const CONFIG = {
   // API endpoints
   endpoints: {
     formspree: 'https://formspree.io/f/xyzdlrvd',
-    translations: 'js/docs/translations.json',
-    projects: 'js/docs/projects.json',
-    skills: 'js/docs/skills.json',
-    schema: 'js/docs/schema.json',
+    translations: 'js/data/translations.json',
+    projects: 'js/data/projects.json',
+    skills: 'js/data/skills.json',
+    schema: 'js/data/schema.json',
   },
 
   // reCAPTCHA
