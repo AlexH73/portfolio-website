@@ -73,6 +73,7 @@ export const CookiesManager = {
             );
           });
         }
+        this.openPrivacySettings();
       });
     }
 
@@ -80,6 +81,18 @@ export const CookiesManager = {
       getDOM('saveCookiesPrefs').addEventListener('click', () =>
         this.savePreferences()
       );
+    }
+  },
+
+  openPrivacySettings() {
+    if (typeof Modals !== 'undefined' && Modals.open) {
+      Modals.open('privacy-modal');
+    } else {
+      const privacyModal = document.getElementById('privacy-modal');
+      if (privacyModal) {
+        privacyModal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+      }
     }
   },
 
