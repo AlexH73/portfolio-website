@@ -2,9 +2,8 @@
 // APPLICATION CORE - MAIN INITIALIZATION AND STATE MANAGEMENT
 // =====================================================
 
-import { CONFIG, STORAGE_KEYS } from '../config/constants.js';
+import { CONFIG } from '../config/constants.js';
 import { DOM_SELECTORS } from '../config/settings.js';
-import * as Storage from '../utils/storage.js';
 import * as Performance from './performance.js';
 
 // Global application state
@@ -13,6 +12,7 @@ export const AppState = {
   translations: {},
   skillsChart: null,
   skillsData: null,
+  projectsData: null,
   isInitialized: false,
   dom: {},
 };
@@ -26,7 +26,6 @@ export async function init() {
     setupPerformanceMonitoring();
 
     AppState.isInitialized = true;
-    console.log('🚀 Application initialized successfully');
   } catch (error) {
     console.error('❌ Failed to initialize app:', error);
     initializeFallback();

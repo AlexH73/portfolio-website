@@ -7,7 +7,6 @@ import { getDOM } from '../core/app.js';
 export const MobileMenu = {
   init() {
     if (!getDOM('menuToggle') || !getDOM('navigation')) {
-      console.log('📱 No mobile menu elements found');
       return;
     }
 
@@ -58,8 +57,8 @@ export const MobileMenu = {
 
     navigation.classList.toggle('active');
     menuToggle.classList.toggle('active');
-    document.body.style.overflow = navigation.classList.contains('active')
-      ? 'hidden'
-      : '';
+    const isOpen = navigation.classList.contains('active');
+    menuToggle.setAttribute('aria-expanded', String(isOpen));
+    document.body.style.overflow = isOpen ? 'hidden' : '';
   },
 };

@@ -13,12 +13,12 @@
       http-equiv="Content-Security-Policy"
       content="
   default-src 'self';
-  script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/ https://cdn.jsdelivr.net;
-  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-  font-src 'self' https://fonts.gstatic.com;
+  script-src 'self' 'unsafe-inline' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/;
+  style-src 'self' 'unsafe-inline';
+  font-src 'self';
   img-src 'self' data: https:;
   connect-src 'self' https://formspree.io https://www.google.com/recaptcha/;
-  frame-src 'self' https://www.google.com/recaptcha/;
+  frame-src 'self' https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/;
 "
     />
 
@@ -104,27 +104,12 @@
     />
 
     <!-- ============================= -->
-    <!-- Fonts -->
-    <!-- Load Google Fonts -->
-    <!-- ============================= -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-
-    <!-- ============================= -->
     <!-- Stylesheet -->
     <!-- Main CSS file for layout and styling -->
     <!-- ============================= -->
+    <link rel="stylesheet" href="css/inter.css" />
     <link rel="stylesheet" href="css/style.css" />
 
-    <!-- ============================= -->
-    <!-- Google reCAPTCHA -->
-    <!-- Security: bot prevention -->
-    <!-- ============================= -->
-    <script src="https://www.google.com/recaptcha/api.js?render=6LeKX8grAAAAAFr3OMmNKYUKl-br5q9HlWq2eJG1"></script>
   </head>
   <body>
     <!-- ============================= -->
@@ -149,7 +134,7 @@
     <header class="site-header">
       <div class="container header-content">
         <!-- Logo with initials and full name -->
-        <a href="/portfolio-website" class="logo" aria-label="Homepage">
+        <a href="./" class="logo" aria-label="Homepage">
           <svg
             width="150"
             height="40"
@@ -200,7 +185,7 @@
 
         <!-- Main Navigation -->
         <nav aria-label="Main navigation">
-          <ul>
+          <ul id="mainNavigation">
             <li><a href="#about" data-i18n="nav.about">Über mich</a></li>
             <li><a href="#skills" data-i18n="nav.skills">Fähigkeiten</a></li>
             <li><a href="#projects" data-i18n="nav.projects">Projekte</a></li>
@@ -229,6 +214,8 @@
           class="menu-toggle"
           id="menuToggle"
           aria-label="Open navigation menu"
+          aria-controls="mainNavigation"
+          aria-expanded="false"
         >
           <span></span><span></span><span></span>
         </button>
@@ -318,7 +305,7 @@
       <!-- ============================= -->
       <section id="skills" class="skills">
         <div class="container">
-          <h2 class="section-title" data-i18n="skills.title">Fähigkeiten</h2>
+          <h2 id="skillsTitle" class="section-title" data-i18n="skills.title">Fähigkeiten</h2>
 
           <div class="skills-container">
             <div class="skills-chart-container fade-in">
@@ -341,7 +328,7 @@
 
           <article class="skills-details fade-in">
             <section class="category-breakdown" aria-labelledby="categoryTitle">
-              <h3 data-i18n="skills.byCategory">Nach Kategorien</h3>
+              <h3 id="categoryTitle" data-i18n="skills.byCategory">Nach Kategorien</h3>
               <div
                 class="category-list"
                 id="categoryList"
@@ -458,7 +445,7 @@
           <h2 class="section-title" data-i18n="qa.title">Qualitätssicherung</h2>
           <div class="qa-content" role="region" aria-labelledby="qa-title">
             <article class="qa-text">
-              <h3 data-i18n="qa.subtitle">Qualität in der Entwicklung</h3>
+              <h3 id="qa-title" data-i18n="qa.subtitle">Qualität in der Entwicklung</h3>
               <p data-i18n="qa.text1">
                 Als Entwickler lege ich großen Wert auf Codequalität,
                 Wartbarkeit und Zuverlässigkeit.
@@ -475,7 +462,7 @@
                   role="group"
                   aria-labelledby="skill-cleanCode"
                 >
-                  <h4 data-i18n="qa.skills.cleanCode">Clean Code</h4>
+                  <h4 id="skill-cleanCode" data-i18n="qa.skills.cleanCode">Clean Code</h4>
                   <p data-i18n="qa.skills.cleanCodeDesc">
                     Befolgung von Prinzipien für sauberen, lesbaren und
                     wartbaren Code
@@ -486,7 +473,7 @@
                   role="group"
                   aria-labelledby="skill-testing"
                 >
-                  <h4 data-i18n="qa.skills.testing">Testing</h4>
+                  <h4 id="skill-testing" data-i18n="qa.skills.testing">Testing</h4>
                   <p data-i18n="qa.skills.testingDesc">
                     Grundlagen des Unit-Testings und Anwendungstests
                   </p>
@@ -496,7 +483,7 @@
                   role="group"
                   aria-labelledby="skill-debugging"
                 >
-                  <h4 data-i18n="qa.skills.debugging">Debugging</h4>
+                  <h4 id="skill-debugging" data-i18n="qa.skills.debugging">Debugging</h4>
                   <p data-i18n="qa.skills.debuggingDesc">
                     Methoden zur Fehlerbehebung und Problemlösung im Code
                   </p>
@@ -577,7 +564,11 @@
               </div>
             </address>
             <div class="contact-form">
-              <form id="contactForm">
+              <form
+                id="contactForm"
+                action="https://formspree.io/f/xyzdlrvd"
+                method="POST"
+              >
                 <div class="form-group">
                   <label
                     for="name"
@@ -585,7 +576,14 @@
                     data-i18n="contact.form.name"
                     >Name</label
                   >
-                  <input type="text" id="name" class="form-input" required />
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    class="form-input"
+                    autocomplete="name"
+                    required
+                  />
                 </div>
                 <div class="form-group">
                   <label
@@ -594,7 +592,14 @@
                     data-i18n="contact.form.email"
                     >E-Mail</label
                   >
-                  <input type="email" id="email" class="form-input" required />
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    class="form-input"
+                    autocomplete="email"
+                    required
+                  />
                 </div>
                 <div class="form-group">
                   <label
@@ -605,7 +610,9 @@
                   >
                   <textarea
                     id="message"
+                    name="message"
                     class="form-textarea"
+                    autocomplete="off"
                     required
                   ></textarea>
                 </div>
@@ -773,7 +780,7 @@
     <!-- ============================= -->
     <!-- JavaScript Libraries and Scripts -->
     <!-- ============================= -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="module" src="js/vendor/chart.umd.min.js"></script>
     <script type="application/ld+json" id="structured-data"></script>
     <script type="module" src="js/main.js"></script>
 
@@ -795,6 +802,7 @@
       role="dialog"
       aria-modal="true"
       aria-labelledby="privacy-title"
+      aria-hidden="true"
     >
       <div class="modal-content">
         <button class="modal-close" aria-label="Close privacy modal">

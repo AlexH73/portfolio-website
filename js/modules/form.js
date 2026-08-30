@@ -77,8 +77,9 @@ export const FormHandler = {
     if (!this.validateForm(form)) {
       Notifications.show(
         'error',
-        Language.getTranslation('form.validationError') || 'Validation Error',
-        Language.getTranslation('form.checkFields') || 'Please check all fields'
+        Language.getTranslation('form.validationTitle') || 'Validation Error',
+        Language.getTranslation('form.validationError') ||
+          'Please check all fields'
       );
       return;
     }
@@ -98,8 +99,8 @@ export const FormHandler = {
 
       Notifications.show(
         'success',
-        Language.getTranslation('form.success') || 'Success',
-        Language.getTranslation('form.messageSent') ||
+        Language.getTranslation('form.successTitle') || 'Success',
+        Language.getTranslation('form.success') ||
           'Message sent successfully'
       );
 
@@ -108,10 +109,8 @@ export const FormHandler = {
       console.error('Form submission error:', error);
       Notifications.show(
         'error',
-        Language.getTranslation('form.error') || 'Error',
-        `${Language.getTranslation('form.sendFailed') || 'Send failed'}: ${
-          error.message
-        }`
+        Language.getTranslation('form.errorTitle') || 'Error',
+        Language.getTranslation('form.error') || 'Message sending failed'
       );
     } finally {
       this.setButtonState(submitBtn, false, originalText);
@@ -127,22 +126,18 @@ export const FormHandler = {
   },
 
   async sendForm(formData) {
-    let recaptchaToken = '';
-    try {
-      recaptchaToken = await this.getRecaptchaToken();
-    } catch (error) {
-      console.warn('reCAPTCHA error:', error);
-    }
+    const recaptchaToken = await this.getRecaptchaToken();
 
-    const dataToSend = { ...formData };
-    if (recaptchaToken) {
-      dataToSend['g-recaptcha-response'] = recaptchaToken;
-    }
+    const dataToSend = {
+      ...formData,
+      'g-recaptcha-response': recaptchaToken,
+    };
 
     const response = await fetch(CONFIG.endpoints.formspree, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Accept: 'application/json',
       },
       body: JSON.stringify(dataToSend),
     });
@@ -155,23 +150,51 @@ export const FormHandler = {
   },
 
   getRecaptchaToken() {
-    return new Promise((resolve, reject) => {
-      if (typeof grecaptcha === 'undefined') {
-        reject(new Error('reCAPTCHA not loaded'));
-        return;
-      }
-
-      grecaptcha.ready(async () => {
-        try {
-          const token = await grecaptcha.execute(CONFIG.recaptcha.siteKey, {
-            action: CONFIG.recaptcha.action,
+    return this.loadRecaptcha().then(
+      () =>
+        new Promise((resolve, reject) => {
+          globalThis.grecaptcha.ready(async () => {
+            try {
+              const token = await globalThis.grecaptcha.execute(
+                CONFIG.recaptcha.siteKey,
+                { action: CONFIG.recaptcha.action }
+              );
+              resolve(token);
+            } catch (error) {
+              reject(error);
+            }
           });
-          resolve(token);
-        } catch (error) {
-          reject(error);
-        }
-      });
+        })
+    );
+  },
+
+  loadRecaptcha() {
+    if (globalThis.grecaptcha) return Promise.resolve();
+    if (this.recaptchaPromise) return this.recaptchaPromise;
+
+    this.recaptchaPromise = new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = `https://www.google.com/recaptcha/api.js?render=${encodeURIComponent(
+        CONFIG.recaptcha.siteKey
+      )}`;
+      script.async = true;
+      const timeout = window.setTimeout(
+        () => reject(new Error('reCAPTCHA loading timed out')),
+        10000
+      );
+      script.onload = () => {
+        window.clearTimeout(timeout);
+        resolve();
+      };
+      script.onerror = () => {
+        window.clearTimeout(timeout);
+        this.recaptchaPromise = null;
+        reject(new Error('reCAPTCHA failed to load'));
+      };
+      document.head.appendChild(script);
     });
+
+    return this.recaptchaPromise;
   },
 
   setButtonState(button, disabled, text) {

@@ -1,0 +1,19 @@
+{
+  "name": "alexander-hermann-portfolio",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint .",
+    "check:data": "node scripts/validate-data.js",
+    "check": "npm run lint && npm run check:data && npm run build"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.9.1",
+    "globals": "^17.11.0",
+    "vite": "^8.2.2"
+  }
+}

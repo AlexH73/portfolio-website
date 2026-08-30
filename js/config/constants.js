@@ -43,7 +43,7 @@ export const CONFIG = {
 
   // Cookies
   cookies: {
-    expirationDays: 1,
+    expirationDays: 365,
     decisionKey: 'cookies_decision',
     prefsKey: 'cookies_preferences',
     analyticsKey: 'cookies_analytics',
