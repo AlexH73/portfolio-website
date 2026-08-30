@@ -6,10 +6,12 @@ export const CONFIG = {
   // API endpoints
   endpoints: {
     formspree: 'https://formspree.io/f/xyzdlrvd',
-    translations: 'js/data/translations.json',
-    projects: 'js/data/projects.json',
-    skills: 'js/data/skills.json',
-    schema: 'js/data/schema.json',
+    // Module-relative URLs work from the source tree on GitHub Pages and let
+    // Vite discover, fingerprint and publish the JSON files for Vercel.
+    translations: new URL('../data/translations.json', import.meta.url).href,
+    projects: new URL('../data/projects.json', import.meta.url).href,
+    skills: new URL('../data/skills.json', import.meta.url).href,
+    schema: new URL('../data/schema.json', import.meta.url).href,
   },
 
   // reCAPTCHA
