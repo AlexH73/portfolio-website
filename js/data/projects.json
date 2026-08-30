@@ -106,6 +106,57 @@
       "codeLink": "https://github.com/AlexH73/TinderBolt",
       "category": "fullstack",
       "featured": true
+    },
+    {
+      "id": 6,
+      "title": {
+        "de": "Home Rent",
+        "en": "Home Rent",
+        "ru": "Home Rent"
+      },
+      "description": {
+        "de": "Backend für die Immobilienvermietung mit rollenbasiertem Zugriff für Mieter, Eigentümer, Betreiber und Administratoren sowie dokumentierter REST API.",
+        "en": "Property rental backend with role-based access for tenants, owners, operators and administrators, plus a documented REST API.",
+        "ru": "Бэкенд управления арендой недвижимости с ролевым доступом для арендаторов, владельцев, операторов и администраторов, а также документированным REST API."
+      },
+      "technologies": [
+        "Java",
+        "Spring Boot",
+        "Spring Security",
+        "PostgreSQL",
+        "Liquibase",
+        "Swagger"
+      ],
+      "image": "https://opengraph.githubassets.com/portfolio/AlexH73/home-rent",
+      "codeLink": "https://github.com/AlexH73/home-rent",
+      "category": "backend",
+      "featured": true
+    },
+    {
+      "id": 7,
+      "title": {
+        "de": "SmartCharge Homey Bundle — in Entwicklung",
+        "en": "SmartCharge Homey Bundle — in development",
+        "ru": "SmartCharge Homey Bundle — в разработке"
+      },
+      "description": {
+        "de": "Produktiv erprobte HomeyScript-Lösung zur intelligenten Mercedes-EV-Ladung mit Tibber-Stundenpreisen, Ladeplanung, Google-Sheets-Analysen und lokalem Simulator.",
+        "en": "Production-tested HomeyScript solution for smart Mercedes EV charging with Tibber hourly prices, charge planning, Google Sheets analytics and a local simulator.",
+        "ru": "Проверенное в реальной эксплуатации HomeyScript-решение для умной зарядки Mercedes EV с почасовыми тарифами Tibber, планированием, аналитикой Google Sheets и локальным симулятором."
+      },
+      "technologies": [
+        "JavaScript",
+        "Node.js",
+        "HomeyScript",
+        "Tibber API",
+        "Google Sheets",
+        "Simulation Testing"
+      ],
+      "image": "https://opengraph.githubassets.com/portfolio/AlexH73/smartcharge-homey-bundle",
+      "demoLink": "https://docs.google.com/spreadsheets/d/1LueN5IylHuwcnuLIB12EAuqa7fByK7iZOU74kFAOX6c/edit?usp=sharing",
+      "codeLink": "https://github.com/AlexH73/smartcharge-homey-bundle",
+      "category": "fullstack",
+      "featured": true
     }
   ]
 }

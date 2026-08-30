@@ -175,6 +175,116 @@
         "en": "CMS System",
         "ru": "CMS система"
       }
+    },
+    {
+      "name": "TypeScript",
+      "category": "frontend",
+      "level": 75,
+      "description": {
+        "de": "Typsichere Webentwicklung",
+        "en": "Type-safe web development",
+        "ru": "Типобезопасная веб-разработка"
+      }
+    },
+    {
+      "name": "JavaFX",
+      "category": "frontend",
+      "level": 65,
+      "description": {
+        "de": "Desktop-Anwendungen mit Java",
+        "en": "Desktop applications with Java",
+        "ru": "Десктопные приложения на Java"
+      }
+    },
+    {
+      "name": "REST API",
+      "category": "backend",
+      "level": 82,
+      "description": {
+        "de": "Entwurf und Entwicklung von Web-APIs",
+        "en": "Web API design and development",
+        "ru": "Проектирование и разработка веб-API"
+      }
+    },
+    {
+      "name": "Microservices",
+      "category": "backend",
+      "level": 72,
+      "description": {
+        "de": "Microservice-Architektur",
+        "en": "Microservice architecture",
+        "ru": "Микросервисная архитектура"
+      }
+    },
+    {
+      "name": "Apache Kafka",
+      "category": "backend",
+      "level": 65,
+      "description": {
+        "de": "Ereignisgesteuerte Datenverarbeitung",
+        "en": "Event-driven data processing",
+        "ru": "Событийно-ориентированная обработка данных"
+      }
+    },
+    {
+      "name": "Redis",
+      "category": "database",
+      "level": 70,
+      "description": {
+        "de": "In-Memory-Datenspeicher und Caching",
+        "en": "In-memory data storage and caching",
+        "ru": "Хранилище данных в памяти и кеширование"
+      }
+    },
+    {
+      "name": "Memcached",
+      "category": "database",
+      "level": 60,
+      "description": {
+        "de": "Verteiltes In-Memory-Caching",
+        "en": "Distributed in-memory caching",
+        "ru": "Распределённое кеширование в памяти"
+      }
+    },
+    {
+      "name": "Liquibase",
+      "category": "database",
+      "level": 72,
+      "description": {
+        "de": "Versionierung von Datenbankschemas",
+        "en": "Database schema versioning",
+        "ru": "Версионирование схем баз данных"
+      }
+    },
+    {
+      "name": "SEO",
+      "category": "tools",
+      "level": 70,
+      "description": {
+        "de": "Technische Suchmaschinenoptimierung",
+        "en": "Technical search engine optimization",
+        "ru": "Техническая поисковая оптимизация"
+      }
+    },
+    {
+      "name": "Integration Testing",
+      "category": "tools",
+      "level": 75,
+      "description": {
+        "de": "Prüfung des Zusammenspiels von Systemkomponenten",
+        "en": "Testing interactions between system components",
+        "ru": "Тестирование взаимодействия компонентов системы"
+      }
+    },
+    {
+      "name": "Unit Testing",
+      "category": "tools",
+      "level": 75,
+      "description": {
+        "de": "Automatisierte Tests einzelner Codeeinheiten",
+        "en": "Automated testing of individual code units",
+        "ru": "Автоматизированное тестирование отдельных модулей кода"
+      }
     }
   ],
   "categories": [
