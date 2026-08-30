@@ -117,6 +117,6 @@ Contributions, issues, and feature requests are welcome! Feel free to check [iss
 
 ## 📞 Contact
 
-Alexander Hermann - [LinkedIn](https://www.linkedin.com/in/alexander-hermann-655b76353) - ewebotah@gmail.com
+Alexander Hermann - [LinkedIn](https://www.linkedin.com/in/alexh73/) - ewebotah@gmail.com
 
 Live Demo: [https://alexh73.github.io/portfolio-website/](https://alexh73.github.io/portfolio-website/)

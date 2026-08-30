@@ -271,7 +271,11 @@ export const Skills = {
             .map(
               (skill) => `
             <div class="skill-tag" data-skill="${skill.name}" title="${skill.level}%">
-              <img src="${skill.icon}" alt="${skill.name}" onerror="this.style.display='none'">
+              ${
+                skill.icon
+                  ? `<img src="${skill.icon}" alt="" aria-hidden="true" onerror="this.style.display='none'">`
+                  : ''
+              }
               ${skill.name}
             </div>
           `
