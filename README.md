@@ -5,7 +5,7 @@
 
 Modern, responsive portfolio website built with HTML, CSS, JavaScript modules, and Vite. Features dark/light mode and multi-language support (German, English, Russian).
 
-🌐 **Live Demo:** [https://alexh73.github.io/portfolio-website/](https://alexh73.github.io/portfolio-website/)
+🌐 **Live Demo:** [https://www.ahermann.dev/portfolio-website/](https://www.ahermann.dev/portfolio-website/)
 
 ## 🌟 Features
 
@@ -119,4 +119,4 @@ Contributions, issues, and feature requests are welcome! Feel free to check [iss
 
 Alexander Hermann - [LinkedIn](https://www.linkedin.com/in/alexh73/) - ewebotah@gmail.com
 
-Live Demo: [https://alexh73.github.io/portfolio-website/](https://alexh73.github.io/portfolio-website/)
+Live Demo: [https://www.ahermann.dev/portfolio-website/](https://www.ahermann.dev/portfolio-website/)
