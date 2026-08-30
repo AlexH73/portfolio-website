@@ -969,7 +969,8 @@ section.visible {
 }
 
 .modal h3,
-.education-item h3 {
+.education-item h3,
+.certificates h3 {
   font-size: var(--font-size-xl);
   margin-bottom: var(--spacing-sm);
   color: var(--primary-color);
@@ -1028,7 +1029,8 @@ section.visible {
 
 .certificates > h3 {
   text-align: center;
-  color: var(--text-primary);
+  font-size: var(--font-size-3xl);
+  margin-bottom: var(--spacing-2xl);
 }
 
 .certificates-grid {
