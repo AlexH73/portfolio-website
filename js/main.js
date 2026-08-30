@@ -4,9 +4,12 @@
 
 import { init, cleanup, AppState } from './core/app.js';
 import { Debugger } from './utils/debug.js';
-import { Analytics } from '@vercel/analytics/next';
+import { inject } from '@vercel/analytics';
 
 Debugger.init();
+
+// Initialize Vercel Analytics
+inject();
 
 // Initialize application when DOM is loaded
 document.addEventListener('DOMContentLoaded', init);
