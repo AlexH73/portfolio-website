@@ -16,6 +16,7 @@ Modern, responsive portfolio website built with HTML, CSS, JavaScript modules, a
 - **Project Showcase** - Display your work with filters
 - **Contact Form** - Easy way to get in touch
 - **SEO Optimized** - With proper meta tags and schema.org
+- **Search indexing** - robots.txt, XML sitemap, and web app manifest
 
 ## 🚀 Technologies Used
 
