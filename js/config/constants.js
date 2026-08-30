@@ -70,20 +70,20 @@ export const LANGUAGES = {
   de: {
     name: 'Deutsch',
     ogLocale: 'de_DE',
-    resumeUrl:
-      'https://docs.google.com/document/d/1-Efl8M1ISj_uN26r-S0XirIe5XR7FAXGnyk4y6BYw6w/edit?tab=t.0',
+    resumeUrl: new URL('../../docs/cv/alexander-hermann-cv-de.pdf', import.meta.url)
+      .href,
   },
   en: {
     name: 'English',
     ogLocale: 'en_US',
-    resumeUrl:
-      'https://docs.google.com/document/d/1FyihabADRkwHqwJhvDPDL__LWzB7R6SwtRgGc_YFbjc/edit?tab=t.0',
+    resumeUrl: new URL('../../docs/cv/alexander-hermann-cv-en.pdf', import.meta.url)
+      .href,
   },
   ru: {
     name: 'Русский',
     ogLocale: 'ru_RU',
-    resumeUrl:
-      'https://docs.google.com/document/d/1NjeljZy1L2f5NMbwwDG8C_DDIPXV2ikmRNttAMdzWGc/edit?tab=t.0',
+    resumeUrl: new URL('../../docs/cv/alexander-hermann-cv-ru.pdf', import.meta.url)
+      .href,
   },
 };
 
