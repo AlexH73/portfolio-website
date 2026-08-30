@@ -180,6 +180,7 @@
       "name": "TypeScript",
       "category": "frontend",
       "level": 75,
+      "icon": "images/icons/typescript.svg",
       "description": {
         "de": "Typsichere Webentwicklung",
         "en": "Type-safe web development",
@@ -190,6 +191,7 @@
       "name": "JavaFX",
       "category": "frontend",
       "level": 65,
+      "icon": "images/icons/java.svg",
       "description": {
         "de": "Desktop-Anwendungen mit Java",
         "en": "Desktop applications with Java",
@@ -200,6 +202,7 @@
       "name": "REST API",
       "category": "backend",
       "level": 82,
+      "icon": "images/icons/rest-api.svg",
       "description": {
         "de": "Entwurf und Entwicklung von Web-APIs",
         "en": "Web API design and development",
@@ -210,6 +213,7 @@
       "name": "Microservices",
       "category": "backend",
       "level": 72,
+      "icon": "images/icons/microservices.svg",
       "description": {
         "de": "Microservice-Architektur",
         "en": "Microservice architecture",
@@ -220,6 +224,7 @@
       "name": "Apache Kafka",
       "category": "backend",
       "level": 65,
+      "icon": "images/icons/kafka.svg",
       "description": {
         "de": "Ereignisgesteuerte Datenverarbeitung",
         "en": "Event-driven data processing",
@@ -230,6 +235,7 @@
       "name": "Redis",
       "category": "database",
       "level": 70,
+      "icon": "images/icons/redis.svg",
       "description": {
         "de": "In-Memory-Datenspeicher und Caching",
         "en": "In-memory data storage and caching",
@@ -240,6 +246,7 @@
       "name": "Memcached",
       "category": "database",
       "level": 60,
+      "icon": "images/icons/memcached.svg",
       "description": {
         "de": "Verteiltes In-Memory-Caching",
         "en": "Distributed in-memory caching",
@@ -250,6 +257,7 @@
       "name": "Liquibase",
       "category": "database",
       "level": 72,
+      "icon": "images/icons/liquibase.svg",
       "description": {
         "de": "Versionierung von Datenbankschemas",
         "en": "Database schema versioning",
@@ -260,6 +268,7 @@
       "name": "SEO",
       "category": "tools",
       "level": 70,
+      "icon": "images/icons/seo.svg",
       "description": {
         "de": "Technische Suchmaschinenoptimierung",
         "en": "Technical search engine optimization",
@@ -270,6 +279,7 @@
       "name": "Integration Testing",
       "category": "tools",
       "level": 75,
+      "icon": "images/icons/integration-testing.svg",
       "description": {
         "de": "Prüfung des Zusammenspiels von Systemkomponenten",
         "en": "Testing interactions between system components",
@@ -280,6 +290,7 @@
       "name": "Unit Testing",
       "category": "tools",
       "level": 75,
+      "icon": "images/icons/junit.svg",
       "description": {
         "de": "Automatisierte Tests einzelner Codeeinheiten",
         "en": "Automated testing of individual code units",
