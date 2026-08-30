@@ -1018,19 +1018,6 @@ section.visible {
   left: 0;
 }
 
-.cv-links {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: var(--spacing-sm);
-  margin-top: var(--spacing-lg);
-}
-
-.cv-links > span {
-  margin-right: var(--spacing-xs);
-  font-weight: var(--font-weight-semibold);
-}
-
 .btn-compact {
   padding: 0.55rem 1rem;
 }

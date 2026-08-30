@@ -24,6 +24,7 @@ export const Language = {
   apply(lang, refreshDynamicContent = true) {
     this.current = lang;
     this.updateContent(lang);
+    this.updateResumeLink(lang);
     this.updateMetaTags(lang);
 
     // Refresh dynamic content
@@ -75,6 +76,15 @@ export const Language = {
       meta.title || 'Alexander Hermann - Full-Stack Developer'
     );
     this.updateSocialMeta('twitter:description', meta.description);
+  },
+
+  updateResumeLink(lang) {
+    const resumeLink = document.querySelector('[data-resume-link]');
+    const resumeUrl = LANGUAGES[lang]?.resumeUrl;
+
+    if (resumeLink && resumeUrl) {
+      resumeLink.href = resumeUrl;
+    }
   },
 
   updateMetaTag(attrName, attrValue, content) {

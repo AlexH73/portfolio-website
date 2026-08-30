@@ -26,7 +26,7 @@
       "greeting": "Hallo! Ich bin Alexander",
       "text1": "Ich bin ein Full-Stack Java-Entwickler mit einer Leidenschaft für die Erstellung intuitiver und leistungsstarker Webanwendungen. Meine Reise in der IT begann mit dem Interesse an der Funktionsweise von Technologien und der Art und Weise, wie sie reale Probleme lösen können.",
       "text2": "Ich habe umfangreiche Erfahrung mit modernen Technologien wie Java, Spring Boot, HTML5, CSS3, JavaScript, TypeScript, React und verschiedenen Datenbankmanagementsystemen. Ich bin stets bestrebt, meine Fähigkeiten zu verbessern und mit den neuesten Trends in der Webentwicklung Schritt zu halten.",
-      "resume": "Lebenslauf"
+      "resume": "Lebenslauf herunterladen"
     },
     "skills": {
       "title": "Fähigkeiten",
@@ -209,7 +209,7 @@
       "greeting": "Hello! I'm Alexander",
       "text1": "I am a Full-Stack Java Developer with a passion for creating intuitive and powerful web applications. My journey in IT started with an interest in how technologies work and how they can solve real-world problems.",
       "text2": "I have extensive experience with modern technologies including Java, Spring Boot, HTML5, CSS3, JavaScript, TypeScript, React, and various database management systems. I am constantly striving to improve my skills and keep up with the latest trends in web development.",
-      "resume": "Curriculum vitae"
+      "resume": "Download Resume"
     },
     "skills": {
       "title": "Skills",
@@ -392,7 +392,7 @@
       "greeting": "Привет! Я Александр",
       "text1": "Я Full-Stack Java-разработчик с passion для создания интуитивно понятных и мощных веб-приложений. Мой путь в IT начался с интереса к тому, как работают технологии и как они могут решать реальные проблемы.",
       "text2": "Я имею обширный опыт работы с современными технологиями, включая Java, Spring Boot, HTML5, CSS3, JavaScript, TypeScript, React и различные системы управления базами данных. Я постоянно стремлюсь улучшать свои навыки и следить за последними тенденциями в веб-разработке.",
-      "resume": "Резюме"
+      "resume": "Скачать резюме"
     },
     "skills": {
       "title": "Навыки",
