@@ -1188,6 +1188,11 @@ section.visible {
   animation-delay: 0.5s;
 }
 
+.project-card {
+  display: flex;
+  flex-direction: column;
+}
+
 .project-image {
   height: 200px;
   overflow: hidden;
@@ -1211,6 +1216,9 @@ section.visible {
 }
 
 .project-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
   padding: var(--spacing-lg);
 }
 
@@ -1238,6 +1246,8 @@ section.visible {
 .project-links {
   display: flex;
   gap: var(--spacing-md);
+  margin-top: auto;
+  padding-top: var(--spacing-md);
 }
 
 .no-projects {

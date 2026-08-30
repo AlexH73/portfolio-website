@@ -83,21 +83,21 @@ export const Projects = {
 
     const links = document.createElement('div');
     links.className = 'project-links';
-    if (project.demoLink && project.demoLink !== '#') {
-      links.appendChild(
-        this.createExternalLink(
-          project.demoLink,
-          Language.getTranslation('projects.demo', lang) || 'Demo',
-          'btn'
-        )
-      );
-    }
     if (project.codeLink) {
       links.appendChild(
         this.createExternalLink(
           project.codeLink,
           Language.getTranslation('projects.code', lang) || 'Code',
-          `btn ${project.demoLink === '#' ? '' : 'btn-outline'}`.trim()
+          'btn'
+        )
+      );
+    }
+    if (project.demoLink && project.demoLink !== '#') {
+      links.appendChild(
+        this.createExternalLink(
+          project.demoLink,
+          Language.getTranslation('projects.demo', lang) || 'Demo',
+          'btn btn-outline'
         )
       );
     }
@@ -218,7 +218,7 @@ export const Projects = {
     projectCards.forEach((card) => {
       const category = card.getAttribute('data-category');
       card.style.display =
-        filter === 'all' || category === filter ? 'block' : 'none';
+        filter === 'all' || category === filter ? 'flex' : 'none';
     });
   },
 
