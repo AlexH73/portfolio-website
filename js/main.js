@@ -4,6 +4,7 @@
 
 import { init, cleanup, AppState } from './core/app.js';
 import { Debugger } from './utils/debug.js';
+import { Analytics } from '@vercel/analytics/next';
 
 Debugger.init();
 
