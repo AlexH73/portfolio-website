@@ -45,6 +45,7 @@ async function loadResources() {
   // Set structured data
   const script = document.getElementById('structured-data');
   if (script && schema) {
+    schema.url = `${CONFIG.site.url}/`;
     script.textContent = JSON.stringify(schema);
   }
 }
