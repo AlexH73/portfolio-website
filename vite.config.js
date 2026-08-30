@@ -11,6 +11,7 @@ function copyRuntimeMedia() {
         cp('images/icons', 'dist/images/icons', { recursive: true }),
         cp('images/projects', 'dist/images/projects', { recursive: true }),
         cp('images/weather.png', 'dist/images/weather.png'),
+        cp('404.html', 'dist/404.html'),
       ]);
     },
   };
