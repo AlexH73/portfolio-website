@@ -11,8 +11,16 @@ if (import.meta.env?.PROD) {
   import('./modules/analytics.js').then(({ Analytics }) => Analytics.init());
 }
 
+function updateCurrentYear() {
+  const year = document.querySelector('[data-current-year]');
+  if (year) year.textContent = String(new Date().getFullYear());
+}
+
 // Initialize application when DOM is loaded
-document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('DOMContentLoaded', () => {
+  updateCurrentYear();
+  init();
+});
 
 // Cleanup on page unload
 window.addEventListener('beforeunload', cleanup);
