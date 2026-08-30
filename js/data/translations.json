@@ -26,7 +26,7 @@
       "greeting": "Hallo! Ich bin Alexander",
       "text1": "Ich bin ein Full-Stack Java-Entwickler mit einer Leidenschaft für die Erstellung intuitiver und leistungsstarker Webanwendungen. Meine Reise in der IT begann mit dem Interesse an der Funktionsweise von Technologien und der Art und Weise, wie sie reale Probleme lösen können.",
       "text2": "Ich habe umfangreiche Erfahrung mit modernen Technologien wie Java, Spring Boot, HTML5, CSS3, JavaScript, TypeScript, React und verschiedenen Datenbankmanagementsystemen. Ich bin stets bestrebt, meine Fähigkeiten zu verbessern und mit den neuesten Trends in der Webentwicklung Schritt zu halten.",
-      "resume": "Lebenslauf herunterladen"
+      "resume": "Lebenslauf"
     },
     "skills": {
       "title": "Fähigkeiten",
@@ -74,6 +74,18 @@
         "item8": "Abschlussprojekt (Teamarbeit)",
         "item9": "Fortgeschrittene Frontend-Entwicklung (TypeScript, React)",
         "item10": "Backend-Entwicklung (Java Stack: Spring Boot, Spring MVC, Spring Data JPA)"
+      },
+      "certificates": {
+        "title": "Zertifikate & Diplome",
+        "diplomaLabel": "Diplom",
+        "certificateLabel": "Teilnahmezertifikat",
+        "usaIssuer": "AIT International Technology School · Florida, USA",
+        "deIssuer": "AIT TR GmbH · Berlin, Deutschland",
+        "credentialId": "Nachweis-ID",
+        "certificateNumber": "Zertifikatnummer",
+        "verify": "Nachweis prüfen",
+        "openPdf": "PDF öffnen",
+        "twoPages": "2 Seiten inkl. Curriculum"
       },
       "notification": {
         "success": "Erfolg",
@@ -197,7 +209,7 @@
       "greeting": "Hello! I'm Alexander",
       "text1": "I am a Full-Stack Java Developer with a passion for creating intuitive and powerful web applications. My journey in IT started with an interest in how technologies work and how they can solve real-world problems.",
       "text2": "I have extensive experience with modern technologies including Java, Spring Boot, HTML5, CSS3, JavaScript, TypeScript, React, and various database management systems. I am constantly striving to improve my skills and keep up with the latest trends in web development.",
-      "resume": "Download Resume"
+      "resume": "Curriculum vitae"
     },
     "skills": {
       "title": "Skills",
@@ -245,6 +257,18 @@
         "item8": "Graduation project (Teamwork)",
         "item9": "Advanced Frontend Development (TypeScript, React)",
         "item10": "Backend Development (Java Stack: Spring Boot, Spring MVC, Spring Data JPA)"
+      },
+      "certificates": {
+        "title": "Certificates & Diplomas",
+        "diplomaLabel": "Diploma",
+        "certificateLabel": "Certificate of participation",
+        "usaIssuer": "AIT International Technology School · Florida, USA",
+        "deIssuer": "AIT TR GmbH · Berlin, Germany",
+        "credentialId": "Credential ID",
+        "certificateNumber": "Certificate number",
+        "verify": "Verify credential",
+        "openPdf": "Open PDF",
+        "twoPages": "2 pages including curriculum"
       },
       "notification": {
         "success": "Success",
@@ -368,7 +392,7 @@
       "greeting": "Привет! Я Александр",
       "text1": "Я Full-Stack Java-разработчик с passion для создания интуитивно понятных и мощных веб-приложений. Мой путь в IT начался с интереса к тому, как работают технологии и как они могут решать реальные проблемы.",
       "text2": "Я имею обширный опыт работы с современными технологиями, включая Java, Spring Boot, HTML5, CSS3, JavaScript, TypeScript, React и различные системы управления базами данных. Я постоянно стремлюсь улучшать свои навыки и следить за последними тенденциями в веб-разработке.",
-      "resume": "Скачать резюме"
+      "resume": "Резюме"
     },
     "skills": {
       "title": "Навыки",
@@ -416,6 +440,18 @@
         "item8": "Дипломный проект (командная работа)",
         "item9": "Продвинутая фронтенд-разработка (TypeScript, React)",
         "item10": "Бэкенд-разработка (Java Stack: Spring Boot, Spring MVC, Spring Data JPA)"
+      },
+      "certificates": {
+        "title": "Сертификаты и дипломы",
+        "diplomaLabel": "Диплом",
+        "certificateLabel": "Сертификат об участии",
+        "usaIssuer": "AIT International Technology School · Флорида, США",
+        "deIssuer": "AIT TR GmbH · Берлин, Германия",
+        "credentialId": "ID подтверждения",
+        "certificateNumber": "Номер сертификата",
+        "verify": "Проверить диплом",
+        "openPdf": "Открыть PDF",
+        "twoPages": "2 страницы, включая программу"
       },
       "notification": {
         "success": "Успех",
