@@ -22,6 +22,9 @@ export default defineConfig(({ command }) => ({
   base: command === 'serve' ? '/portfolio-website/' : './',
   build: {
     target: 'es2020',
+    // Keep runtime-fetched JSON as same-origin files. Inlining schema.json as
+    // a data: URL is correctly blocked by the site's strict connect-src CSP.
+    assetsInlineLimit: 0,
   },
   plugins: [copyRuntimeMedia()],
 }));

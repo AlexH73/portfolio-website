@@ -3,6 +3,13 @@
 // =====================================================
 
 export const CONFIG = {
+  site: {
+    url:
+      import.meta.env?.VITE_SITE_URL?.replace(/\/$/, '') ||
+      globalThis.location?.origin ||
+      '',
+  },
+
   // API endpoints
   endpoints: {
     formspree: 'https://formspree.io/f/xyzdlrvd',
