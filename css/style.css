@@ -1049,7 +1049,7 @@ section.visible {
 
 .certificates-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--grid-gap);
 }
 
@@ -1071,7 +1071,7 @@ section.visible {
   display: block;
   aspect-ratio: 4 / 3;
   overflow: hidden;
-  background: #f3f4f6;
+  background: radial-gradient(circle,#007bff99 0%,#0000 80%);
 }
 
 .certificate-preview img {
@@ -1130,7 +1130,7 @@ section.visible {
   font-size: var(--font-size-xs);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 960px) {
   .certificates-grid {
     grid-template-columns: 1fr;
   }
