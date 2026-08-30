@@ -9,10 +9,14 @@ export const LocalStorage = {
   // Set item in localStorage
   set(key, value) {
     try {
-      localStorage.setItem(key, JSON.stringify(value));
+      if (typeof value === 'string') {
+        localStorage.setItem(key, value);
+      } else {
+        localStorage.setItem(key, JSON.stringify(value));
+      }
       return true;
-    } catch (error) {
-      console.warn('LocalStorage set failed:', error);
+    } catch (e) {
+      console.error('LocalStorage set failed:', e);
       return false;
     }
   },
@@ -21,9 +25,15 @@ export const LocalStorage = {
   get(key, defaultValue = null) {
     try {
       const item = localStorage.getItem(key);
-      return item ? JSON.parse(item) : defaultValue;
-    } catch (error) {
-      console.warn('LocalStorage get failed:', error);
+      if (item === null) return defaultValue;
+
+      try {
+        return JSON.parse(item);
+      } catch {
+        return item;
+      }
+    } catch (e) {
+      console.error('LocalStorage get failed:', e);
       return defaultValue;
     }
   },

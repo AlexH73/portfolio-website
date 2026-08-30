@@ -5,6 +5,8 @@
 import { getDOM } from '../core/app.js';
 
 export const Modals = {
+  previouslyFocused: null,
+
   init() {
     this.setupPrivacyModal();
   },
@@ -43,14 +45,21 @@ export const Modals = {
       ) {
         this.close('privacy');
       }
+
+      if (e.key === 'Tab' && getDOM('privacyModal').style.display === 'block') {
+        this.keepFocusInside(e, getDOM('privacyModal'));
+      }
     });
   },
 
   open(modalType) {
     const modal = getDOM(`${modalType}Modal`);
     if (modal) {
+      this.previouslyFocused = document.activeElement;
       modal.style.display = 'block';
+      modal.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
+      modal.querySelector('.modal-close')?.focus();
     }
   },
 
@@ -58,7 +67,30 @@ export const Modals = {
     const modal = getDOM(`${modalType}Modal`);
     if (modal) {
       modal.style.display = 'none';
+      modal.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
+      this.previouslyFocused?.focus();
+      this.previouslyFocused = null;
+    }
+  },
+
+  keepFocusInside(event, modal) {
+    const focusable = [
+      ...modal.querySelectorAll(
+        'button:not([disabled]), a[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      ),
+    ].filter((element) => element.offsetParent !== null);
+
+    if (focusable.length === 0) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
     }
   },
 };

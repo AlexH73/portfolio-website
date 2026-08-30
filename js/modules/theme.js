@@ -31,9 +31,11 @@ export const Theme = {
     if (theme === THEMES.DARK) {
       document.body.classList.add('dark-theme');
       getDOM('themeToggle').textContent = '☀️';
+      getDOM('themeToggle').setAttribute('aria-pressed', 'true');
     } else {
       document.body.classList.remove('dark-theme');
       getDOM('themeToggle').textContent = '🌙';
+      getDOM('themeToggle').setAttribute('aria-pressed', 'false');
     }
 
     // Update chart if exists

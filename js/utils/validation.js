@@ -154,7 +154,7 @@ export const FieldValidator = {
 
     // Custom rules
     phone: (value) => ({
-      isValid: !value || /^[\+]?[0-9\s\-\(\)]{10,}$/.test(value),
+      isValid: !value || /^\+?[0-9\s()-]{10,}$/.test(value),
       message: 'Please enter a valid phone number',
     }),
 

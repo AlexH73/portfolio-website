@@ -6,7 +6,7 @@ import { CONFIG } from '../config/constants.js';
 import { getDOM, AppState, fetchJSON } from '../core/app.js';
 import { Language } from './language.js';
 import { hexToRgba } from '../utils/helpers.js';
-import { Animations, Visibility } from '../core/dom.js';
+import { Visibility } from '../core/dom.js';
 
 export const Skills = {
   async loadData() {
@@ -99,7 +99,7 @@ export const Skills = {
           angleLines: { color: gridColor },
           pointLabels: {
             color: textColor,
-            font: { size: 11, family: "'Inter', sans-serif" },
+            font: { size: 11, family: "'Inter Variable', 'Inter', sans-serif" },
           },
         },
       },
@@ -158,9 +158,11 @@ export const Skills = {
     avgLevel = null,
     color = 'var(--primary-color)'
   ) {
-    const item = document.createElement('div');
+    const item = document.createElement('button');
+    item.type = 'button';
     item.className = `legend-item ${category === 'all' ? 'active' : ''}`;
     item.dataset.filter = category;
+    item.setAttribute('aria-pressed', String(category === 'all'));
 
     const label =
       category === 'all'
@@ -196,8 +198,10 @@ export const Skills = {
       item.addEventListener('click', () => {
         // Remove active class from all items
         legendItems.forEach((i) => i.classList.remove('active'));
+        legendItems.forEach((i) => i.setAttribute('aria-pressed', 'false'));
         // Add active class to current item
         item.classList.add('active');
+        item.setAttribute('aria-pressed', 'true');
 
         const filter = item.dataset.filter;
         this.filterChartData(filter);
@@ -241,6 +245,7 @@ export const Skills = {
 
       const categoryItem = document.createElement('div');
       categoryItem.className = 'category-item';
+      categoryItem.dataset.category = category.name;
       categoryItem.style.borderLeftColor = category.color;
       categoryItem.style.animationDelay = `${index * 0.1}s`;
 
@@ -290,9 +295,6 @@ export const Skills = {
     );
 
     shuffledSkills.forEach((skill, index) => {
-      const category = AppState.skillsData.categories.find(
-        (cat) => cat.name === skill.category
-      );
       const cloudTag = document.createElement('div');
       cloudTag.className = `cloud-tag ${skill.category}`;
       cloudTag.textContent = skill.name;
@@ -326,16 +328,13 @@ export const Skills = {
       if (filter === 'all') {
         item.style.display = 'block';
       } else {
-        const categoryName = item
-          .querySelector('.category-title')
-          .textContent.toLowerCase();
-        const shouldShow = categoryName.includes(filter.toLowerCase());
+        const shouldShow = item.dataset.category === filter;
         item.style.display = shouldShow ? 'block' : 'none';
       }
     });
   },
 
-  refresh(lang) {
+  refresh() {
     if (!AppState.skillsData) return;
 
     // Reset animations
@@ -462,7 +461,7 @@ export const Skills = {
             angleLines: { color: gridColor },
             pointLabels: {
               color: textColor,
-              font: { size: 12, family: "'Inter', sans-serif" },
+              font: { size: 12, family: "'Inter Variable', 'Inter', sans-serif" },
             },
           },
         },

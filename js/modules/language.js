@@ -17,17 +17,19 @@ export const Language = {
     this.current = savedLang;
     langSelect.value = savedLang;
 
-    this.apply(savedLang);
+    this.apply(savedLang, false);
     this.bindEvents();
   },
 
-  apply(lang) {
+  apply(lang, refreshDynamicContent = true) {
     this.current = lang;
     this.updateContent(lang);
     this.updateMetaTags(lang);
 
     // Refresh dynamic content
-    this.refreshDynamicContent(lang);
+    if (refreshDynamicContent) {
+      this.refreshDynamicContent(lang);
+    }
   },
 
   updateContent(lang) {

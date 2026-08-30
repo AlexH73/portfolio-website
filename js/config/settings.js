@@ -2,7 +2,7 @@
 // APPLICATION SETTINGS AND DEFAULTS
 // =====================================================
 
-import { THEMES, LANGUAGES } from './constants.js';
+import { THEMES } from './constants.js';
 
 export const DEFAULT_SETTINGS = {
   theme: THEMES.LIGHT,

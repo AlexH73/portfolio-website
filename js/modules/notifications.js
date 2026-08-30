@@ -2,8 +2,6 @@
 // NOTIFICATION SYSTEM MODULE
 // =====================================================
 
-import { Language } from './language.js';
-
 export const Notifications = {
   show(type, title, message) {
     // Create notification element

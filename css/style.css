@@ -15,7 +15,7 @@
   --warning-color: #f59e0b;
 
   /* Typography */
-  --font-family: 'Inter', sans-serif;
+  --font-family: 'Inter Variable', 'Inter', sans-serif;
   --font-size-xs: 0.875rem;
   --font-size-sm: 0.9rem;
   --font-size-base: 1rem;
@@ -705,6 +705,10 @@ section.visible {
 }
 
 .legend-item {
+  width: 100%;
+  color: inherit;
+  font: inherit;
+  text-align: left;
   display: flex;
   align-items: center;
   gap: var(--spacing-md);

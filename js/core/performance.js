@@ -126,14 +126,3 @@ export function lazyLoadImages() {
 export function getMetrics() {
   return { ...Metrics };
 }
-
-// Log performance metrics
-export function logMetrics() {
-  if (!isDevelopment()) return;
-
-  console.group('🎯 Performance Metrics');
-  console.log(`FPS: ${Metrics.fps}`);
-  console.log(`Memory: ${Metrics.memory.used}MB / ${Metrics.memory.total}MB`);
-  console.log(`Load Time: ${Metrics.loadTime}ms`);
-  console.groupEnd();
-}

@@ -3,7 +3,7 @@
 
 ![Portfolio Preview](/images/preview.png)
 
-Modern, responsive portfolio website built with HTML, CSS, and JavaScript. Features dark/light mode and multi-language support (German, English, Russian).
+Modern, responsive portfolio website built with HTML, CSS, JavaScript modules, and Vite. Features dark/light mode and multi-language support (German, English, Russian).
 
 🌐 **Live Demo:** [https://alexh73.github.io/portfolio-website/](https://alexh73.github.io/portfolio-website/)
 
@@ -21,8 +21,10 @@ Modern, responsive portfolio website built with HTML, CSS, and JavaScript. Featu
 
 - HTML5
 - CSS3 (CSS Variables, Grid, Flexbox)
-- JavaScript (ES6+)
-- Google Fonts (Inter)
+- JavaScript (ES modules)
+- Vite
+- Chart.js
+- Self-hosted Inter variable font
 - SVG Icons
 
 ## 📁 Project Structure
@@ -33,10 +35,12 @@ portfolio-website/
 ├── css/
 │   └── style.css
 ├── js/
-│   ├── scripts.js
-│   ├── translations.json
-│   ├── schema.json
-│   └── projects.json
+│   ├── config/
+│   ├── core/
+│   ├── data/
+│   ├── modules/
+│   ├── utils/
+│   └── main.js
 ├── images/
 ├── docs/
 │   └── resume.pdf
@@ -54,12 +58,24 @@ git clone https://github.com/AlexH73/portfolio-website.git
 cd portfolio-website
 ```
 
-2. Open `index.html` in your browser or use a local server.
+2. Install dependencies and start the development server:
 
-3. To customize:
-   - Edit `js/translations.json` for text content
-   - Edit `js/projects.json` to add/remove projects
-   - Update `js/schema.json` for SEO metadata
+```bash
+npm install
+npm run dev
+```
+
+3. Before publishing, run all repository checks:
+
+```bash
+npm run check
+```
+
+4. To customize:
+   - Edit `js/data/translations.json` for text content
+   - Edit `js/data/projects.json` to add/remove projects
+   - Edit `js/data/skills.json` to add/remove skills
+   - Update `js/data/schema.json` for structured SEO data
    - Modify `css/style.css` for styling
    - Replace `docs/resume.pdf` with your actual resume
 
@@ -82,8 +98,8 @@ cd portfolio-website
 
 This site is deployed on GitHub Pages. To update the deployment:
 
-1. Push changes to the main branch
-2. GitHub Actions will automatically deploy the updates
+1. Run `npm run build`
+2. Publish the generated `dist/` directory using the selected hosting provider
 
 ### Alternative Deployment Options
 

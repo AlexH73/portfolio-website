@@ -6,6 +6,7 @@ import { CONFIG } from '../config/constants.js';
 import { getDOM } from '../core/app.js';
 import * as Storage from '../utils/storage.js';
 import { Language } from './language.js';
+import { Modals } from './modals.js';
 
 const Cookies = Storage.Cookies || {
   get(name) {
@@ -32,7 +33,6 @@ export const CookiesManager = {
       !getDOM('cookiesAccept') ||
       !getDOM('cookiesReject')
     ) {
-      console.log('🍪 No cookie elements found, skipping initialization');
       return;
     }
 
@@ -85,29 +85,23 @@ export const CookiesManager = {
   },
 
   openPrivacySettings() {
-    if (typeof Modals !== 'undefined' && Modals.open) {
-      Modals.open('privacy-modal');
-    } else {
-      const privacyModal = document.getElementById('privacy-modal');
-      if (privacyModal) {
-        privacyModal.style.display = 'block';
-        document.body.style.overflow = 'hidden';
-      }
-    }
+    Modals.open('privacy');
   },
 
   accept() {
-    Cookies.set(CONFIG.cookies.decisionKey, 'accepted');
-    Cookies.set(CONFIG.cookies.prefsKey, 'true');
-    Cookies.set(CONFIG.cookies.analyticsKey, 'true');
+    const expirationDays = CONFIG.cookies.expirationDays;
+    Cookies.set(CONFIG.cookies.decisionKey, 'accepted', expirationDays);
+    Cookies.set(CONFIG.cookies.prefsKey, 'true', expirationDays);
+    Cookies.set(CONFIG.cookies.analyticsKey, 'false', expirationDays);
     const banner = getDOM('cookiesBanner');
     if (banner) banner.classList.remove('active');
   },
 
   reject() {
-    Cookies.set(CONFIG.cookies.decisionKey, 'rejected');
-    Cookies.set(CONFIG.cookies.prefsKey, 'false');
-    Cookies.set(CONFIG.cookies.analyticsKey, 'false');
+    const expirationDays = CONFIG.cookies.expirationDays;
+    Cookies.set(CONFIG.cookies.decisionKey, 'rejected', expirationDays);
+    Cookies.set(CONFIG.cookies.prefsKey, 'false', expirationDays);
+    Cookies.set(CONFIG.cookies.analyticsKey, 'false', expirationDays);
     const banner = getDOM('cookiesBanner');
     if (banner) banner.classList.remove('active');
 
@@ -124,8 +118,17 @@ export const CookiesManager = {
     const analyticsChecked =
       document.getElementById('cookies-analytics')?.checked || false;
 
-    Cookies.set(CONFIG.cookies.prefsKey, prefsChecked.toString());
-    Cookies.set(CONFIG.cookies.analyticsKey, analyticsChecked.toString());
+    const expirationDays = CONFIG.cookies.expirationDays;
+    Cookies.set(
+      CONFIG.cookies.prefsKey,
+      prefsChecked.toString(),
+      expirationDays
+    );
+    Cookies.set(
+      CONFIG.cookies.analyticsKey,
+      analyticsChecked.toString(),
+      expirationDays
+    );
 
     this.showSaveConfirmation();
   },
@@ -173,11 +176,7 @@ export const CookiesManager = {
           msg.remove();
         }
         // Close modal
-        const modal = getDOM('privacyModal');
-        if (modal) {
-          modal.style.display = 'none';
-          document.body.style.overflow = '';
-        }
+        Modals.close('privacy');
       }, 300);
     }, 2000);
   },
