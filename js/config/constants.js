@@ -67,9 +67,24 @@ export const CONFIG = {
 
 // Supported languages
 export const LANGUAGES = {
-  de: { name: 'Deutsch', ogLocale: 'de_DE' },
-  en: { name: 'English', ogLocale: 'en_US' },
-  ru: { name: 'Русский', ogLocale: 'ru_RU' },
+  de: {
+    name: 'Deutsch',
+    ogLocale: 'de_DE',
+    resumeUrl: new URL('../../docs/cv/alexander-hermann-cv-de.pdf', import.meta.url)
+      .href,
+  },
+  en: {
+    name: 'English',
+    ogLocale: 'en_US',
+    resumeUrl: new URL('../../docs/cv/alexander-hermann-cv-en.pdf', import.meta.url)
+      .href,
+  },
+  ru: {
+    name: 'Русский',
+    ogLocale: 'ru_RU',
+    resumeUrl: new URL('../../docs/cv/alexander-hermann-cv-ru.pdf', import.meta.url)
+      .href,
+  },
 };
 
 // Theme modes
