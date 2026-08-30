@@ -267,6 +267,20 @@ h6 {
   font-family: inherit;
 }
 
+.form-select {
+  appearance: none;
+  padding-right: 3rem;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--primary-color) 50%),
+    linear-gradient(135deg, var(--primary-color) 50%, transparent 50%);
+  background-position:
+    calc(100% - 1.25rem) 50%,
+    calc(100% - 0.9rem) 50%;
+  background-size: 0.4rem 0.4rem;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
 .form-input:focus,
 .form-textarea:focus {
   outline: none;
@@ -1293,6 +1307,77 @@ section.visible {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-lg);
+  font-style: normal;
+}
+
+.contact-intro {
+  padding: var(--spacing-xl);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  background: var(--bg-primary);
+  box-shadow: var(--shadow-md);
+}
+
+.contact-intro h3 {
+  margin: var(--spacing-md) 0;
+  color: var(--text-primary);
+  font-size: var(--font-size-xl);
+}
+
+.contact-intro > p {
+  margin-bottom: var(--spacing-lg);
+  color: var(--text-secondary);
+}
+
+.availability-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: 999px;
+  background: rgba(16, 185, 129, 0.12);
+  color: var(--success-color);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+}
+
+.availability-dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 0 0.2rem rgba(16, 185, 129, 0.18);
+}
+
+.contact-details {
+  display: grid;
+  gap: var(--spacing-sm);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--text-secondary);
+}
+
+.callback-fields {
+  margin-bottom: var(--spacing-lg);
+  padding: var(--spacing-lg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-md);
+  background: var(--bg-secondary);
+}
+
+.callback-fields[hidden] {
+  display: none;
+}
+
+.callback-fields .form-group:last-of-type {
+  margin-bottom: var(--spacing-sm);
+}
+
+.form-hint {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: var(--font-size-xs);
 }
 
 .contact-item {

@@ -619,6 +619,25 @@
           </h2>
           <div class="contact-content">
             <address class="contact-info" aria-label="Contact information">
+              <div class="contact-intro">
+                <div class="availability-badge">
+                  <span class="availability-dot" aria-hidden="true"></span>
+                  <span data-i18n="contact.availability">Offen für Angebote</span>
+                </div>
+                <h3 data-i18n="contact.introTitle">Lassen Sie uns zusammenarbeiten</h3>
+                <p data-i18n="contact.introText">
+                  Ich interessiere mich für Full-Stack- und Java-Positionen,
+                  anspruchsvolle Projekte und professionelle Zusammenarbeit.
+                </p>
+                <ul class="contact-details">
+                  <li>📍 <span data-i18n="contact.location">Deutschland · Remote / Hybrid</span></li>
+                  <li>💬 <span data-i18n="contact.languages">Deutsch · Русский</span></li>
+                  <li>🕒 <span data-i18n="contact.timezone">Europe/Berlin · CET/CEST</span></li>
+                  <li>🛠️ <span data-i18n="contact.stack">Java · Spring Boot · React</span></li>
+                  <li>🎯 <span data-i18n="contact.focus">Full-Stack- und Backend-Entwicklung</span></li>
+                  <li>⚡ <span data-i18n="contact.responseTime">Antwort normalerweise innerhalb von 24 Stunden</span></li>
+                </ul>
+              </div>
               <!-- Social/contact methods -->
               <div class="contact-item">
                 <div class="contact-icon">💼</div>
@@ -631,21 +650,6 @@
                       target="_blank"
                       rel="noopener noreferrer"
                       >Alexander Hermann</a
-                    >
-                  </p>
-                </div>
-              </div>
-              <div class="contact-item">
-                <div class="contact-icon">💬</div>
-                <div>
-                  <h3>Slack</h3>
-                  <p>
-                    <a
-                      class="contact-link"
-                      href="https://ait-tr.slack.com/team/U07V574LHN0"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      >@Alex</a
                     >
                   </p>
                 </div>
@@ -673,6 +677,18 @@
                 method="POST"
               >
                 <div class="form-group">
+                  <label for="subject" class="form-label" data-i18n="contact.form.subject">
+                    Thema
+                  </label>
+                  <select id="subject" name="subject" class="form-input form-select" required>
+                    <option value="" data-i18n="contact.form.subjectPlaceholder">Bitte wählen</option>
+                    <option value="job" data-i18n="contact.form.subjectJob">Stellenangebot</option>
+                    <option value="project" data-i18n="contact.form.subjectProject">Projekt / Zusammenarbeit</option>
+                    <option value="callback" data-i18n="contact.form.subjectCallback">Rückruf anfragen</option>
+                    <option value="other" data-i18n="contact.form.subjectOther">Sonstiges</option>
+                  </select>
+                </div>
+                <div class="form-group">
                   <label
                     for="name"
                     class="form-label"
@@ -687,6 +703,37 @@
                     autocomplete="name"
                     required
                   />
+                </div>
+                <div id="callbackFields" class="callback-fields" hidden>
+                  <div class="form-group">
+                    <label for="phone" class="form-label" data-i18n="contact.form.phone">
+                      Ihre Telefonnummer
+                    </label>
+                    <input
+                      type="tel"
+                      id="phone"
+                      name="phone"
+                      class="form-input"
+                      autocomplete="tel"
+                      disabled
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="preferredTime" class="form-label" data-i18n="contact.form.preferredTime">
+                      Bevorzugte Zeit
+                    </label>
+                    <input
+                      type="datetime-local"
+                      id="preferredTime"
+                      name="preferredTime"
+                      class="form-input"
+                      disabled
+                    />
+                  </div>
+                  <input type="hidden" id="timezone" name="timezone" disabled />
+                  <p class="form-hint" data-i18n="contact.form.callbackHint">
+                    Ihre Nummer wird ausschließlich für diesen Rückruf verwendet.
+                  </p>
                 </div>
                 <div class="form-group">
                   <label
@@ -817,18 +864,6 @@
           >
             <svg class="social-icon">
               <use href="images/icons/sprite.svg#icon-github"></use>
-            </svg>
-          </a>
-          <a
-            href="https://ait-tr.slack.com/team/U07V574LHN0"
-            class="social-link"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Slack"
-            title="Slack"
-          >
-            <svg class="social-icon">
-              <use href="images/icons/sprite.svg#icon-slack"></use>
             </svg>
           </a>
           <a

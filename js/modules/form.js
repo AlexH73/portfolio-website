@@ -15,10 +15,11 @@ export const FormHandler = {
 
     this.setupValidation(contactForm);
     this.bindEvents(contactForm);
+    this.setupCallbackRequest(contactForm);
   },
 
   setupValidation(form) {
-    const inputs = form.querySelectorAll('input, textarea');
+    const inputs = form.querySelectorAll('input, textarea, select');
 
     inputs.forEach((input) => {
       input.addEventListener('blur', () => this.validateField(input));
@@ -30,9 +31,43 @@ export const FormHandler = {
     form.addEventListener('submit', (e) => this.handleSubmit(e));
   },
 
+  setupCallbackRequest(form) {
+    const subject = form.querySelector('#subject');
+    const timezone = form.querySelector('#timezone');
+
+    if (timezone) {
+      timezone.value = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    }
+
+    subject?.addEventListener('change', () => {
+      this.toggleCallbackFields(form, subject.value === 'callback');
+    });
+  },
+
+  toggleCallbackFields(form, show) {
+    const callbackFields = form.querySelector('#callbackFields');
+    const conditionalInputs = callbackFields?.querySelectorAll('input') || [];
+    if (!callbackFields) return;
+
+    callbackFields.hidden = !show;
+    conditionalInputs.forEach((input) => {
+      input.disabled = !show;
+      input.required = show && input.type !== 'hidden';
+      if (!show) {
+        input.value = '';
+        FormDataUtils.clearError(input);
+      }
+    });
+
+    const timezone = form.querySelector('#timezone');
+    if (show && timezone) {
+      timezone.value = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    }
+  },
+
   validateForm(form) {
     let isValid = true;
-    const inputs = form.querySelectorAll('input, textarea');
+    const inputs = form.querySelectorAll('input, textarea, select');
 
     inputs.forEach((input) => {
       if (!this.validateField(input)) {
@@ -46,10 +81,12 @@ export const FormHandler = {
   validateField(field) {
     FormDataUtils.clearError(field);
 
+    if (field.disabled) return true;
+
     let isValid = true;
     let errorMessage = '';
 
-    if (field.value.trim() === '') {
+    if (field.required && field.value.trim() === '') {
       isValid = false;
       errorMessage =
         Language.getTranslation('form.required') || 'This field is required';
@@ -61,6 +98,14 @@ export const FormHandler = {
       errorMessage =
         Language.getTranslation('form.invalidEmail') ||
         'Please enter a valid email address';
+    } else if (
+      field.type === 'tel' &&
+      !FieldValidator.rules.phone(field.value).isValid
+    ) {
+      isValid = false;
+      errorMessage =
+        Language.getTranslation('form.invalidPhone') ||
+        'Please enter a valid phone number';
     }
 
     if (!isValid) {
@@ -94,7 +139,7 @@ export const FormHandler = {
         Language.getTranslation('form.sending') || 'Sending...'
       );
 
-      const formData = this.getFormData();
+      const formData = this.getFormData(form);
       await this.sendForm(formData);
 
       Notifications.show(
@@ -105,6 +150,7 @@ export const FormHandler = {
       );
 
       form.reset();
+      this.toggleCallbackFields(form, false);
     } catch (error) {
       console.error('Form submission error:', error);
       Notifications.show(
@@ -117,12 +163,8 @@ export const FormHandler = {
     }
   },
 
-  getFormData() {
-    return {
-      name: getDOM('nameInput').value,
-      email: getDOM('emailInput').value,
-      message: getDOM('messageInput').value,
-    };
+  getFormData(form) {
+    return FormDataUtils.serialize(form);
   },
 
   async sendForm(formData) {

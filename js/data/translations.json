@@ -132,9 +132,27 @@
     "contact": {
       "title": "Kontakt",
       "email": "E-Mail",
+      "availability": "Offen für Angebote",
+      "introTitle": "Lassen Sie uns zusammenarbeiten",
+      "introText": "Ich interessiere mich für Full-Stack- und Java-Positionen, anspruchsvolle Projekte und professionelle Zusammenarbeit.",
+      "location": "Deutschland · Remote / Hybrid",
+      "languages": "Deutsch · Русский",
+      "timezone": "Europe/Berlin · CET/CEST",
+      "stack": "Java · Spring Boot · React",
+      "focus": "Full-Stack- und Backend-Entwicklung",
+      "responseTime": "Antwort normalerweise innerhalb von 24 Stunden",
       "form": {
+        "subject": "Thema",
+        "subjectPlaceholder": "Bitte wählen",
+        "subjectJob": "Stellenangebot",
+        "subjectProject": "Projekt / Zusammenarbeit",
+        "subjectCallback": "Rückruf anfragen",
+        "subjectOther": "Sonstiges",
         "name": "Name",
         "email": "E-Mail",
+        "phone": "Ihre Telefonnummer",
+        "preferredTime": "Bevorzugte Zeit",
+        "callbackHint": "Ihre Nummer wird ausschließlich für diesen Rückruf verwendet.",
         "message": "Nachricht",
         "send": "Nachricht senden"
       }
@@ -151,7 +169,8 @@
       "errorTitle": "Senden fehlgeschlagen",
       "error": "Beim Senden Ihrer Nachricht ist ein Problem aufgetreten.",
       "required": "Dieses Feld ist erforderlich",
-      "invalidEmail": "Bitte geben Sie eine gültige E-Mail-Adresse ein"
+      "invalidEmail": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
+      "invalidPhone": "Bitte geben Sie eine gültige Telefonnummer ein"
     },
     "filters": {
       "label": "Projektfilter",
@@ -315,9 +334,27 @@
     "contact": {
       "title": "Contact",
       "email": "Email",
+      "availability": "Open to opportunities",
+      "introTitle": "Let's work together",
+      "introText": "I am interested in Full-Stack and Java roles, challenging projects and professional collaboration.",
+      "location": "Germany · Remote / Hybrid",
+      "languages": "German · Russian",
+      "timezone": "Europe/Berlin · CET/CEST",
+      "stack": "Java · Spring Boot · React",
+      "focus": "Full-Stack and backend development",
+      "responseTime": "Usually replies within 24 hours",
       "form": {
+        "subject": "Subject",
+        "subjectPlaceholder": "Please select",
+        "subjectJob": "Job opportunity",
+        "subjectProject": "Project / collaboration",
+        "subjectCallback": "Request a callback",
+        "subjectOther": "Other",
         "name": "Name",
         "email": "Email",
+        "phone": "Your phone number",
+        "preferredTime": "Preferred time",
+        "callbackHint": "Your number will only be used for this callback.",
         "message": "Message",
         "send": "Send Message"
       }
@@ -334,7 +371,8 @@
       "errorTitle": "Sending failed",
       "error": "There was a problem sending your message.",
       "required": "This field is required",
-      "invalidEmail": "Please enter a valid email address"
+      "invalidEmail": "Please enter a valid email address",
+      "invalidPhone": "Please enter a valid phone number"
     },
     "filters": {
       "label": "Project filters",
@@ -498,9 +536,27 @@
     "contact": {
       "title": "Контакты",
       "email": "Email",
+      "availability": "Открыт для предложений",
+      "introTitle": "Давайте работать вместе",
+      "introText": "Рассматриваю позиции Full-Stack и Java-разработчика, интересные проекты и профессиональное сотрудничество.",
+      "location": "Германия · Удалённо / Гибрид",
+      "languages": "Deutsch · Русский",
+      "timezone": "Europe/Berlin · CET/CEST",
+      "stack": "Java · Spring Boot · React",
+      "focus": "Full-Stack и Backend-разработка",
+      "responseTime": "Обычно отвечаю в течение 24 часов",
       "form": {
+        "subject": "Тема",
+        "subjectPlaceholder": "Выберите тему",
+        "subjectJob": "Предложение работы",
+        "subjectProject": "Проект / сотрудничество",
+        "subjectCallback": "Заказать звонок",
+        "subjectOther": "Другое",
         "name": "Имя",
         "email": "Email",
+        "phone": "Ваш номер телефона",
+        "preferredTime": "Удобное время",
+        "callbackHint": "Ваш номер будет использован только для этого звонка.",
         "message": "Сообщение",
         "send": "Отправить сообщение"
       }
@@ -517,7 +573,8 @@
       "errorTitle": "Не удалось отправить",
       "error": "Произошла ошибка при отправке сообщения.",
       "required": "Это поле обязательно для заполнения",
-      "invalidEmail": "Пожалуйста, введите действительный email"
+      "invalidEmail": "Пожалуйста, введите действительный email",
+      "invalidPhone": "Пожалуйста, введите действительный номер телефона"
     },
     "filters": {
       "label": "Фильтры проектов",
