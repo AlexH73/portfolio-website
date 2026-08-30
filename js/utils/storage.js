@@ -165,7 +165,6 @@ export const Storage = {
 
     // Clear cookies preferences
     Cookies.delete(CONFIG.cookies.prefsKey);
-    Cookies.delete(CONFIG.cookies.analyticsKey);
   },
 
   // Get user settings
@@ -175,7 +174,6 @@ export const Storage = {
       language: this.getPreference(STORAGE_KEYS.LANGUAGE),
       cookiesAccepted: Cookies.get(CONFIG.cookies.decisionKey) === 'accepted',
       preferencesEnabled: Cookies.get(CONFIG.cookies.prefsKey) !== 'false',
-      analyticsEnabled: Cookies.get(CONFIG.cookies.analyticsKey) === 'true',
     };
   },
 
@@ -203,12 +201,6 @@ export const Storage = {
       );
     }
 
-    if (settings.analyticsEnabled !== undefined) {
-      Cookies.set(
-        CONFIG.cookies.analyticsKey,
-        settings.analyticsEnabled.toString()
-      );
-    }
   },
 };
 

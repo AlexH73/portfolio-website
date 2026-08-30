@@ -55,7 +55,6 @@ export const CONFIG = {
     expirationDays: 365,
     decisionKey: 'cookies_decision',
     prefsKey: 'cookies_preferences',
-    analyticsKey: 'cookies_analytics',
   },
 
   // UI constants
