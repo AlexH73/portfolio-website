@@ -157,16 +157,15 @@
     "privacy": {
       "title": "Datenschutzrichtlinie",
       "cookiesTitle": "Verwendung von Cookies",
-      "cookiesText": "Unsere Website verwendet Cookies, um Ihre Präferenzen (Sprachauswahl, Design) und Analysen zu speichern. Diese Daten werden nicht an Dritte weitergegeben und dienen ausschließlich der Verbesserung der Website.",
+      "cookiesText": "Unsere Website verwendet lokale Speicherung und technisch notwendige Cookies, um Ihre Präferenzen wie Sprache und Design zu speichern. Vercel Web Analytics erfasst anonyme, aggregierte Nutzungsstatistiken ohne Cookies.",
       "typesTitle": "Verwendete Cookie-Typen",
       "types1": "Notwendige Cookies: für die grundlegenden Funktionen der Website",
       "types2": "Präferenzen: zum Speichern Ihrer Einstellungen",
-      "types3": "Analytische: zur Analyse der Websitenutzung",
+      "types3": "Vercel Web Analytics: anonyme, aggregierte Nutzungsstatistiken ohne Cookies",
       "controlsTitle": "Cookie-Verwaltung",
       "controlsText": "Sie können Ihre Cookie-Einstellungen jederzeit über die Browsereinstellungen oder das untenstehende Formular ändern.",
       "necessary": "Notwendige Cookies",
       "preferences": "Präferenz-Cookies",
-      "analytics": "Analytische Cookies",
       "save": "Einstellungen speichern",
       "saved": "Einstellungen gespeichert"
     }
@@ -329,16 +328,15 @@
     "privacy": {
       "title": "Privacy Policy",
       "cookiesTitle": "Use of Cookies",
-      "cookiesText": "Our website uses cookies to store your preferences (language selection, theme) and analytics. This data is not shared with third parties and is used solely to improve the website.",
+      "cookiesText": "Our website uses local storage and technically necessary cookies to save preferences such as language and theme. Vercel Web Analytics collects anonymous, aggregated usage statistics without cookies.",
       "typesTitle": "Types of cookies used",
       "types1": "Necessary cookies: for basic website functions",
       "types2": "Preferences: to save your settings",
-      "types3": "Analytical: for website usage analysis",
+      "types3": "Vercel Web Analytics: anonymous, aggregated usage statistics without cookies",
       "controlsTitle": "Cookie management",
       "controlsText": "You can change your cookie preferences at any time through your browser settings or using the form below.",
       "necessary": "Necessary cookies",
       "preferences": "Preference cookies",
-      "analytics": "Analytical cookies",
       "save": "Save settings",
       "saved": "Settings saved"
     }
@@ -501,16 +499,15 @@
     "privacy": {
       "title": "Политика конфиденциальности",
       "cookiesTitle": "Использование файлов cookie",
-      "cookiesText": "Наш сайт использует файлы cookie для хранения ваших предпочтений (выбор языка, тема оформления) и аналитики. Эти данные не передаются третьим лицам и используются исключительно для улучшения работы сайта.",
+      "cookiesText": "Наш сайт использует локальное хранилище и технически необходимые cookies для сохранения языка и темы. Vercel Web Analytics собирает анонимную агрегированную статистику использования без cookies.",
       "typesTitle": "Типы используемых cookie",
       "types1": "Необходимые cookies: для работы основных функций сайта",
       "types2": "Предпочтения: для сохранения ваших настроек",
-      "types3": "Аналитические: для анализа использования сайта",
+      "types3": "Vercel Web Analytics: анонимная агрегированная статистика использования без cookies",
       "controlsTitle": "Управление cookies",
       "controlsText": "Вы можете в любое время изменить свои предпочтения относительно cookies через настройки браузера или используя форму ниже.",
       "necessary": "Необходимые cookies",
       "preferences": "Cookies предпочтений",
-      "analytics": "Аналитические cookies",
       "save": "Сохранить настройки",
       "saved": "Настройки сохранены"
     }

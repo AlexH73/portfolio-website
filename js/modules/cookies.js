@@ -8,6 +8,8 @@ import * as Storage from '../utils/storage.js';
 import { Language } from './language.js';
 import { Modals } from './modals.js';
 
+const LEGACY_ANALYTICS_COOKIE = 'cookies_analytics';
+
 const Cookies = Storage.Cookies || {
   get(name) {
     const value = `; ${document.cookie}`;
@@ -28,6 +30,8 @@ const Cookies = Storage.Cookies || {
 
 export const CookiesManager = {
   init() {
+    Cookies.remove(LEGACY_ANALYTICS_COOKIE);
+
     if (
       !getDOM('cookiesBanner') ||
       !getDOM('cookiesAccept') ||
@@ -92,7 +96,6 @@ export const CookiesManager = {
     const expirationDays = CONFIG.cookies.expirationDays;
     Cookies.set(CONFIG.cookies.decisionKey, 'accepted', expirationDays);
     Cookies.set(CONFIG.cookies.prefsKey, 'true', expirationDays);
-    Cookies.set(CONFIG.cookies.analyticsKey, 'false', expirationDays);
     const banner = getDOM('cookiesBanner');
     if (banner) banner.classList.remove('active');
   },
@@ -101,7 +104,6 @@ export const CookiesManager = {
     const expirationDays = CONFIG.cookies.expirationDays;
     Cookies.set(CONFIG.cookies.decisionKey, 'rejected', expirationDays);
     Cookies.set(CONFIG.cookies.prefsKey, 'false', expirationDays);
-    Cookies.set(CONFIG.cookies.analyticsKey, 'false', expirationDays);
     const banner = getDOM('cookiesBanner');
     if (banner) banner.classList.remove('active');
 
@@ -115,21 +117,12 @@ export const CookiesManager = {
   savePreferences() {
     const prefsChecked =
       document.getElementById('cookies-preferences')?.checked || false;
-    const analyticsChecked =
-      document.getElementById('cookies-analytics')?.checked || false;
-
     const expirationDays = CONFIG.cookies.expirationDays;
     Cookies.set(
       CONFIG.cookies.prefsKey,
       prefsChecked.toString(),
       expirationDays
     );
-    Cookies.set(
-      CONFIG.cookies.analyticsKey,
-      analyticsChecked.toString(),
-      expirationDays
-    );
-
     this.showSaveConfirmation();
   },
 
@@ -183,21 +176,14 @@ export const CookiesManager = {
 
   loadPreferences() {
     const prefs = Cookies.get(CONFIG.cookies.prefsKey);
-    const analytics = Cookies.get(CONFIG.cookies.analyticsKey);
 
     if (prefs === 'false') {
       Storage.LocalStorage.remove('theme');
       Storage.LocalStorage.remove('language');
     }
 
-    if (analytics === 'false') {
-      window['ga-disable-UA-XXXXX-Y'] = true;
-    }
-
     const prefsCheckbox = document.getElementById('cookies-preferences');
-    const analyticsCheckbox = document.getElementById('cookies-analytics');
 
     if (prefsCheckbox) prefsCheckbox.checked = prefs !== 'false';
-    if (analyticsCheckbox) analyticsCheckbox.checked = analytics !== 'false';
   },
 };

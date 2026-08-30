@@ -7,6 +7,10 @@ import { Debugger } from './utils/debug.js';
 
 Debugger.init();
 
+if (import.meta.env?.PROD) {
+  import('./modules/analytics.js').then(({ Analytics }) => Analytics.init());
+}
+
 // Initialize application when DOM is loaded
 document.addEventListener('DOMContentLoaded', init);
 

@@ -9,7 +9,6 @@ export const DEFAULT_SETTINGS = {
   language: 'de',
   cookiesAccepted: false,
   preferencesEnabled: true,
-  analyticsEnabled: false,
 };
 
 export const DOM_SELECTORS = {
